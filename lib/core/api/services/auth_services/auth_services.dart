@@ -22,11 +22,13 @@ class AuthServices {
         String token = response.data['access_token'];
         print("Login Successful! Token: $token");
         return token;
+      } else {
+        return null;
       }
     } on DioException catch (e) {
       print("Login Failed: ${e.response?.data}");
+      return null;
     }
-    return null;
   }
 
   //

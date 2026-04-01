@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:warehouse_management_system/core/api/api_client/api_client.dart';
-import 'package:warehouse_management_system/core/model/create_warehouse_model/create_warehouse_model.dart';
+import 'package:warehouse_management_system/core/model/warehouse_model/warehouse_list_model.dart';
 
 class WarehouseService {
   final Dio _dio = ApiClient().dio;
 
   // --- 1. GET: Fetch All Warehouses ---
-  Future<List<GetWarehouseModel>?> getWarehouses(String token) async {
+  Future<List<WarehouseListModel>?> getWarehouses(String token) async {
     try {
       Response response = await _dio.get(
         ApiEndpoints.warehouse,
@@ -21,12 +21,14 @@ class WarehouseService {
 
       if (response.statusCode == 200) {
         List data = response.data;
-        return data.map((item) => GetWarehouseModel.fromJson(item)).toList();
+        return data.map((item) => WarehouseListModel.fromJson(item)).toList();
+      } else {
+        return [];
       }
     } on DioException catch (e) {
       print("GET Warehouses Error: ${e.response?.data}");
+      return [];
     }
-    return null;
   }
 
   // --- 2. POST: Create New Warehouse ---
@@ -47,10 +49,12 @@ class WarehouseService {
       if (response.statusCode == 201 || response.statusCode == 200) {
         print("Warehouse Created Successfully!");
         return true;
+      } else {
+        return false;
       }
     } on DioException catch (e) {
       print("POST Warehouse Error: ${e.response?.data}");
+      return false;
     }
-    return false;
   }
 }

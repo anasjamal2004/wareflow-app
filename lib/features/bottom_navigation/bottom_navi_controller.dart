@@ -12,6 +12,7 @@ class BottomNavigationContoller extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // Specific Warehouse ka data "Warehouse.Id"
     final args =
         ModalRoute.of(Get.context!)?.settings.arguments
             as Map<String, dynamic>?;

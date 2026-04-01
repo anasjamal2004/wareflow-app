@@ -21,4 +21,7 @@ class ApiEndpoints {
   static const String login = '/auth/login';
   static const String register = '/auth/register';
   static const String warehouse = '/warehouses/';
+  static const String inventory = '/inventory/';
+  static const String suppliers = '/suppliers/';
+  static const String orders = '/orders/';
 }
