@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
@@ -194,14 +196,8 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
             child: InkWell(
               // Data is Navigating: Warehouse id and Warehouse name to -> Navigation Screen
               onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.bottomNavigationScreen,
-                  arguments: {
-                    'warehouse_id': warehouse.id,
-                    'warehouse_name': warehouse.name,
-                  },
-                );
+                GetAppStorage.getWarehouseID_Data(warehouse.id);
+                Navigator.pushNamed(context, AppRoutes.bottomNavigationScreen);
               },
               child: Container(
                 height: 100,

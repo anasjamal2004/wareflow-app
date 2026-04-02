@@ -7,13 +7,18 @@ class OrderServices {
 
   Future<List<OrderModel>?> getOrders(String token, int warehouseID) async {
     try {
+      print("--- API REQUEST DEBUG ---");
+      print("URL: ${ApiEndpoints.orders}");
+      print("Params: {'warehouse_id': $warehouseID}");
+      print("Token: Bearer $token");
+
       Response response = await _dio.get(
         ApiEndpoints.orders,
-        queryParameters: {'warehouse_id': warehouseID},
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
             'Accept': 'application/json',
+            'x-warehouse-id': warehouseID.toString(),
           },
         ),
       );
@@ -26,6 +31,11 @@ class OrderServices {
       }
     } on DioException catch (e) {
       print("GET Orders Error: ${e.response?.statusCode} - ${e.message}");
+      print("--- BACKEND GIVES ERROR ---");
+      print("Status Code: ${e.response?.statusCode}");
+
+      // 🔥 YEH LINE TUMHE ASLI WAJAH BATAYEGI
+      print("Server Message: ${e.response?.data}");
       return [];
     }
   }

@@ -10,4 +10,12 @@ class GetAppStorage {
   static String readData() {
     return box.read('user_login');
   }
+
+  static void getWarehouseID_Data(int warehouseID) {
+    box.write('select_warehouse_id', warehouseID);
+  }
+
+  static int readWarehouseID_Data() {
+    return box.read('select_warehouse_id');
+  }
 }

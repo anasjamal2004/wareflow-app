@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:warehouse_management_system/core/constants/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
+import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
 
 class Dashboard extends StatelessWidget {
-  const Dashboard({super.key});
+  final DashboardController getXController = Get.put(DashboardController());
+  Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +34,12 @@ class Dashboard extends StatelessWidget {
                 children: [
                   customContainer(
                     headingText: 'Total Revenue',
+                    data: 'data',
                     icon: Icons.attach_money,
                   ),
                   customContainer(
                     headingText: 'Inventory Value',
+                    data: 'data',
                     icon: Icons.inventory,
                   ),
                 ],
@@ -41,12 +48,16 @@ class Dashboard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  customContainer(
-                    headingText: 'Completed Orders',
-                    icon: Icons.done,
+                  Obx(
+                    () => customContainer(
+                      headingText: 'Completed Orders',
+                      data: getXController.completedOrdersList.toString(),
+                      icon: Icons.done,
+                    ),
                   ),
                   customContainer(
                     headingText: 'Active Suppliers',
+                    data: 'data',
                     icon: Icons.person,
                   ),
                 ],
@@ -112,6 +123,7 @@ class Dashboard extends StatelessWidget {
 
   Widget customContainer({
     required String headingText,
+    required String data,
     required IconData icon,
   }) {
     return Container(
@@ -160,7 +172,7 @@ class Dashboard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: CustomText(
-              text: 'Data',
+              text: data,
               color: AppColors.blackColor,
               fontSize: 30,
               fontWeight: FontWeight.bold,

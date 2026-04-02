@@ -1,7 +1,7 @@
 class OrderModel {
   String? orderType;
   int? supplierId;
-  int? totalValue;
+  num? totalValue;
   String? status;
   String? notes;
   int? id;
@@ -60,9 +60,9 @@ class OrderModel {
 }
 
 class OrderItem {
-  int? productId;
-  int? quantity;
-  int? priceAtOrder;
+  num? productId;
+  num? quantity;
+  num? priceAtOrder;
 
   OrderItem({this.productId, this.quantity, this.priceAtOrder});
 
