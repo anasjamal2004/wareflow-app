@@ -2,9 +2,9 @@ class InventoryModel {
   String? sku;
   String? name;
   String? category;
-  int? quantity;
+  num? quantity;
   int? minStock;
-  int? price;
+  num? price;
   String? location;
   int? supplierId;
   int? id;
@@ -37,17 +37,17 @@ class InventoryModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['sku'] = this.sku;
-    data['name'] = this.name;
-    data['category'] = this.category;
-    data['quantity'] = this.quantity;
-    data['min_stock'] = this.minStock;
-    data['price'] = this.price;
-    data['location'] = this.location;
-    data['supplier_id'] = this.supplierId;
-    data['id'] = this.id;
-    data['warehouse_id'] = this.warehouseId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['sku'] = sku;
+    data['name'] = name;
+    data['category'] = category;
+    data['quantity'] = quantity;
+    data['min_stock'] = minStock;
+    data['price'] = price;
+    data['location'] = location;
+    data['supplier_id'] = supplierId;
+    data['id'] = id;
+    data['warehouse_id'] = warehouseId;
     return data;
   }
 }

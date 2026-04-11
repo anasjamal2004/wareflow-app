@@ -50,7 +50,6 @@ class SupplierController extends GetxController {
         phone: int.parse(phoneController.text.trim()),
         address: addressController.text.trim(),
         warehouseId: int.parse(warehouseIDController.text.trim()),
-        supplierId: int.parse(supplierIDController.text.trim()),
       );
       supplierList.add(newSupplierModel);
       // foundProducts.assignAll(productList);
@@ -73,7 +72,6 @@ class SupplierController extends GetxController {
     emailController.text = supplier.email.toString();
     addressController.text = supplier.address.toString();
     phoneController.text = supplier.phone.toString();
-    supplierIDController.text = supplier.supplierId.toString();
     warehouseIDController.text = supplier.warehouseId.toString();
   }
 
@@ -105,9 +103,6 @@ class SupplierController extends GetxController {
         supplierList[index].address = addressController.text.trim();
         supplierList[index].warehouseId = int.parse(
           warehouseIDController.text.trim(),
-        );
-        supplierList[index].supplierId = int.parse(
-          supplierIDController.text.trim(),
         );
 
         supplierList.assignAll(supplierList.toList());

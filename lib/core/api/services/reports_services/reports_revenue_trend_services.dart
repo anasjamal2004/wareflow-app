@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:warehouse_management_system/core/api/api_client/api_client.dart';
-import 'package:warehouse_management_system/core/model/inventory_model/inventory_model.dart';
+import 'package:warehouse_management_system/core/model/charts_model/trend_chart_model.dart';
 
-class InventoryServices {
+class ReportsRevenueTrendServices {
   final Dio _dio = ApiClient().dio;
 
-  Future<List<InventoryModel>?> getInventory(
+  Future<TrendChartModel?> getReportsRevenueTrend(
     String token,
     int warehouseID,
   ) async {
     try {
       Response response = await _dio.get(
-        ApiEndpoints.inventory,
+        ApiEndpoints.reportRevenueTrend,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -22,14 +22,13 @@ class InventoryServices {
       );
 
       if (response.statusCode == 200) {
-        List data = response.data;
-        return data.map((item) => InventoryModel.fromJson(item)).toList();
+        return TrendChartModel.fromJson(response.data);
       } else {
-        return [];
+        return null;
       }
     } on DioException catch (e) {
-      print("GET Inventory Error: ${e.response?.statusCode} - ${e.message}");
-      return [];
+      print("Chart API Error: ${e.response?.statusCode} - ${e.message}");
+      return null;
     }
   }
 }

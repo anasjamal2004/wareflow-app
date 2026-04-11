@@ -24,4 +24,7 @@ class ApiEndpoints {
   static const String inventory = '/inventory/';
   static const String suppliers = '/suppliers/';
   static const String orders = '/orders/';
+  static const String reportInventoryCategory =
+      '/reports/inventory-by-category';
+  static const String reportRevenueTrend = '/reports/revenue-trend';
 }

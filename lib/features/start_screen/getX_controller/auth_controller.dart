@@ -3,6 +3,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:warehouse_management_system/core/api/services/auth_services/auth_services.dart';
 import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
+import 'package:warehouse_management_system/core/widgets/custom_getx_message.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
@@ -26,13 +27,13 @@ class AuthController extends GetxController {
       String password = passwordController.text.trim();
       String? token = await AuthServices().loginUser(email, password);
       if (token != null) {
-        Get.snackbar('Success', 'Token: $token');
         loginUserToken = token;
+        GetXMessage.onSuccess(message: 'SuccessFully Login');
         GetAppStorage.getData(loginUserToken);
         clearFields();
         return true;
       } else {
-        Get.snackbar('Fail', 'Please Sign Up first');
+        GetXMessage.onError(message: 'Please Sign Up first');
         return false;
       }
     } catch (e) {
@@ -51,10 +52,7 @@ class AuthController extends GetxController {
     if (nameController.text.isEmpty ||
         emailController.text.isEmpty ||
         passwordController.text.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Sari fields fill karo, khali chorna unprofessional hai!',
-      );
+      GetXMessage.onError(message: 'Kindly fill up all the fields');
       return false;
     }
 
@@ -72,16 +70,15 @@ class AuthController extends GetxController {
 
       if (isSuccess != false) {
         // Token save kiya
-        Get.snackbar('Success', 'Account Created! Welcome to WareFlow.');
+        GetXMessage.onSuccess(message: 'Account Created! Welcome to WareFlow.');
         clearFields();
         return true;
       } else {
-        Get.snackbar('Fail', 'Email already exists.');
+        GetXMessage.onError(message: 'Email already exists.');
         return false;
       }
     } catch (e) {
       print('SignUp Error: $e');
-      Get.snackbar('Error', 'Internet check karo ya Docker restart karo.');
       return false;
     } finally {
       isLoading.value = false;

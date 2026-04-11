@@ -11,16 +11,18 @@ class SupplierServices {
   ) async {
     try {
       Response response = await _dio.get(
-        ApiEndpoints.orders,
-        queryParameters: {'warehouse_id': warehouseID},
+        ApiEndpoints.suppliers,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
             'Accept': 'application/json',
+            'x-warehouse-id': warehouseID.toString(),
           },
         ),
       );
 
+      print("DEBUG: API Status Code: ${response.statusCode}");
+      print("DEBUG: Raw Response Data: ${response.data}");
       if (response.statusCode == 200) {
         List data = response.data;
         return data.map((item) => SupplierModel.fromJson(item)).toList();

@@ -93,10 +93,6 @@ class ShowSupplier extends StatelessWidget {
 
             InfoDisplayRow(label: "System ID", value: "#${supplier.id ?? 0}"),
             InfoDisplayRow(
-              label: "Supplier ID",
-              value: "#${supplier.supplierId ?? 0}",
-            ),
-            InfoDisplayRow(
               label: "Warehouse ID",
               value: "#${supplier.warehouseId ?? 0}",
             ),

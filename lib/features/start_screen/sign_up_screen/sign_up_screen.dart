@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:warehouse_management_system/core/constants/app_colors.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
@@ -15,6 +16,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  // Get.find behtar hai agar AuthController pehle hi Login mein put ho chuka hai
   final AuthController getXcontroller = Get.find<AuthController>();
 
   @override
@@ -24,77 +26,116 @@ class _SignUpScreenState extends State<SignUpScreen> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         backgroundColor: AppColors.backgroundColor,
-        body: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomText(
-                    text: 'WareFlow',
-                    color: AppColors.blackColor,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
+        body: SafeArea(
+          bottom: true,
+          top: false,
+          child: Center(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Container(
+                  // Fixed height (500) hata di taake content ke mutabiq resize ho
+                  padding: EdgeInsets.symmetric(
+                    vertical: 25.h,
+                    horizontal: 15.w,
                   ),
-                  const SizedBox(height: 8),
-                  CustomText(
-                    text: 'Create an account',
-                    color: Colors.grey,
-                    fontSize: 16,
-                  ),
-                  const SizedBox(height: 40),
-                  CustomTextField(
-                    controller: getXcontroller.nameController,
-                    label: 'Name',
-                    hintText: 'Enter your full name',
-                  ),
-                  CustomTextField(
-                    controller: getXcontroller.emailController,
-                    label: 'Email',
-                    hintText: 'Enter your email',
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  CustomTextField(
-                    controller: getXcontroller.passwordController,
-                    label: 'Password',
-                    hintText: 'Create a password',
-                  ),
-                  const SizedBox(height: 20),
-                  Obx(
-                    () => CustomButton(
-                      text: 'Register',
-                      isLoading: getXcontroller.isLoading.value,
-                      onPressed: () async {
-                        bool isSuccess = await getXcontroller.signUp();
-                        if (!mounted) return;
-                        if (isSuccess != false) {
-                          Navigator.pushNamed(context, AppRoutes.loginScreen);
-                        } else {
-                          Get.snackbar("Error", "SignUp failed.");
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const CustomText(
-                        text: "Already have an account? ",
-                        color: Colors.grey,
-                      ),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: const CustomText(
-                          text: 'Sign in',
-                          color: AppColors.blackColor,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  decoration: BoxDecoration(
+                    color: AppColors.whiteColor,
+                    borderRadius: BorderRadius.circular(30.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 10.r,
+                        spreadRadius: 2.r,
+                        offset: Offset(0, 5.h),
                       ),
                     ],
                   ),
-                ],
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomText(
+                        text: 'WAREFLOW',
+                        color: AppColors.blackColor,
+                        fontSize: 28.sp,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      SizedBox(height: 5.h),
+                      CustomText(
+                        text: 'Create an account',
+                        color: Colors.grey,
+                        fontSize: 16.sp,
+                      ),
+                      SizedBox(height: 15.h),
+                      CustomTextField(
+                        controller: getXcontroller.nameController,
+                        label: 'Name',
+                        hintText: 'Enter your full name',
+                      ),
+                      CustomTextField(
+                        controller: getXcontroller.emailController,
+                        label: 'Email',
+                        hintText: 'Enter your email',
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                      CustomTextField(
+                        controller: getXcontroller.passwordController,
+                        label: 'Password',
+                        hintText: 'Create a password',
+                        obscureText: true, // Password hide hona chahiye
+                      ),
+                      SizedBox(height: 15.h),
+                      Obx(
+                        () => CustomButton(
+                          width: double.infinity,
+                          text: 'Register',
+                          isLoading: getXcontroller.isLoading.value,
+                          onPressed: () async {
+                            bool isSuccess = await getXcontroller.signUp();
+                            if (!mounted) return;
+                            if (isSuccess) {
+                              // Agar signup success hai toh login par bhej do
+                              Get.offNamed(AppRoutes.loginScreen);
+                              Get.snackbar(
+                                "Success",
+                                "Account created successfully!",
+                                snackPosition: SnackPosition.BOTTOM,
+                              );
+                            } else {
+                              Get.snackbar(
+                                "Error",
+                                "SignUp failed.",
+                                snackPosition: SnackPosition.BOTTOM,
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomText(
+                            text: "Already have an account? ",
+                            color: Colors.grey,
+                            fontSize: 13.sp,
+                          ),
+                          GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: CustomText(
+                              text: 'Sign in',
+                              color: AppColors.blackColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),

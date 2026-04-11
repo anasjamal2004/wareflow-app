@@ -1,14 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:warehouse_management_system/core/api/api_client/api_client.dart';
-import 'package:warehouse_management_system/core/model/orders_model/orders_model.dart';
+import 'package:warehouse_management_system/core/model/charts_model/dount_chart_model.dart';
 
-class OrderServices {
+class ReportsInventoryCategoryServices {
   final Dio _dio = ApiClient().dio;
 
-  Future<List<OrderModel>?> getOrders(String token, int warehouseID) async {
+  Future<List<DountChartModel>> getReportsInventoryCategory(
+    String token,
+    int warehouseID,
+  ) async {
     try {
       Response response = await _dio.get(
-        ApiEndpoints.orders,
+        ApiEndpoints.reportInventoryCategory,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -20,17 +23,12 @@ class OrderServices {
 
       if (response.statusCode == 200) {
         List data = response.data;
-        return data.map((item) => OrderModel.fromJson(item)).toList();
+        return data.map((item) => DountChartModel.fromJson(item)).toList();
       } else {
         return [];
       }
     } on DioException catch (e) {
-      print("GET Orders Error: ${e.response?.statusCode} - ${e.message}");
-      print("--- BACKEND GIVES ERROR ---");
-      print("Status Code: ${e.response?.statusCode}");
-
-      // 🔥 YEH LINE TUMHE ASLI WAJAH BATAYEGI
-      print("Server Message: ${e.response?.data}");
+      print("Chart API Error: ${e.response?.statusCode} - ${e.message}");
       return [];
     }
   }

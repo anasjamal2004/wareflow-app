@@ -10,4 +10,5 @@ class AppRoutes {
   static const String loginScreen = 'login_screen';
   static const String signUpScreen = 'sign_up_screen';
   static const String selectWarehouseScreen = 'select_warehouse';
+  static const String dashboardScreen = 'dashboard_screen';
 }

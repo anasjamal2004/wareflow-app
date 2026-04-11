@@ -7,7 +7,6 @@ class SupplierModel {
   String? status;
   int? rating;
   int? id;
-  int? supplierId;
   int? warehouseId;
 
   SupplierModel({
@@ -19,21 +18,19 @@ class SupplierModel {
     this.status,
     this.rating,
     this.id,
-    this.supplierId,
     this.warehouseId,
   });
 
   SupplierModel.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    contactName = json['contact_name'];
-    email = json['email'];
-    phone = json['phone'];
-    address = json['address'];
-    status = json['status'];
-    rating = json['rating'];
-    id = json['id'];
-    supplierId = json['supplierId'];
-    warehouseId = json['warehouse_id'];
+    name = json['name']?.toString();
+    contactName = json['contact_name']?.toString();
+    email = json['email']?.toString();
+    phone = int.tryParse(json['phone'].toString());
+    address = json['address']?.toString();
+    status = json['status']?.toString();
+    rating = double.tryParse(json['rating'].toString())?.toInt();
+    id = int.tryParse(json['id'].toString());
+    warehouseId = int.tryParse(json['warehouse_id'].toString());
   }
 
   Map<String, dynamic> toJson() {
@@ -46,7 +43,6 @@ class SupplierModel {
     data['status'] = status;
     data['rating'] = rating;
     data['id'] = id;
-    data['supplierId'] = supplierId;
     data['warehouse_id'] = warehouseId;
     return data;
   }

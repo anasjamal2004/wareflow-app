@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -50,18 +51,21 @@ class _BottomNavigationState extends State<BottomNavigation> {
       ),
       bottomNavigationBar: Obx(
         () => SizedBox(
-          height: 80,
+          // Height ko thora adjust kiya taake internal content fit ho jaye har screen par
+          height: 75.h,
           child: BottomNavigationBar(
             currentIndex: getXController.currentIndex.value,
             onTap: (index) {
               getXController.onChangedPage(index);
             },
             type: BottomNavigationBarType.fixed,
-            iconSize: 23,
+            // .r icons ke liye scale handle karta hai
+            iconSize: 22.r,
             selectedItemColor: AppColors.blackColor,
-            selectedFontSize: 13,
+            // .sp text scaling ke liye
+            selectedFontSize: 11.sp,
             unselectedItemColor: AppColors.greyColor,
-            unselectedFontSize: 13,
+            unselectedFontSize: 11.sp,
             items: items,
           ),
         ),

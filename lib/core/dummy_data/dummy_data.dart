@@ -6,7 +6,6 @@ class DummyData {
   List<SupplierModel> dummySuppliers = [
     SupplierModel(
       id: 1,
-      supplierId: 1001,
       name: "TechLogix Pakistan",
       contactName: "Arsalan Ahmed",
       email: "info@techlogix.pk",
@@ -18,7 +17,6 @@ class DummyData {
     ),
     SupplierModel(
       id: 2,
-      supplierId: 1002,
       name: "Ali Electronics",
       contactName: "Ali Raza",
       email: "ali.elec@gmail.com",

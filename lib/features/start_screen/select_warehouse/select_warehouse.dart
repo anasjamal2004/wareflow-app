@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/constants/app_colors.dart';
 import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
+import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
 import 'package:warehouse_management_system/features/start_screen/select_warehouse/select_warehouse_controller.dart';
 
 class SelectWarehouse extends StatefulWidget {
@@ -24,90 +25,82 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.backgroundColor,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: AppBar(
-          backgroundColor: AppColors.backgroundColor,
-          surfaceTintColor: AppColors.transparentColor,
-          elevation: 0,
-          title: CustomText(
-            text: 'Select a Warehouse',
-            color: AppColors.blackColor,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-          actions: [
-            // TextButton.icon(
-            //   onPressed: () => Get.back(),
-            //   icon: const Icon(Icons.logout, size: 18, color: Colors.grey),
-            //   label: CustomText(
-            //     text: "Logout",
-            //     color: Colors.grey,
-            //     fontSize: 14,
-            //   ),
-            // ),
-          ],
+      appBar: AppBar(
+        backgroundColor: AppColors.backgroundColor,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        title: CustomText(
+          text: 'WAREHOUSES',
+          color: AppColors.blackColor,
+          fontSize: 20.sp,
+          fontWeight: FontWeight.w900,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            Container(
-              height: 150,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: AppColors.whiteColor,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: createWarehouseWidget(() {
-                showCreateWarehouseDialog();
-              }),
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: Container(
-                clipBehavior: Clip.antiAlias,
+      body: SafeArea(
+        bottom: true,
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Column(
+            children: [
+              // Create New Section
+              Container(
+                height: 140.h,
+                width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(20),
+                  color: AppColors.whiteColor,
+                  borderRadius: BorderRadius.circular(20.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 8.r,
+                      offset: Offset(0, 4.h),
+                    ),
+                  ],
                 ),
-                child: wareshousesContainer(),
+                child: createWarehouseWidget(() => showCreateWarehouseDialog()),
               ),
-            ),
-            const SizedBox(height: 10),
-          ],
+              SizedBox(height: 10.h),
+
+              // List Section Header
+              Align(
+                alignment: Alignment.centerLeft,
+                child: CustomText(
+                  text: "Your Warehouses",
+                  fontSize: 14.sp,
+                  color: Colors.grey.shade600,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 10.h),
+              // Actual List
+              Expanded(child: warehousesContainer()),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  //---------------------------------------------------------------//
-  Widget createWarehouseWidget(GestureTapCallback onTap) {
+  Widget createWarehouseWidget(VoidCallback onTap) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(20.r),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircleAvatar(
-            maxRadius: 30,
-            foregroundColor: AppColors.greyColor,
-            child: Icon(Icons.add),
+            radius: 28.r,
+            backgroundColor: Colors.grey.shade100,
+            child: Icon(Icons.add, color: AppColors.greyColor, size: 28.r),
           ),
+          SizedBox(height: 8.h),
           CustomText(
-            text: 'Create New',
+            text: 'CREATE NEW',
             color: AppColors.greyColor,
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w700,
           ),
         ],
       ),
@@ -117,59 +110,47 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
   void showCreateWarehouseDialog() {
     showDialog(
       context: context,
-      barrierDismissible: !getXController.isLoading.value,
+      barrierDismissible: true,
       builder: (context) {
         return Dialog(
-          // Side rounding yahan se control hogi
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.r),
             child: Column(
-              mainAxisSize:
-                  MainAxisSize.min, // Dialog sirf content jitna bada hoga
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const CustomText(
-                  text: "Create New Warehouse",
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                CustomText(
+                  text: "New Warehouse",
                   color: AppColors.blackColor,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 10),
-
-                // Tumhara Custom TextField
+                SizedBox(height: 15.h),
                 CustomTextField(
                   controller: getXController.warehouseNameController,
                   label: "Warehouse Name",
-                  hintText: "Enter warehouse name (e.g. Karachi Hub)",
+                  hintText: "e.g. Karachi Hub",
                 ),
-
-                const SizedBox(height: 20),
-
-                // Action Buttons
+                SizedBox(height: 20.h),
                 Row(
                   children: [
-                    // Cancel Button
                     Expanded(
                       child: CustomButton(
                         text: "Cancel",
-                        color: Colors.grey[300],
+                        color: Colors.grey[200],
                         textColor: Colors.black,
                         onPressed: () => Navigator.pop(context),
                       ),
                     ),
-                    const SizedBox(width: 10),
-
-                    // Create Button
+                    SizedBox(width: 10.w),
                     Expanded(
                       child: Obx(
                         () => CustomButton(
                           text: "Create",
                           isLoading: getXController.isLoading.value,
-                          onPressed: () {
-                            getXController.createWarehouse();
-                          },
+                          onPressed: () => getXController.createWarehouse(),
                         ),
                       ),
                     ),
@@ -183,61 +164,71 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
     );
   }
 
-  // Actuall WareHouse Data which are showing in the container.
-  Widget wareshousesContainer() {
-    return Obx(
-      () => ListView.builder(
-        physics: BouncingScrollPhysics(),
+  Widget warehousesContainer() {
+    return Obx(() {
+      if (getXController.isLoading.value) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: AppColors.blackColor, // Apne theme ke mutabiq color rakho
+          ),
+        );
+      }
+
+      if (getXController.warehouses.isEmpty) {
+        return Center(
+          child: CustomText(text: "No warehouses found", color: Colors.grey),
+        );
+      }
+      return ListView.builder(
+        physics: const BouncingScrollPhysics(),
         itemCount: getXController.warehouses.length,
         itemBuilder: (context, index) {
           final warehouse = getXController.warehouses[index];
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+            padding: EdgeInsets.only(bottom: 12.h),
             child: InkWell(
-              // Data is Navigating: Warehouse id and Warehouse name to -> Navigation Screen
-              onTap: () {
+              onTap: () async {
                 GetAppStorage.getWarehouseID_Data(warehouse.id);
-                Navigator.pushNamed(context, AppRoutes.bottomNavigationScreen);
+                await Get.delete<DashboardController>(force: true);
+                Navigator.pushNamed(context, AppRoutes.dashboardScreen);
               },
+              borderRadius: BorderRadius.circular(20.r),
               child: Container(
-                height: 100,
-                width: double.infinity,
+                height: 90.h,
+                padding: EdgeInsets.all(15.r),
                 decoration: BoxDecoration(
                   color: AppColors.whiteColor,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 6.r,
+                      offset: Offset(0, 3.h),
                     ),
                   ],
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        text: warehouse.name.toString(),
-                        color: AppColors.blackColor,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      CustomText(
-                        text: 'Joined: ${warehouse.createdAt.toString()}',
-                        color: AppColors.blackColor,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ],
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: warehouse.name ?? "N/A",
+                      color: AppColors.blackColor,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    SizedBox(height: 4.h),
+                    CustomText(
+                      text: 'JOINED: ${warehouse.createdAt}',
+                      color: Colors.grey.shade500,
+                      fontSize: 12.sp,
+                    ),
+                  ],
                 ),
               ),
             ),
           );
         },
-      ),
-    );
+      );
+    });
   }
 }

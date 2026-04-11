@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:warehouse_management_system/core/constants/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
+import 'package:warehouse_management_system/features/dashboard/dashboard_donut_chart.dart';
+import 'package:warehouse_management_system/features/dashboard/dashboard_line_chart.dart';
 
 class Dashboard extends StatelessWidget {
   final DashboardController getXController = Get.put(DashboardController());
-  Dashboard({super.key});
+  Dashboard({super.key}) {
+    // Data Apne app change hoga real time per
+    getXController.dashboardData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,102 +26,75 @@ class Dashboard extends StatelessWidget {
         title: CustomText(
           text: 'Dashboard',
           color: AppColors.blackColor,
-          fontSize: 27,
+          fontSize: 24.sp, // Thora sa kam kiya taake har screen par safe rahe
           fontWeight: FontWeight.bold,
         ),
       ),
       backgroundColor: AppColors.backgroundColor,
-      body: Padding(
-        padding: const EdgeInsets.all(12),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  customContainer(
-                    headingText: 'Total Revenue',
-                    data: 'data',
-                    icon: Icons.attach_money,
-                  ),
-                  customContainer(
-                    headingText: 'Inventory Value',
-                    data: 'data',
-                    icon: Icons.inventory,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Obx(
-                    () => customContainer(
-                      headingText: 'Completed Orders',
-                      data: getXController.completedOrdersList.toString(),
-                      icon: Icons.done,
+      body: SafeArea(
+        bottom: true,
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Obx(
+                        () => customContainer(
+                          headingText: 'Total Revenue',
+                          data: '\$${getXController.totalRevenueData}',
+                          icon: LucideIcons.trendingUp,
+                        ),
+                      ),
                     ),
-                  ),
-                  customContainer(
-                    headingText: 'Active Suppliers',
-                    data: 'data',
-                    icon: Icons.person,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15),
-              // Line Chart Container
-              Container(
-                clipBehavior: Clip.antiAlias,
-                height: 170,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor, // Color hamesha andar rahega
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ), // Edges round karne ke liye
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(
-                        0.08,
-                      ), // Halka shadow (Soft look)
-                      blurRadius: 10, // Shadow kitna phelega
-                      spreadRadius: 2, // Shadow ki motai
-                      offset: const Offset(
-                        0,
-                        5,
-                      ), // Shadow niche ki taraf (X=0, Y=5)
+                    SizedBox(width: 12.w), // Beech ka gap responsive kiya
+                    Expanded(
+                      child: Obx(
+                        () => customContainer(
+                          headingText: 'Inventory Value',
+                          data: '\$${getXController.inventoryValueData}',
+                          icon: LucideIcons.package,
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 15),
-              // Pie Chart Container
-              Container(
-                clipBehavior: Clip.antiAlias,
-                height: 200,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor, // Color hamesha andar rahega
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ), // Edges round karne ke liye
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(
-                        0.08,
-                      ), // Halka shadow (Soft look)
-                      blurRadius: 10, // Shadow kitna phelega
-                      spreadRadius: 2, // Shadow ki motai
-                      offset: const Offset(
-                        0,
-                        5,
-                      ), // Shadow niche ki taraf (X=0, Y=5)
+                SizedBox(height: 12.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Obx(
+                        () => customContainer(
+                          headingText: 'Completed Orders',
+                          data: getXController.completedOrdersData.toString(),
+                          icon: Icons.done_all_outlined,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: Obx(
+                        () => customContainer(
+                          headingText: 'Active Suppliers',
+                          data: getXController.activeSupplierData.toString(),
+                          icon: LucideIcons.users,
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ],
+                SizedBox(height: 15.h),
+                DashboardLineChart(),
+                SizedBox(height: 15.h),
+                DashboardDonutChart(),
+                //
+                SizedBox(height: 5.h),
+              ],
+            ),
           ),
         ),
       ),
@@ -128,17 +108,16 @@ class Dashboard extends StatelessWidget {
   }) {
     return Container(
       clipBehavior: Clip.antiAlias,
-      height: 140,
-      width: 160,
+      height: 110.h, // Height thori optimize ki taake text overflow na kare
       decoration: BoxDecoration(
-        color: AppColors.whiteColor, // Color hamesha andar rahega
-        borderRadius: BorderRadius.circular(20), // Edges round karne ke liye
+        color: AppColors.whiteColor,
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08), // Halka shadow (Soft look)
-            blurRadius: 10, // Shadow kitna phelega
-            spreadRadius: 2, // Shadow ki motai
-            offset: const Offset(0, 5), // Shadow niche ki taraf (X=0, Y=5)
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 10.r,
+            spreadRadius: 1.r,
+            offset: Offset(0, 4.h),
           ),
         ],
       ),
@@ -146,36 +125,43 @@ class Dashboard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.all(12.r),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
-                  text: headingText,
-                  color: AppColors.greyColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 11,
+                Flexible(
+                  // Taake text icon ke upar na charhay
+                  child: CustomText(
+                    text: headingText,
+                    color: AppColors.greyColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 11.sp,
+                  ),
                 ),
                 Container(
-                  height: 31,
-                  width: 31,
+                  height: 27.h,
+                  width: 30.w,
                   decoration: BoxDecoration(
                     color: AppColors.blackColor,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
-                  child: Icon(icon, color: AppColors.whiteColor),
+                  child: Icon(icon, color: AppColors.whiteColor, size: 20.r),
                 ),
               ],
             ),
           ),
-
+          const Spacer(), // Content ko balance karne ke liye
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: CustomText(
-              text: data,
-              color: AppColors.blackColor,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
+            padding: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 15.h),
+            child: FittedBox(
+              // Agar value bari ho jaye toh text size khud chota ho jaye
+              fit: BoxFit.scaleDown,
+              child: CustomText(
+                text: data,
+                color: AppColors.blackColor,
+                fontSize: 30.sp, // Thora sa base size kam kiya
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
