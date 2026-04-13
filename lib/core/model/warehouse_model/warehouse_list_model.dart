@@ -18,4 +18,23 @@ class WarehouseListModel {
     data['created_at'] = createdAt;
     return data;
   }
+
+  String? get formattedDate {
+    if (createdAt!.isEmpty) return "N/A";
+
+    try {
+      DateTime dt = DateTime.parse(
+        createdAt!,
+      ); // ISO string ko DateTime object banaya
+
+      // Manually format: 12-04-2026
+      String day = dt.day.toString().padLeft(2, '0');
+      String month = dt.month.toString().padLeft(2, '0');
+      String year = dt.year.toString();
+
+      return "$day-$month-$year";
+    } catch (e) {
+      return createdAt; // Agar error aaye toh raw string dikha do
+    }
+  }
 }

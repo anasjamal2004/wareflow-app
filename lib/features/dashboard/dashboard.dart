@@ -21,12 +21,13 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: AppColors.backgroundColor,
         surfaceTintColor: AppColors.transparentColor,
         title: CustomText(
-          text: 'Dashboard',
+          text: 'Dashboard Overview',
           color: AppColors.blackColor,
-          fontSize: 24.sp, // Thora sa kam kiya taake har screen par safe rahe
+          fontSize: 24.sp,
           fontWeight: FontWeight.bold,
         ),
       ),

@@ -61,19 +61,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                 ),
                 child: createWarehouseWidget(() => showCreateWarehouseDialog()),
               ),
-              SizedBox(height: 10.h),
-
-              // List Section Header
-              Align(
-                alignment: Alignment.centerLeft,
-                child: CustomText(
-                  text: "Your Warehouses",
-                  fontSize: 14.sp,
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 15.h),
               // Actual List
               Expanded(child: warehousesContainer()),
             ],
@@ -173,12 +161,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
           ),
         );
       }
-
-      if (getXController.warehouses.isEmpty) {
-        return Center(
-          child: CustomText(text: "No warehouses found", color: Colors.grey),
-        );
-      }
+      //
       return ListView.builder(
         physics: const BouncingScrollPhysics(),
         itemCount: getXController.warehouses.length,
@@ -189,8 +172,10 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
             child: InkWell(
               onTap: () async {
                 GetAppStorage.getWarehouseID_Data(warehouse.id);
+                GetAppStorage.saveWarehouseName(warehouse.name);
+                // Jab user naviagte karega kisi bhi warehouse may toh usko us specific warehouse ka data show hoga.
                 await Get.delete<DashboardController>(force: true);
-                Navigator.pushNamed(context, AppRoutes.dashboardScreen);
+                Navigator.pushNamed(context, AppRoutes.bottomNavigationScreen);
               },
               borderRadius: BorderRadius.circular(20.r),
               child: Container(
@@ -218,7 +203,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                     ),
                     SizedBox(height: 4.h),
                     CustomText(
-                      text: 'JOINED: ${warehouse.createdAt}',
+                      text: 'JOINED: ${warehouse.formattedDate}',
                       color: Colors.grey.shade500,
                       fontSize: 12.sp,
                     ),

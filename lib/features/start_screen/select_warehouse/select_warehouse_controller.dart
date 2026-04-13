@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
@@ -11,10 +12,20 @@ class SelectWarehouseController extends GetxController {
   var isLoading = false.obs;
   final warehouseNameController = TextEditingController();
 
+  //
+  Timer? _refreshTimer;
+
   @override
   void onInit() {
     super.onInit();
     fetchWarehouses();
+    startAutoRefresh();
+  }
+
+  void startAutoRefresh() {
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      fetchWarehouses();
+    });
   }
 
   Future<bool> createWarehouse() async {
@@ -77,6 +88,7 @@ class SelectWarehouseController extends GetxController {
   @override
   void onClose() {
     warehouseNameController;
+    _refreshTimer?.cancel();
     super.onClose();
   }
 }

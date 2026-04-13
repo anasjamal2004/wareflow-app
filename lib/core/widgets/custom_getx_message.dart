@@ -49,7 +49,7 @@ class GetXMessage {
     Get.snackbar(
       title,
       message,
-      snackPosition: SnackPosition.BOTTOM, // Bottom positioning
+      snackPosition: SnackPosition.TOP, // Bottom positioning
       // Bottom ke liye bottom navigation bar ke hisaab se thori extra space zaroori hai
       margin: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 25.h),
       backgroundColor: Colors.white,

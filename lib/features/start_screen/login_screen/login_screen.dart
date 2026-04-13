@@ -6,7 +6,7 @@ import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
-import 'package:warehouse_management_system/features/start_screen/getX_controller/auth_controller.dart';
+import 'package:warehouse_management_system/features/start_screen/auth_controller/auth_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -114,10 +114,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 13.sp,
                           ),
                           GestureDetector(
-                            onTap: () => Navigator.pushNamed(
-                              context,
-                              AppRoutes.signUpScreen,
-                            ),
+                            onTap: () {
+                              getXcontroller.clearFields();
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.signUpScreen,
+                              );
+                            },
                             child: CustomText(
                               text: 'Sign up',
                               color: AppColors.blackColor,

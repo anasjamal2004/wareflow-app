@@ -26,7 +26,11 @@ class AuthServices {
         return null;
       }
     } on DioException catch (e) {
-      print("Login Failed: ${e.response?.data}");
+      if (e.response != null) {
+        String errorMSG = e.response?.data['detail'];
+        print('Login Error: $errorMSG');
+        throw errorMSG;
+      }
       return null;
     }
   }
@@ -45,7 +49,11 @@ class AuthServices {
         return true;
       }
     } on DioException catch (e) {
-      print("SignUp Failed: ${e.response?.data}");
+      if (e.response != null) {
+        String errorMSG = e.response?.data['detail'];
+        print('Sign In Error: $errorMSG');
+        throw errorMSG;
+      }
     }
     return false;
   }

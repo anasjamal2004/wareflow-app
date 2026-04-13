@@ -5,14 +5,13 @@ import 'package:warehouse_management_system/core/model/warehouse_model/warehouse
 class WarehouseService {
   final Dio _dio = ApiClient().dio;
 
-  // --- 1. GET: Fetch All Warehouses ---
+  // --- 1. GET: All Warehouses ---
   Future<List<WarehouseListModel>?> getWarehouses(String token) async {
     try {
       Response response = await _dio.get(
         ApiEndpoints.warehouse,
         options: Options(
           headers: {
-            // YE LINE SABSE ZARORI HAI
             "Authorization": "Bearer $token",
             "Accept": "application/json",
           },
@@ -34,10 +33,10 @@ class WarehouseService {
   // --- 2. POST: Create New Warehouse ---
   Future<bool> createWarehouse(String token, String warehouseName) async {
     try {
-      String currentTime = DateTime.now().toIso8601String().split('T')[0];
+      //
       Response response = await _dio.post(
         ApiEndpoints.warehouse,
-        data: {"name": warehouseName, "id": 0, "created_at": currentTime},
+        data: {"name": warehouseName},
         options: Options(
           headers: {
             "Authorization": "Bearer $token",

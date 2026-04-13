@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 import 'package:warehouse_management_system/core/constants/app_colors.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
+import 'package:warehouse_management_system/core/widgets/custom_getx_message.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
-import 'package:warehouse_management_system/features/start_screen/getX_controller/auth_controller.dart';
+import 'package:warehouse_management_system/features/start_screen/auth_controller/auth_controller.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -97,11 +98,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             if (!mounted) return;
                             if (isSuccess) {
                               // Agar signup success hai toh login par bhej do
+                              getXcontroller.clearFields();
                               Get.offNamed(AppRoutes.loginScreen);
-                              Get.snackbar(
-                                "Success",
-                                "Account created successfully!",
-                                snackPosition: SnackPosition.BOTTOM,
+                              GetXMessage.onSuccess(
+                                message:
+                                    "Account has been created successfully!",
                               );
                             } else {
                               Get.snackbar(

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:warehouse_management_system/core/constants/app_colors.dart';
 import 'package:warehouse_management_system/features/bottom_navigation/bottom_navi_controller.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard.dart';
@@ -25,18 +26,24 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   final List<Widget> _screens = [
     Dashboard(),
-    Inventory(),
-    Orders(),
-    Suppliers(),
+    // Inventory(),
+    // Orders(), // Will make it one by one
+    // Suppliers(),
     Settings(),
   ];
 
   List<BottomNavigationBarItem> items = [
-    BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: "Dashboard"),
-    BottomNavigationBarItem(icon: Icon(Icons.inventory), label: "Inventory"),
-    BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Orders"),
-    BottomNavigationBarItem(icon: Icon(Icons.people), label: "Suppliers"),
-    BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+    BottomNavigationBarItem(
+      icon: Icon(LucideIcons.layoutDashboard),
+      label: "Dashboard",
+    ),
+    // BottomNavigationBarItem(icon: Icon(Icons.inventory), label: "Inventory"),
+    // BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Orders"),
+    // BottomNavigationBarItem(icon: Icon(Icons.people), label: "Suppliers"),
+    BottomNavigationBarItem(
+      icon: Icon(LucideIcons.settings2),
+      label: "Settings",
+    ),
   ];
 
   @override
@@ -52,7 +59,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       bottomNavigationBar: Obx(
         () => SizedBox(
           // Height ko thora adjust kiya taake internal content fit ho jaye har screen par
-          height: 75.h,
+          height: 65.h,
           child: BottomNavigationBar(
             currentIndex: getXController.currentIndex.value,
             onTap: (index) {

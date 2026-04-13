@@ -6,10 +6,55 @@ import 'package:warehouse_management_system/core/constants/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
 
-class DashboardLineChart extends StatelessWidget {
-  final DashboardController getXController = Get.put(DashboardController());
+class DashboardLineChart extends StatefulWidget {
+  const DashboardLineChart({super.key});
 
-  DashboardLineChart({super.key});
+  @override
+  State<DashboardLineChart> createState() => _DashboardLineChartState();
+}
+
+class _DashboardLineChartState extends State<DashboardLineChart>
+    with SingleTickerProviderStateMixin {
+  final DashboardController getXController = Get.find<DashboardController>();
+
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 2000,
+      ), // Thori slow rakhi hai check karne ke liye
+    );
+
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOutCubic,
+      ),
+    );
+
+    // Jab data change ho, tab animation reset karke dobara chalao
+    ever(getXController.chartValues, (_) {
+      if (getXController.chartValues.isNotEmpty && mounted) {
+        _animationController.forward(from: 0.0);
+      }
+    });
+
+    // Initial check agar data pehle se para hai
+    if (getXController.chartValues.isNotEmpty) {
+      _animationController.forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,156 +90,114 @@ class DashboardLineChart extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(left: 5.w, right: 15.w, bottom: 5.h),
               child: Obx(() {
-                // FIX: Loader nikal diya taake chart tree mein hamesha rahay
-                final bool isEmpty =
-                    getXController.chartValues.isEmpty ||
-                    getXController.chartLabels.isEmpty;
+                if (getXController.chartValues.isEmpty) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-                // Max Y calculation with safety
-                double maxVal = isEmpty
-                    ? 100
-                    : getXController.chartValues
-                          .reduce((a, b) => a > b ? a : b)
-                          .toDouble();
-                if (maxVal == 0) maxVal = 100; // Safety for 0 values
+                double maxVal = getXController.chartValues
+                    .reduce((a, b) => a > b ? a : b)
+                    .toDouble();
+                if (maxVal == 0) maxVal = 100;
                 double dynamicMaxY = maxVal + (maxVal * 0.2);
                 double dynamicInterval = dynamicMaxY / 5;
 
-                return LineChart(
-                  LineChartData(
-                    minX: 0,
-                    // Empty state mein dummy range (0-4) dikhayega
-                    maxX: isEmpty
-                        ? 4
-                        : (getXController.chartLabels.length - 1).toDouble(),
-                    minY: 0,
-                    maxY: dynamicMaxY,
-                    lineTouchData: LineTouchData(
-                      enabled: !isEmpty, // Empty state mein touch off
-                      touchTooltipData: LineTouchTooltipData(
-                        getTooltipColor: (touchedSpot) => AppColors.blackColor,
-                        tooltipBorderRadius: BorderRadius.circular(8.r),
-                        getTooltipItems: (spots) {
-                          return spots.map((spot) {
-                            return LineTooltipItem(
-                              'Rs. ${spot.y.toInt()}',
-                              TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 10.sp,
-                              ),
-                            );
-                          }).toList();
-                        },
-                      ),
-                    ),
-                    gridData: FlGridData(
-                      show: true,
-                      drawVerticalLine: false,
-                      horizontalInterval: dynamicInterval > 0
-                          ? dynamicInterval
-                          : 20,
-                      getDrawingHorizontalLine: (value) => FlLine(
-                        color: Colors.grey.withOpacity(0.1),
-                        strokeWidth: 1.r,
-                        dashArray: [5, 5],
-                      ),
-                    ),
-                    titlesData: FlTitlesData(
-                      show: true,
-                      rightTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      topTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      leftTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          interval: dynamicInterval > 0 ? dynamicInterval : 20,
-                          reservedSize: 32.w,
-                          getTitlesWidget: (value, meta) {
-                            String textValue = value >= 1000
-                                ? '${(value / 1000).toStringAsFixed(1)}k'
-                                : value.toInt().toString();
-                            return SideTitleWidget(
-                              meta: meta,
-                              space: 5.w,
-                              child: CustomText(
-                                text: textValue,
-                                fontSize: 9.sp,
-                                color: Colors.grey,
-                              ),
-                            );
-                          },
+                return AnimatedBuilder(
+                  animation: _animation,
+                  builder: (context, child) {
+                    return ClipRect(
+                      clipper: ChartWidthClipper(_animation.value),
+                      child: child,
+                    );
+                  },
+                  child: LineChart(
+                    LineChartData(
+                      minX: 0,
+                      maxX: (getXController.chartLabels.length - 1).toDouble(),
+                      minY: 0,
+                      maxY: dynamicMaxY,
+                      gridData: FlGridData(
+                        show: true,
+                        drawVerticalLine: false,
+                        horizontalInterval: dynamicInterval,
+                        getDrawingHorizontalLine: (value) => FlLine(
+                          color: Colors.grey.withOpacity(0.1),
+                          strokeWidth: 1.r,
+                          dashArray: [5, 5],
                         ),
                       ),
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          interval: 1,
-                          getTitlesWidget: (double value, TitleMeta meta) {
-                            if (isEmpty)
-                              return const SizedBox(); // Empty state mein labels nahi
-                            var months = getXController.chartLabels;
-                            if (value.toInt() >= 0 &&
-                                value.toInt() < months.length) {
+                      titlesData: FlTitlesData(
+                        show: true,
+                        rightTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        topTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        leftTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            interval: dynamicInterval,
+                            reservedSize: 32.w,
+                            getTitlesWidget: (value, meta) {
                               return SideTitleWidget(
                                 meta: meta,
-                                space: 8.h,
+                                space: 5.w,
                                 child: CustomText(
-                                  text: months[value.toInt()],
-                                  fontSize: 8.sp,
+                                  text: value >= 1000
+                                      ? '${(value / 1000).toStringAsFixed(1)}k'
+                                      : value.toInt().toString(),
+                                  fontSize: 9.sp,
                                   color: Colors.grey,
                                 ),
                               );
-                            }
-                            return const SizedBox();
-                          },
+                            },
+                          ),
                         ),
-                      ),
-                    ),
-                    borderData: FlBorderData(show: false),
-                    lineBarsData: [
-                      LineChartBarData(
-                        // FIX: Agar empty hai toh 0 ki flat line, warna actual spots
-                        spots: isEmpty
-                            ? [
-                                const FlSpot(0, 0),
-                                const FlSpot(1, 0),
-                                const FlSpot(2, 0),
-                                const FlSpot(3, 0),
-                                const FlSpot(4, 0),
-                              ]
-                            : getXController.chartValues.asMap().entries.map((
-                                entry,
-                              ) {
-                                return FlSpot(
-                                  entry.key.toDouble(),
-                                  entry.value.toDouble(),
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            interval: 1,
+                            getTitlesWidget: (value, meta) {
+                              var months = getXController.chartLabels;
+                              if (value.toInt() >= 0 &&
+                                  value.toInt() < months.length) {
+                                return SideTitleWidget(
+                                  meta: meta,
+                                  space: 8.h,
+                                  child: CustomText(
+                                    text: months[value.toInt()],
+                                    fontSize: 8.sp,
+                                    color: Colors.grey,
+                                  ),
                                 );
-                              }).toList(),
-                        isCurved: true,
-                        curveSmoothness: 0.35,
-                        color: const Color(0xFF1A1C1E),
-                        barWidth: 3.r,
-                        isStrokeCapRound: true,
-                        dotData: FlDotData(
-                          show: !isEmpty, // Empty state mein dots hide karo
-                          getDotPainter: (spot, percent, barData, index) =>
-                              FlDotCirclePainter(
-                                radius: 2.5.r,
-                                color: const Color(0xFF1A1C1E),
-                                strokeWidth: 1.r,
-                                strokeColor: Colors.white,
-                              ),
+                              }
+                              return const SizedBox();
+                            },
+                          ),
                         ),
-                        belowBarData: BarAreaData(show: false),
                       ),
-                    ],
+                      borderData: FlBorderData(show: false),
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: getXController.chartValues.asMap().entries.map(
+                            (entry) {
+                              return FlSpot(
+                                entry.key.toDouble(),
+                                entry.value.toDouble(),
+                              );
+                            },
+                          ).toList(),
+                          isCurved: true,
+                          curveSmoothness: 0.35,
+                          color: const Color(0xFF1A1C1E),
+                          barWidth: 3.r,
+                          dotData: const FlDotData(show: true),
+                          belowBarData: BarAreaData(show: false),
+                        ),
+                      ],
+                    ),
+                    duration: Duration.zero,
                   ),
-                  duration: const Duration(milliseconds: 1200),
-                  curve: Curves.easeInOutExpo,
                 );
               }),
             ),
@@ -203,4 +206,15 @@ class DashboardLineChart extends StatelessWidget {
       ),
     );
   }
+}
+
+class ChartWidthClipper extends CustomClipper<Rect> {
+  final double widthFactor;
+  ChartWidthClipper(this.widthFactor);
+  @override
+  Rect getClip(Size size) =>
+      Rect.fromLTWH(0, 0, size.width * widthFactor, size.height);
+  @override
+  bool shouldReclip(ChartWidthClipper oldClipper) =>
+      oldClipper.widthFactor != widthFactor;
 }

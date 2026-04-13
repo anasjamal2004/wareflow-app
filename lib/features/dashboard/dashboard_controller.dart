@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/state_manager.dart';
 import 'package:warehouse_management_system/core/api/services/inventory_services/inventory_services.dart';
 import 'package:warehouse_management_system/core/api/services/order_services/order_services.dart';
@@ -10,6 +12,8 @@ import 'package:warehouse_management_system/core/model/charts_model/dount_chart_
 class DashboardController extends GetxController {
   String get warehouseToken => GetAppStorage.readData();
   String get warehouseID => GetAppStorage.readWarehouseID_Data().toString();
+  String get warehouseName =>
+      GetAppStorage.readWarehouseName(); // Settings screen may show karonga
   RxList dountChartlist = <DountChartModel>[].obs;
   //
   var completedOrdersData = 0.obs;
@@ -20,14 +24,29 @@ class DashboardController extends GetxController {
   var dountChartValue = 0.0.obs;
   var chartLabels = <String>[].obs;
   var chartValues = <double>[].obs;
-
+  //
+  Timer? _refreshTimer;
+  //
   @override
   void onReady() {
     super.onReady();
     dashboardData();
   }
 
-  // Jab dashboard per aengye, toh yeh sare function chalingye
+  @override
+  void onClose() {
+    _refreshTimer?.cancel();
+    super.onClose();
+  }
+
+  // Har 5 sec baad yeh dashboarddata ko refresh karega ky chnages huwe haan yeh nhi
+  void startAutoRefresh() {
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      dashboardData();
+    });
+  }
+
+  // Yeh first time per change karega.
 
   void dashboardData() {
     completedOrders();

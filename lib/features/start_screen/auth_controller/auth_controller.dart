@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:warehouse_management_system/core/api/services/auth_services/auth_services.dart';
 import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
@@ -16,7 +15,7 @@ class AuthController extends GetxController {
     loginUserToken = null;
 
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      Get.snackbar('Error', 'Kindly fill them correctly');
+      GetXMessage.onError(message: 'Kindly fill the fields correctly');
       return false;
     }
 
@@ -32,12 +31,11 @@ class AuthController extends GetxController {
         GetAppStorage.getData(loginUserToken);
         clearFields();
         return true;
-      } else {
-        GetXMessage.onError(message: 'Please Sign Up first');
-        return false;
       }
+      return false;
     } catch (e) {
       print('Something Went Wrong: $e');
+      GetXMessage.onError(message: e.toString());
       return false;
     } finally {
       isLoading.value = false;
@@ -73,12 +71,11 @@ class AuthController extends GetxController {
         GetXMessage.onSuccess(message: 'Account Created! Welcome to WareFlow.');
         clearFields();
         return true;
-      } else {
-        GetXMessage.onError(message: 'Email already exists.');
-        return false;
       }
+      return false;
     } catch (e) {
-      print('SignUp Error: $e');
+      print('Something Went Wrong: $e');
+      GetXMessage.onError(message: e.toString());
       return false;
     } finally {
       isLoading.value = false;
