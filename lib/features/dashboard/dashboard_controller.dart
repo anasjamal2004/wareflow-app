@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:get/state_manager.dart';
 import 'package:warehouse_management_system/core/api/services/inventory_services/inventory_services.dart';
 import 'package:warehouse_management_system/core/api/services/order_services/order_services.dart';
@@ -25,36 +24,20 @@ class DashboardController extends GetxController {
   var chartLabels = <String>[].obs;
   var chartValues = <double>[].obs;
   //
-  Timer? _refreshTimer;
-  //
+
   @override
-  void onReady() {
-    super.onReady();
+  void onInit() {
+    super.onInit();
     dashboardData();
   }
 
-  @override
-  void onClose() {
-    _refreshTimer?.cancel();
-    super.onClose();
-  }
-
-  // Har 5 sec baad yeh dashboarddata ko refresh karega ky chnages huwe haan yeh nhi
-  void startAutoRefresh() {
-    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      dashboardData();
-    });
-  }
-
-  // Yeh first time per change karega.
-
-  void dashboardData() {
-    completedOrders();
-    inventoryValue();
-    totalRevenue();
-    activeSupplier();
-    dountChartData();
-    lineChartData();
+  Future<void> dashboardData() async {
+    await completedOrders();
+    await inventoryValue();
+    await totalRevenue();
+    await activeSupplier();
+    await dountChartData();
+    await lineChartData();
   }
   //
 

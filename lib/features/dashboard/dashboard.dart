@@ -37,64 +37,70 @@ class Dashboard extends StatelessWidget {
         top: false,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Obx(
-                        () => customContainer(
-                          headingText: 'Total Revenue',
-                          data: '\$${getXController.totalRevenueData}',
-                          icon: LucideIcons.trendingUp,
+          child: RefreshIndicator(
+            onRefresh: () async {
+              await getXController.dashboardData();
+            },
+            color: AppColors.blackColor,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Obx(
+                          () => customContainer(
+                            headingText: 'Total Revenue',
+                            data: '\$${getXController.totalRevenueData}',
+                            icon: LucideIcons.trendingUp,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 12.w), // Beech ka gap responsive kiya
-                    Expanded(
-                      child: Obx(
-                        () => customContainer(
-                          headingText: 'Inventory Value',
-                          data: '\$${getXController.inventoryValueData}',
-                          icon: LucideIcons.package,
+                      SizedBox(width: 12.w), // Beech ka gap responsive kiya
+                      Expanded(
+                        child: Obx(
+                          () => customContainer(
+                            headingText: 'Inventory Value',
+                            data: '\$${getXController.inventoryValueData}',
+                            icon: LucideIcons.package,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 12.h),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Obx(
-                        () => customContainer(
-                          headingText: 'Completed Orders',
-                          data: getXController.completedOrdersData.toString(),
-                          icon: Icons.done_all_outlined,
+                    ],
+                  ),
+                  SizedBox(height: 12.h),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Obx(
+                          () => customContainer(
+                            headingText: 'Completed Orders',
+                            data: getXController.completedOrdersData.toString(),
+                            icon: Icons.done_all_rounded,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: Obx(
-                        () => customContainer(
-                          headingText: 'Active Suppliers',
-                          data: getXController.activeSupplierData.toString(),
-                          icon: LucideIcons.users,
+                      SizedBox(width: 12.w),
+                      Expanded(
+                        child: Obx(
+                          () => customContainer(
+                            headingText: 'Active Suppliers',
+                            data: getXController.activeSupplierData.toString(),
+                            icon: LucideIcons.users,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 15.h),
-                DashboardLineChart(),
-                SizedBox(height: 15.h),
-                DashboardDonutChart(),
-                //
-                SizedBox(height: 5.h),
-              ],
+                    ],
+                  ),
+                  SizedBox(height: 15.h),
+                  DashboardLineChart(),
+                  SizedBox(height: 15.h),
+                  DashboardDonutChart(),
+                  //
+                  SizedBox(height: 5.h),
+                ],
+              ),
             ),
           ),
         ),
@@ -143,10 +149,10 @@ class Dashboard extends StatelessWidget {
                   height: 27.h,
                   width: 30.w,
                   decoration: BoxDecoration(
-                    color: AppColors.blackColor,
+                    color: AppColors.lightGrey,
                     borderRadius: BorderRadius.circular(8.r),
                   ),
-                  child: Icon(icon, color: AppColors.whiteColor, size: 20.r),
+                  child: Icon(icon, color: AppColors.blackColor, size: 20.r),
                 ),
               ],
             ),

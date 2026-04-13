@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
 import 'package:warehouse_management_system/core/constants/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 
@@ -26,6 +27,7 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLoading;
   final Color? color;
+  final Color? loadingColor;
   final Color? textColor;
   final double? height;
   final double? width;
@@ -35,6 +37,7 @@ class CustomButton extends StatelessWidget {
     required this.text,
     required this.onPressed,
     this.isLoading = false,
+    this.loadingColor,
     this.height,
     this.width,
     this.color,
@@ -56,14 +59,7 @@ class CustomButton extends StatelessWidget {
         ),
         onPressed: isLoading ? null : onPressed,
         child: isLoading
-            ? const SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                  color: AppColors.whiteColor,
-                  strokeWidth: 2,
-                ),
-              )
+            ? LoadingAnimation(loadingColor: loadingColor)
             : CustomText(
                 text: text,
                 color: textColor ?? AppColors.whiteColor,

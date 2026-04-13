@@ -41,7 +41,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     // BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Orders"),
     // BottomNavigationBarItem(icon: Icon(Icons.people), label: "Suppliers"),
     BottomNavigationBarItem(
-      icon: Icon(LucideIcons.settings2),
+      icon: Icon(LucideIcons.settings),
       label: "Settings",
     ),
   ];

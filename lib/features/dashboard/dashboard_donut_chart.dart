@@ -96,7 +96,7 @@ class DashboardDonutChart extends StatelessWidget {
                     return PieChart(
                       PieChartData(
                         sectionsSpace: 0,
-                        centerSpaceRadius: 60.r,
+                        centerSpaceRadius: 50.r,
                         startDegreeOffset: -90, // Animation starts from top
                         sections: sections,
                       ),

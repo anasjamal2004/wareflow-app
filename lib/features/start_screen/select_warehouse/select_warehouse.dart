@@ -27,6 +27,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: AppColors.backgroundColor,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
@@ -153,67 +154,68 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
   }
 
   Widget warehousesContainer() {
-    return Obx(() {
-      if (getXController.isLoading.value) {
-        return const Center(
-          child: CircularProgressIndicator(
-            color: AppColors.blackColor, // Apne theme ke mutabiq color rakho
-          ),
-        );
-      }
-      //
-      return ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: getXController.warehouses.length,
-        itemBuilder: (context, index) {
-          final warehouse = getXController.warehouses[index];
-          return Padding(
-            padding: EdgeInsets.only(bottom: 12.h),
-            child: InkWell(
-              onTap: () async {
-                GetAppStorage.getWarehouseID_Data(warehouse.id);
-                GetAppStorage.saveWarehouseName(warehouse.name);
-                // Jab user naviagte karega kisi bhi warehouse may toh usko us specific warehouse ka data show hoga.
-                await Get.delete<DashboardController>(force: true);
-                Navigator.pushNamed(context, AppRoutes.bottomNavigationScreen);
-              },
-              borderRadius: BorderRadius.circular(20.r),
-              child: Container(
-                height: 90.h,
-                padding: EdgeInsets.all(15.r),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
-                  borderRadius: BorderRadius.circular(20.r),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.04),
-                      blurRadius: 6.r,
-                      offset: Offset(0, 3.h),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      text: warehouse.name ?? "N/A",
-                      color: AppColors.blackColor,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    SizedBox(height: 4.h),
-                    CustomText(
-                      text: 'JOINED: ${warehouse.formattedDate}',
-                      color: Colors.grey.shade500,
-                      fontSize: 12.sp,
-                    ),
-                  ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        await getXController.fetchWarehouses();
+      },
+      color: AppColors.blackColor,
+      child: Obx(() {
+        return ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          itemCount: getXController.warehouses.length,
+          itemBuilder: (context, index) {
+            final warehouse = getXController.warehouses[index];
+            return Padding(
+              padding: EdgeInsets.only(bottom: 12.h),
+              child: InkWell(
+                onTap: () async {
+                  GetAppStorage.getWarehouseID_Data(warehouse.id);
+                  GetAppStorage.saveWarehouseName(warehouse.name);
+                  // Jab user naviagte karega kisi bhi warehouse may toh usko us specific warehouse ka data show hoga.
+                  await Get.delete<DashboardController>(force: true);
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.bottomNavigationScreen,
+                  );
+                },
+                borderRadius: BorderRadius.circular(20.r),
+                child: Container(
+                  height: 90.h,
+                  padding: EdgeInsets.all(15.r),
+                  decoration: BoxDecoration(
+                    color: AppColors.whiteColor,
+                    borderRadius: BorderRadius.circular(20.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 6.r,
+                        offset: Offset(0, 3.h),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: warehouse.name ?? "N/A",
+                        color: AppColors.blackColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      SizedBox(height: 4.h),
+                      CustomText(
+                        text: 'JOINED: ${warehouse.formattedDate}',
+                        color: Colors.grey.shade500,
+                        fontSize: 12.sp,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        },
-      );
-    });
+            );
+          },
+        );
+      }),
+    );
   }
 }

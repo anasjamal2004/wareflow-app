@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -11,11 +12,13 @@ import 'package:warehouse_management_system/core/widgets/custom_general_button.d
 import 'package:warehouse_management_system/core/widgets/custom_getx_message.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
+import 'package:warehouse_management_system/features/start_screen/auth_controller/auth_controller.dart';
 import 'package:warehouse_management_system/features/start_screen/login_screen/login_screen.dart';
 import 'package:warehouse_management_system/features/start_screen/select_warehouse/select_warehouse.dart';
 
 class Settings extends StatelessWidget {
   final DashboardController getXController = Get.put(DashboardController());
+  final AuthController getXauthController = Get.put(AuthController());
   Settings({super.key});
 
   @override
@@ -78,7 +81,7 @@ class Settings extends StatelessWidget {
                   text: 'General',
                   fontSize: 18.r,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.blackColor,
+                  color: AppColors.greyColor,
                 ),
               ),
               SizedBox(height: 5.h),
@@ -100,30 +103,17 @@ class Settings extends StatelessWidget {
                 },
                 tralingIconColor: AppColors.blackColor,
               ),
-              CustomGeneralButton(
-                text: 'Logout',
-                textColor: AppColors.whiteColor,
-                containerColor: AppColors.blackColor,
-                tralingIcon: LucideIcons.logOut,
-                tralingIconColor: AppColors.whiteColor,
-                onTap: () {
-                  GetAppStorage.clearAll(); // Logout func
-                  Get.deleteAll(
-                    force: true,
-                  ); // Sare Controllers memory se delete horhay han.
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    PageTransition(
-                      child: const LoginScreen(),
-                      type: PageTransitionType.leftToRight,
-                      duration: const Duration(milliseconds: 500),
-                      alignment: Alignment.center,
-                    ),
-                    (route) => false, // Stack poora clear!
-                  );
-
-                  GetXMessage.onSuccess(message: 'Successfully Logout');
-                },
+              Obx(
+                () => CustomGeneralButton(
+                  text: 'Logout',
+                  textColor: AppColors.whiteColor,
+                  containerColor: AppColors.blackColor,
+                  tralingIcon: LucideIcons.logOut,
+                  tralingIconColor: AppColors.whiteColor,
+                  isLoading: getXauthController.isLoading.value,
+                  loadingColor: AppColors.whiteColor,
+                  onTap: () => getXauthController.logOut(context),
+                ),
               ),
             ],
           ),

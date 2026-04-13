@@ -11,21 +11,12 @@ class SelectWarehouseController extends GetxController {
   String warehouseToken = GetAppStorage.readData();
   var isLoading = false.obs;
   final warehouseNameController = TextEditingController();
-
   //
-  Timer? _refreshTimer;
 
   @override
   void onInit() {
     super.onInit();
     fetchWarehouses();
-    startAutoRefresh();
-  }
-
-  void startAutoRefresh() {
-    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      fetchWarehouses();
-    });
   }
 
   Future<bool> createWarehouse() async {
@@ -88,7 +79,6 @@ class SelectWarehouseController extends GetxController {
   @override
   void onClose() {
     warehouseNameController;
-    _refreshTimer?.cancel();
     super.onClose();
   }
 }
