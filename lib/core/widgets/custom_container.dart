@@ -6,10 +6,12 @@ class CustomContainer extends StatelessWidget {
   final Widget widget;
   final double? height;
   final Color? color;
+  final double? buttonBorderRadius;
   const CustomContainer({
     super.key,
     required this.widget,
     this.height,
+    this.buttonBorderRadius,
     this.color,
   });
 
@@ -21,7 +23,7 @@ class CustomContainer extends StatelessWidget {
       padding: EdgeInsets.all(8.r),
       decoration: BoxDecoration(
         color: color ?? AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(20.r),
+        borderRadius: BorderRadius.circular(buttonBorderRadius ?? 20.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.08),

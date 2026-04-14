@@ -33,6 +33,7 @@ class CustomGeneralButton extends StatelessWidget {
       child: InkWell(
         onTap: isLoading ? null : onTap,
         child: CustomContainer(
+          buttonBorderRadius: 12.r,
           color: containerColor ?? AppColors.whiteColor,
           widget: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),

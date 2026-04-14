@@ -43,6 +43,17 @@ dependencies:
   lucide_icons: ^0.257.0
   page_transition: ^2.2.1
   loading_animation_widget: ^1.3.0
+  flutter_launcher_icons: ^0.14.4
+
+# App Icon
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  iso: false
+  image_path: "assets/image/wareflow.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/image/wareflow.png"
+
 
 dev_dependencies:
   flutter_test:

@@ -7,10 +7,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:warehouse_management_system/core/constants/app_colors.dart';
 import 'package:warehouse_management_system/features/bottom_navigation/bottom_navi_controller.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard.dart';
-import 'package:warehouse_management_system/features/inventory/inventory.dart';
-import 'package:warehouse_management_system/features/orders/orders.dart';
 import 'package:warehouse_management_system/features/settings/settings.dart';
-import 'package:warehouse_management_system/features/suppliers/suppliers.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -57,24 +54,20 @@ class _BottomNavigationState extends State<BottomNavigation> {
         children: _screens,
       ),
       bottomNavigationBar: Obx(
-        () => SizedBox(
-          // Height ko thora adjust kiya taake internal content fit ho jaye har screen par
-          height: 65.h,
-          child: BottomNavigationBar(
-            currentIndex: getXController.currentIndex.value,
-            onTap: (index) {
-              getXController.onChangedPage(index);
-            },
-            type: BottomNavigationBarType.fixed,
-            // .r icons ke liye scale handle karta hai
-            iconSize: 22.r,
-            selectedItemColor: AppColors.blackColor,
-            // .sp text scaling ke liye
-            selectedFontSize: 11.sp,
-            unselectedItemColor: AppColors.greyColor,
-            unselectedFontSize: 11.sp,
-            items: items,
-          ),
+        () => BottomNavigationBar(
+          currentIndex: getXController.currentIndex.value,
+          onTap: (index) {
+            getXController.onChangedPage(index);
+          },
+          type: BottomNavigationBarType.fixed,
+          // .r icons ke liye scale handle karta hai
+          iconSize: 22.r,
+          selectedItemColor: AppColors.blackColor,
+          // .sp text scaling ke liye
+          selectedFontSize: 11.sp,
+          unselectedItemColor: AppColors.greyColor,
+          unselectedFontSize: 11.sp,
+          items: items,
         ),
       ),
     );
