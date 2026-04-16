@@ -161,7 +161,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
       color: AppColors.blackColor,
       child: Obx(() {
         return ListView.builder(
-          physics: const BouncingScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           itemCount: getXController.warehouses.length,
           itemBuilder: (context, index) {
             final warehouse = getXController.warehouses[index];

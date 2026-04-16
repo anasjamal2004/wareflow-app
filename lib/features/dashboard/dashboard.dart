@@ -43,7 +43,7 @@ class Dashboard extends StatelessWidget {
             },
             color: AppColors.blackColor,
             child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
                   Row(
