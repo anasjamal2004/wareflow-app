@@ -141,10 +141,17 @@ class DashboardController extends GetxController {
 
     if (data != null) {
       await Future.delayed(const Duration(milliseconds: 300));
-      chartLabels.assignAll(data.labels as Iterable<String>);
-      chartValues.assignAll(
-        data.value!.map((item) => item.toDouble()).toList(),
+      if (data.labels != null) {
+      chartLabels.assignAll(
+        data.labels!.map((e) => e.toString()).toList(),
       );
+    }
+
+    if (data.value != null) {
+      chartValues.assignAll(
+        data.value!.map((item) => double.tryParse(item.toString()) ?? 0.0).toList(),
+      );
+    }
     }
   }
 }

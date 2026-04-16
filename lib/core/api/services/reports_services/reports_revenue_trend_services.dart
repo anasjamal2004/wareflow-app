@@ -22,7 +22,9 @@ class ReportsRevenueTrendServices {
       );
 
       if (response.statusCode == 200) {
-        return TrendChartModel.fromJson(response.data);
+        print('🔥 RAW API DATA: ${response.data}');
+        var data = TrendChartModel.fromJson(response.data);
+        return data;
       } else {
         return null;
       }
