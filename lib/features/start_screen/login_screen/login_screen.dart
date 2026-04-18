@@ -75,12 +75,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         label: 'Email',
                         hintText: 'Enter your email',
                         keyboardType: TextInputType.emailAddress,
+                        suffixIcon: Icons.email_outlined,
                       ),
-                      CustomTextField(
-                        controller: getXcontroller.passwordController,
-                        label: 'Password',
-                        hintText: 'Enter your password',
-                        obscureText: true,
+                      Obx(
+                        () => CustomTextField(
+                          controller: getXcontroller.passwordController,
+                          label: 'Password',
+                          hintText: 'Enter your password',
+                          obscureText: getXcontroller.isPasswordHidden.value,
+                          suffixIcon: getXcontroller.isPasswordHidden.value
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          onPressed: () {
+                            getXcontroller.togglePasswordVisibility();
+                          },
+                        ),
                       ),
                       SizedBox(height: 15.h),
                       Obx(

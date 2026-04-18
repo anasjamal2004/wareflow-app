@@ -7,6 +7,7 @@ import 'package:warehouse_management_system/core/constants/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_container.dart';
 import 'package:warehouse_management_system/core/widgets/custom_general_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
+import 'package:warehouse_management_system/features/bottom_navigation/bottom_navi_controller.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
 import 'package:warehouse_management_system/features/start_screen/auth_controller/auth_controller.dart';
 import 'package:warehouse_management_system/features/start_screen/select_warehouse/select_warehouse.dart';
@@ -85,8 +86,9 @@ class Settings extends StatelessWidget {
                 text: 'Switch Warehouse',
                 textColor: AppColors.blackColor,
                 tralingIcon: LucideIcons.arrowLeftCircle,
-                onTap: () {
-                  Navigator.push(
+                onTap: () async {
+                  await Get.delete<BottomNavigationContoller>(force: true);
+                  Navigator.pushReplacement(
                     context,
                     PageTransition(
                       type: PageTransitionType

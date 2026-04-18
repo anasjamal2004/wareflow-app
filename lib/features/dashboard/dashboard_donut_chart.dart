@@ -13,7 +13,7 @@ class DashboardDonutChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color categoryColor(String categoryName) {
-      switch (categoryName.toLowerCase()) {
+      switch (categoryName.trim().toLowerCase()) {
         case 'technology':
           return Colors.grey.shade700;
         case 'storage':

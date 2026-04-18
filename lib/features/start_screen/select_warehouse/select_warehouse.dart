@@ -7,6 +7,7 @@ import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
+import 'package:warehouse_management_system/features/bottom_navigation/bottom_navi_controller.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
 import 'package:warehouse_management_system/features/start_screen/select_warehouse/select_warehouse_controller.dart';
 
@@ -171,11 +172,14 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                 onTap: () async {
                   GetAppStorage.getWarehouseID_Data(warehouse.id);
                   GetAppStorage.saveWarehouseName(warehouse.name);
+                  // yeh pagecontroller or controllers ko delete krdeta hai purne wale
+                  await Get.delete<BottomNavigationContoller>(force: true);
                   // Jab user naviagte karega kisi bhi warehouse may toh usko us specific warehouse ka data show hoga.
                   await Get.delete<DashboardController>(force: true);
-                  Navigator.pushNamed(
+                  Navigator.pushNamedAndRemoveUntil(
                     context,
                     AppRoutes.bottomNavigationScreen,
+                    (route) => false,
                   );
                 },
                 borderRadius: BorderRadius.circular(20.r),

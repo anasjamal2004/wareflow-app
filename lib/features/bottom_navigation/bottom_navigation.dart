@@ -48,9 +48,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
     return Scaffold(
       body: PageView(
         controller: getXController.pageController,
-        onPageChanged: (index) {
-          getXController.currentIndex.value = index;
-        },
         children: _screens,
       ),
       bottomNavigationBar: Obx(

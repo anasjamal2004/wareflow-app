@@ -9,10 +9,16 @@ import 'package:warehouse_management_system/features/start_screen/login_screen/l
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
+  var isPasswordHidden = true.obs;
   String? loginUserToken;
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  // 2. Toggle func for password viewing on textfield
+  void togglePasswordVisibility() {
+    isPasswordHidden.value = !isPasswordHidden.value;
+  }
 
   Future<bool> login() async {
     loginUserToken = null;
@@ -90,12 +96,9 @@ class AuthController extends GetxController {
   Future<bool> logOut(BuildContext context) async {
     try {
       isLoading.value = true;
-      await Future.delayed(Duration(seconds: 2));
+      // await Future.delayed(Duration(seconds: 2)); //fake delay
       //
       GetAppStorage.clearAll(); // Logout func
-      Get.deleteAll(
-        force: true,
-      ); // Sare Controllers memory se delete horhay han.
       Navigator.pushAndRemoveUntil(
         context,
         PageTransition(
@@ -106,6 +109,10 @@ class AuthController extends GetxController {
         ),
         (route) => false, // Stack poora clear!
       );
+
+      Get.deleteAll(
+        force: true,
+      ); // Sare Controllers memory se delete horhay han.
 
       GetXMessage.onSuccess(message: 'Successfully Logout');
       return true;

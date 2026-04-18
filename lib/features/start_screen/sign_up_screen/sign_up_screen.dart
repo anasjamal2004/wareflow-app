@@ -81,11 +81,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hintText: 'Enter your email',
                         keyboardType: TextInputType.emailAddress,
                       ),
-                      CustomTextField(
-                        controller: getXcontroller.passwordController,
-                        label: 'Password',
-                        hintText: 'Create a password',
-                        obscureText: true, // Password hide hona chahiye
+                      Obx(
+                        () => CustomTextField(
+                          controller: getXcontroller.passwordController,
+                          label: 'Password',
+                          hintText: 'Create a password',
+                          obscureText: getXcontroller
+                              .isPasswordHidden
+                              .value, // Password hide hona chahiye
+                          suffixIcon: getXcontroller.isPasswordHidden.value
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          onPressed: () {
+                            getXcontroller.togglePasswordVisibility();
+                          },
+                        ),
                       ),
                       SizedBox(height: 15.h),
                       Obx(

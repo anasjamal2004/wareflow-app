@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:warehouse_management_system/core/widgets/custom_icon.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -8,6 +9,10 @@ class CustomTextField extends StatelessWidget {
   final bool? obscureText;
   final TextInputAction textInputAction;
   final String? Function(String?)? validator;
+  final IconData? suffixIcon;
+  final double? suffixIconSize;
+  final Color? suffixIconColor;
+  final GestureTapCallback? onPressed;
 
   const CustomTextField({
     super.key,
@@ -18,6 +23,10 @@ class CustomTextField extends StatelessWidget {
     this.obscureText,
     this.textInputAction = TextInputAction.next,
     this.validator,
+    this.suffixIcon,
+    this.suffixIconColor,
+    this.suffixIconSize,
+    this.onPressed,
   });
 
   @override
@@ -36,6 +45,13 @@ class CustomTextField extends StatelessWidget {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
           filled: true,
           fillColor: Colors.grey[100],
+          //
+          suffixIcon: CustomIcon(
+            icon: suffixIcon,
+            size: suffixIconSize,
+            color: suffixIconColor,
+            onPressed: onPressed,
+          ),
         ),
       ),
     );

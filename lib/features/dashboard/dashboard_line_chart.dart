@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
 import 'package:warehouse_management_system/core/constants/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
@@ -85,20 +86,23 @@ class _DashboardLineChartState extends State<DashboardLineChart>
               fontSize: 16.sp,
             ),
           ),
-          SizedBox(height: 15.h),
+          SizedBox(height: 10.h),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(left: 5.w, right: 15.w, bottom: 5.h),
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: Obx(() {
                 if (getXController.chartValues.isEmpty) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                    child: LoadingAnimation(loadingColor: AppColors.blackColor),
+                  );
                 }
 
                 double maxVal = getXController.chartValues
                     .reduce((a, b) => a > b ? a : b)
                     .toDouble();
                 if (maxVal == 0) maxVal = 100;
-                double dynamicMaxY = maxVal + (maxVal * 0.2);
+                double dynamicMaxY =
+                    maxVal + (maxVal * 0.2); // Yaha se height change hogi
                 double dynamicInterval = dynamicMaxY / 5;
 
                 return AnimatedBuilder(
@@ -111,8 +115,41 @@ class _DashboardLineChartState extends State<DashboardLineChart>
                   },
                   child: LineChart(
                     LineChartData(
+                      lineTouchData: LineTouchData(
+                        handleBuiltInTouches: true,
+                        touchTooltipData: LineTouchTooltipData(
+                          fitInsideHorizontally:
+                              true, // Tooltip left/right se bahar nahi jayega
+                          fitInsideVertically: true,
+                          getTooltipColor: (touchedSpot) =>
+                              Colors.black.withOpacity(0.8),
+                          tooltipBorderRadius: BorderRadius.circular(8.r),
+                          getTooltipItems: (List<LineBarSpot> touchedSpots) {
+                            return touchedSpots.map((barSpot) {
+                              return LineTooltipItem(
+                                'Revenue: ',
+                                const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: barSpot.y.toString(),
+                                    style: const TextStyle(
+                                      color: Colors.yellow,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }).toList();
+                          },
+                        ),
+                      ),
                       minX: 0,
-                      maxX: (getXController.chartLabels.length - 1).toDouble(),
+                      maxX:
+                          (getXController.chartLabels.length - 1).toDouble() +
+                          0.3, // Yaha se Width change hogi
                       minY: 0,
                       maxY: dynamicMaxY,
                       gridData: FlGridData(
@@ -157,6 +194,7 @@ class _DashboardLineChartState extends State<DashboardLineChart>
                           sideTitles: SideTitles(
                             showTitles: true,
                             interval: 1,
+                            reservedSize: 28.w,
                             getTitlesWidget: (value, meta) {
                               var months = getXController.chartLabels;
                               if (value.toInt() >= 0 &&

@@ -9,12 +9,19 @@ class BottomNavigationContoller extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    pageController = PageController(initialPage: currentIndex.value);
+    print("Page Controller initialized");
+    pageController = PageController(initialPage: 0);
+
+    pageController.addListener(() {
+      // pageController.page yeh decimal(0.0) hota hai .round() laga kr hum ishe integer krte haan.
+      int page = pageController.page?.round() ?? 0;
+      if (currentIndex.value != page) {
+        currentIndex.value = page;
+      }
+    });
   }
 
   void onChangedPage(int index) {
-    currentIndex.value = index;
-
     pageController.animateToPage(
       index,
       duration: const Duration(milliseconds: 300),
