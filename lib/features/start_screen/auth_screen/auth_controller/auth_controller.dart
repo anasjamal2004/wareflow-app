@@ -5,15 +5,21 @@ import 'package:page_transition/page_transition.dart';
 import 'package:warehouse_management_system/core/api/services/auth_services/auth_services.dart';
 import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/widgets/custom_getx_message.dart';
-import 'package:warehouse_management_system/features/start_screen/login_screen/login_screen.dart';
+import 'package:warehouse_management_system/features/start_screen/auth_screen/login_screen/login_screen.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
   var isPasswordHidden = true.obs;
   String? loginUserToken;
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+
+  //sign in controller
+  final signinNameController = TextEditingController();
+  final signinEmailController = TextEditingController();
+  final signinPasswordController = TextEditingController();
+
+  // login Controller
+  final loginEmailController = TextEditingController();
+  final loginPasswordController = TextEditingController();
 
   // 2. Toggle func for password viewing on textfield
   void togglePasswordVisibility() {
@@ -23,7 +29,8 @@ class AuthController extends GetxController {
   Future<bool> login() async {
     loginUserToken = null;
 
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+    if (loginEmailController.text.isEmpty ||
+        loginPasswordController.text.isEmpty) {
       GetXMessage.onError(message: 'Kindly fill the fields correctly');
       return false;
     }
@@ -31,8 +38,8 @@ class AuthController extends GetxController {
     isLoading.value = true;
 
     try {
-      String email = emailController.text.trim();
-      String password = passwordController.text.trim();
+      String email = loginEmailController.text.trim();
+      String password = loginPasswordController.text.trim();
       String? token = await AuthServices().loginUser(email, password);
       if (token != null) {
         loginUserToken = token;
@@ -56,9 +63,9 @@ class AuthController extends GetxController {
     // 1. Reset State (Sabse pehle kachra saaf karo)
 
     // 2. Client-side Validation
-    if (nameController.text.isEmpty ||
-        emailController.text.isEmpty ||
-        passwordController.text.isEmpty) {
+    if (signinNameController.text.isEmpty ||
+        signinEmailController.text.isEmpty ||
+        signinPasswordController.text.isEmpty) {
       GetXMessage.onError(message: 'Kindly fill up all the fields');
       return false;
     }
@@ -67,9 +74,9 @@ class AuthController extends GetxController {
 
     try {
       // 3. Data Preparation
-      String name = nameController.text.trim();
-      String email = emailController.text.trim();
-      String password = passwordController.text.trim();
+      String name = signinNameController.text.trim();
+      String email = signinEmailController.text.trim();
+      String password = signinPasswordController.text.trim();
 
       // 4. API Call (Tumhari Service class ke through)
       // Note: SignupService mein tumhara Ngrok wala URL use hoga
@@ -98,7 +105,16 @@ class AuthController extends GetxController {
       isLoading.value = true;
       // await Future.delayed(Duration(seconds: 2)); //fake delay
       //
-      GetAppStorage.clearAll(); // Logout func
+
+      // 1. Storage saaf karo (Token gaya)
+      GetAppStorage.clearAll();
+
+      // 2. Controllers pehle delete karo (Background activity khatam)
+      // Is se dashboard ya reports ke controllers foran mar jayenge
+      Get.deleteAll(force: true);
+
+      // 3. Navigation sab se aakhir mein
+      if (!context.mounted) return false; // Safety check for context
       Navigator.pushAndRemoveUntil(
         context,
         PageTransition(
@@ -109,10 +125,6 @@ class AuthController extends GetxController {
         ),
         (route) => false, // Stack poora clear!
       );
-
-      Get.deleteAll(
-        force: true,
-      ); // Sare Controllers memory se delete horhay han.
 
       GetXMessage.onSuccess(message: 'Successfully Logout');
       return true;
@@ -125,16 +137,20 @@ class AuthController extends GetxController {
   }
 
   void clearFields() {
-    nameController.clear();
-    emailController.clear();
-    passwordController.clear();
+    signinNameController.clear();
+    signinEmailController.clear();
+    signinPasswordController.clear();
+    loginEmailController.clear();
+    loginPasswordController.clear();
   }
 
   @override
   void onClose() {
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    signinNameController.dispose();
+    signinEmailController.dispose();
+    signinPasswordController.dispose();
+    loginEmailController.dispose();
+    loginPasswordController.dispose();
     super.onClose();
   }
 }

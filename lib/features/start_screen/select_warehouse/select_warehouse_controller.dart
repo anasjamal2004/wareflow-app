@@ -7,7 +7,7 @@ import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/model/warehouse_model/warehouse_list_model.dart';
 
 class SelectWarehouseController extends GetxController {
-  RxList warehouses = <WarehouseListModel>[].obs;
+  RxList<WarehouseListModel> warehouses = <WarehouseListModel>[].obs;
   String warehouseToken = GetAppStorage.readData();
   var isLoading = false.obs;
   final warehouseNameController = TextEditingController();

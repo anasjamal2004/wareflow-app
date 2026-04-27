@@ -20,7 +20,7 @@ class WarehouseListModel {
   }
 
   String? get formattedDate {
-    if (createdAt!.isEmpty) return "N/A";
+    if (createdAt == null || createdAt!.isEmpty) return "N/A";
 
     try {
       DateTime dt = DateTime.parse(

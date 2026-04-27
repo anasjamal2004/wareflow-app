@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // RxBool ke liye zaroori hai
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_app_bar.dart';
 

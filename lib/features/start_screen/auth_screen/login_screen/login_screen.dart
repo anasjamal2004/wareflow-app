@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
-import 'package:warehouse_management_system/core/widgets/custom_getx_message.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
-import 'package:warehouse_management_system/features/start_screen/auth_controller/auth_controller.dart';
+import 'package:warehouse_management_system/features/start_screen/auth_screen/auth_controller/auth_controller.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  // Get.find behtar hai agar AuthController pehle hi Login mein put ho chuka hai
-  final AuthController getXcontroller = Get.find<AuthController>();
+class _LoginScreenState extends State<LoginScreen> {
+  final AuthController getXcontroller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +30,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
           top: false,
           child: Center(
             child: SingleChildScrollView(
+              // SingleChildScrollView keyboard overflow se bachata hai
               physics: const BouncingScrollPhysics(),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Container(
-                  // Fixed height (500) hata di taake content ke mutabiq resize ho
+                  // Height ko 430 se badal kar responsive kiya
                   padding: EdgeInsets.symmetric(
-                    vertical: 25.h,
+                    vertical: 30.h,
                     horizontal: 15.w,
                   ),
                   decoration: BoxDecoration(
@@ -54,7 +53,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ],
                   ),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: MainAxisSize
+                        .min, // Container content ke mutabiq adjust hoga
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomText(
@@ -63,32 +63,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         fontSize: 28.sp,
                         fontWeight: FontWeight.w900,
                       ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: 8.h),
                       CustomText(
-                        text: 'Create an account',
+                        text: 'Welcome back',
                         color: Colors.grey,
                         fontSize: 16.sp,
                       ),
                       SizedBox(height: 15.h),
                       CustomTextField(
-                        controller: getXcontroller.nameController,
-                        label: 'Name',
-                        hintText: 'Enter your full name',
-                      ),
-                      CustomTextField(
-                        controller: getXcontroller.emailController,
+                        controller: getXcontroller.loginEmailController,
                         label: 'Email',
                         hintText: 'Enter your email',
                         keyboardType: TextInputType.emailAddress,
+                        suffixIcon: Icons.email_outlined,
                       ),
                       Obx(
                         () => CustomTextField(
-                          controller: getXcontroller.passwordController,
+                          controller: getXcontroller.loginPasswordController,
                           label: 'Password',
-                          hintText: 'Create a password',
-                          obscureText: getXcontroller
-                              .isPasswordHidden
-                              .value, // Password hide hona chahiye
+                          hintText: 'Enter your password',
+                          obscureText: getXcontroller.isPasswordHidden.value,
                           suffixIcon: getXcontroller.isPasswordHidden.value
                               ? Icons.visibility_off
                               : Icons.visibility,
@@ -100,25 +94,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(height: 15.h),
                       Obx(
                         () => CustomButton(
-                          width: double.infinity,
-                          text: 'Register',
+                          width: double
+                              .infinity, // Button ko container ki full width di hai
+                          text: 'Login',
                           isLoading: getXcontroller.isLoading.value,
                           onPressed: () async {
-                            bool isSuccess = await getXcontroller.signUp();
+                            await getXcontroller.login();
                             if (!mounted) return;
-                            if (isSuccess) {
-                              // Agar signup success hai toh login par bhej do
-                              getXcontroller.clearFields();
-                              Get.offNamed(AppRoutes.loginScreen);
-                              GetXMessage.onSuccess(
-                                message:
-                                    "Account has been created successfully!",
-                              );
-                            } else {
-                              Get.snackbar(
-                                "Error",
-                                "SignUp failed.",
-                                snackPosition: SnackPosition.BOTTOM,
+                            if (getXcontroller.loginUserToken != null) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                AppRoutes.selectWarehouseScreen,
+                                (route) =>
+                                    false, // Ye 'offAll' ka kaam karega (pichli history clear)
+                                arguments: getXcontroller.loginUserToken,
                               );
                             }
                           },
@@ -129,14 +118,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CustomText(
-                            text: "Already have an account? ",
+                            text: "Don't have an account? ",
                             color: Colors.grey,
                             fontSize: 13.sp,
                           ),
                           GestureDetector(
-                            onTap: () => Navigator.pop(context),
+                            onTap: () {
+                              getXcontroller.clearFields();
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.signUpScreen,
+                              );
+                            },
                             child: CustomText(
-                              text: 'Sign in',
+                              text: 'Sign up',
                               color: AppColors.blackColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 13.sp,

@@ -4,18 +4,19 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
+import 'package:warehouse_management_system/features/custom_popup_menu/custom_popup_menu.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_donut_chart.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_line_chart.dart';
 
 class Dashboard extends StatelessWidget {
-  final DashboardController getXController = Get.put(DashboardController());
-  Dashboard({super.key}) {
-    // Data Apne app change hoga real time per
-    getXController.dashboardData();
-  }
+  final DashboardController getXController = Get.put(
+    DashboardController(),
+    permanent: false,
+  );
+  Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class Dashboard extends StatelessWidget {
           fontSize: 24.sp,
           fontWeight: FontWeight.bold,
         ),
+        actions: [CustomPopupMenu()], // Custom Menu hai.
       ),
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(

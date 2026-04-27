@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/features/bottom_navigation/bottom_navigation.dart';
@@ -7,9 +9,11 @@ import 'package:warehouse_management_system/features/dashboard/dashboard.dart';
 import 'package:warehouse_management_system/features/inventory/show_inventory.dart';
 import 'package:warehouse_management_system/features/product_features/add_product.dart';
 import 'package:warehouse_management_system/features/product_features/update_product.dart';
-import 'package:warehouse_management_system/features/start_screen/login_screen/login_screen.dart';
+import 'package:warehouse_management_system/features/start_screen/auth_screen/login_screen/login_screen.dart';
 import 'package:warehouse_management_system/features/start_screen/select_warehouse/select_warehouse.dart';
-import 'package:warehouse_management_system/features/start_screen/sign_up_screen/sign_up_screen.dart';
+import 'package:warehouse_management_system/features/start_screen/auth_screen/sign_up_screen/sign_up_screen.dart';
+import 'package:warehouse_management_system/features/start_screen/splash_screen/splash_screen.dart';
+import 'package:warehouse_management_system/features/start_screen/splash_screen/splash_screen_controller.dart';
 import 'package:warehouse_management_system/features/supplier_features/add_supplier.dart';
 import 'package:warehouse_management_system/features/supplier_features/update_supplier.dart';
 import 'package:warehouse_management_system/features/suppliers/show_supplier_detail.dart';
@@ -32,14 +36,18 @@ class RouteGenerator {
       case AppRoutes.loginScreen:
         return _animatedRoute(LoginScreen(), settings);
 
+      case AppRoutes.splashScreen:
+        Get.put(SplashScreenController());
+        return _animatedRoute(SplashScreen(), settings);
+
       case AppRoutes.signUpScreen:
         return _animatedRoute(SignUpScreen(), settings);
 
       case AppRoutes.selectWarehouseScreen:
         return _animatedRoute(SelectWarehouse(), settings);
 
-      case AppRoutes.bottomNavigationScreen:
-        return _animatedRoute(BottomNavigation(), settings);
+      // case AppRoutes.bottomNavigationScreen:
+      //   return _animatedRoute(BottomNavigation(), settings); // isper baad may kaam hoga
 
       case AppRoutes.addProductScreen:
         return _animatedRoute(AddProduct(), settings);

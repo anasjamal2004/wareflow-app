@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart'; // Added for responsiveness
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/model/inventory_model/inventory_model.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_action_sheet.dart';

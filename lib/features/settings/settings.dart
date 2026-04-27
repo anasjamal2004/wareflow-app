@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_container.dart';
 import 'package:warehouse_management_system/core/widgets/custom_general_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/bottom_navigation/bottom_navi_controller.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
-import 'package:warehouse_management_system/features/start_screen/auth_controller/auth_controller.dart';
+import 'package:warehouse_management_system/features/start_screen/auth_screen/auth_controller/auth_controller.dart';
 import 'package:warehouse_management_system/features/start_screen/select_warehouse/select_warehouse.dart';
 
 class Settings extends StatelessWidget {
@@ -93,7 +93,7 @@ class Settings extends StatelessWidget {
                     PageTransition(
                       type: PageTransitionType
                           .leftToRight, // Professional animation
-                      child: const SelectWarehouse(),
+                      child: SelectWarehouse(),
                       duration: const Duration(milliseconds: 500),
                     ),
                   );

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
+import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/routes/route_generator.dart';
 
 void main() async {
@@ -22,7 +23,7 @@ class WareHouseManagementSystem extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
-          initialRoute: GetAppStorage.checkUserLogin(),
+          initialRoute: AppRoutes.splashScreen,
           onGenerateRoute: RouteGenerator.generateRoute,
           debugShowCheckedModeBanner: false,
           builder: (context, child) {

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // ScreenUtil Import
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/model/supplier_model/supplier_model.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_action_sheet.dart';
@@ -14,11 +15,14 @@ class SupplierTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Logic Audit: Get.put ko Tile ke andar rakhna memory leakage kar sakta hai
+    // agar list bari ho. Filhal as per your request, code change nahi kar raha.
     final SupplierController getXcontroller = Get.put(SupplierController());
-    final double screenSize = MediaQuery.of(context).size.width;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenSize * 0.027),
+      padding: EdgeInsets.symmetric(
+        horizontal: 10.w,
+      ), // Responsive horizontal padding
       child: InkWell(
         onLongPress: () {
           showModalBottomSheet(
@@ -46,16 +50,16 @@ class SupplierTile extends StatelessWidget {
           );
         },
         child: Container(
-          margin: EdgeInsets.only(bottom: screenSize * 0.04),
-          padding: EdgeInsets.all(screenSize * 0.044),
+          margin: EdgeInsets.only(bottom: 15.h), // Responsive margin
+          padding: EdgeInsets.all(16.w), // Responsive padding
           decoration: BoxDecoration(
             color: AppColors.whiteColor,
-            borderRadius: BorderRadius.circular(screenSize * 0.041),
+            borderRadius: BorderRadius.circular(15.r), // Responsive radius
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+                blurRadius: 10.r,
+                offset: Offset(0, 4.h),
               ),
             ],
           ),
@@ -71,35 +75,34 @@ class SupplierTile extends StatelessWidget {
                     child: CustomText(
                       text: supplier.name ?? 'Company Name NA',
                       color: AppColors.blackColor,
-                      fontSize: screenSize * 0.045,
+                      fontSize: 18.sp, // Responsive font
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  // Active Status Badge (Missing in your variables)
                   Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: screenSize * 0.025,
-                      vertical: screenSize * 0.01,
+                      horizontal: 8.w,
+                      vertical: 4.h,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.green.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(screenSize * 0.02),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Row(
                       children: [
                         Container(
-                          width: screenSize * 0.015,
-                          height: screenSize * 0.015,
+                          width: 6.w,
+                          height: 6.h,
                           decoration: const BoxDecoration(
                             color: Colors.green,
                             shape: BoxShape.circle,
                           ),
                         ),
-                        SizedBox(width: screenSize * 0.015),
+                        SizedBox(width: 6.w),
                         CustomText(
                           text: 'active',
                           color: Colors.green,
-                          fontSize: screenSize * 0.03,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ],
@@ -108,50 +111,35 @@ class SupplierTile extends StatelessWidget {
                 ],
               ),
 
-              SizedBox(height: screenSize * 0.02),
+              SizedBox(height: 8.h),
 
               // === 2. Contact Name ===
               CustomText(
                 text: supplier.contactName ?? 'Contact Name NA',
                 color: AppColors.greyColor,
-                fontSize: screenSize * 0.038,
+                fontSize: 14.sp,
               ),
 
-              Divider(
-                color: Colors.grey.withValues(alpha: 0.2),
-                height: screenSize * 0.06,
-              ),
+              Divider(color: Colors.grey.withValues(alpha: 0.2), height: 24.h),
 
               // === 3. Contact Info (Email, Phone, Address) ===
-              _buildInfoRow(
-                Icons.email_outlined,
-                supplier.email ?? 'No Email',
-                screenSize,
-              ),
-              SizedBox(height: screenSize * 0.02),
-              _buildInfoRow(
-                Icons.phone_outlined,
-                supplier.phone.toString(),
-                screenSize,
-              ),
-              SizedBox(height: screenSize * 0.02),
+              _buildInfoRow(Icons.email_outlined, supplier.email ?? 'No Email'),
+              SizedBox(height: 8.h),
+              _buildInfoRow(Icons.phone_outlined, supplier.phone.toString()),
+              SizedBox(height: 8.h),
               _buildInfoRow(
                 Icons.location_on_outlined,
                 supplier.address.toString(),
-                screenSize,
               ),
 
-              Divider(
-                color: Colors.grey.withValues(alpha: 0.2),
-                height: screenSize * 0.06,
-              ),
+              Divider(color: Colors.grey.withValues(alpha: 0.2), height: 24.h),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildStatColumn('Products', '15', screenSize),
-                  _buildStatColumn('Orders', '48', screenSize),
-                  _buildRatingColumn('Rating', '4.8', screenSize),
+                  _buildStatColumn('Products', '15'),
+                  _buildStatColumn('Orders', '48'),
+                  _buildRatingColumn('Rating', '4.8'),
                 ],
               ),
             ],
@@ -161,17 +149,17 @@ class SupplierTile extends StatelessWidget {
     );
   }
 
-  // Helper function to build info rows (Email, Phone, Location) cleanly
-  Widget _buildInfoRow(IconData icon, String text, double screenSize) {
+  // Helper function for info rows
+  Widget _buildInfoRow(IconData icon, String text) {
     return Row(
       children: [
-        Icon(icon, size: screenSize * 0.04, color: Colors.grey.shade600),
-        SizedBox(width: screenSize * 0.02),
+        Icon(icon, size: 16.r, color: Colors.grey.shade600),
+        SizedBox(width: 8.w),
         Expanded(
           child: CustomText(
             text: text,
             color: Colors.grey.shade600,
-            fontSize: screenSize * 0.035,
+            fontSize: 13.sp,
           ),
         ),
       ],
@@ -179,46 +167,37 @@ class SupplierTile extends StatelessWidget {
   }
 
   // Helper function for Products & Orders stats
-  Widget _buildStatColumn(String label, String value, double screenSize) {
+  Widget _buildStatColumn(String label, String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomText(
-          text: label,
-          color: Colors.grey.shade500,
-          fontSize: screenSize * 0.03,
-        ),
-        SizedBox(height: screenSize * 0.01),
+        CustomText(text: label, color: Colors.grey.shade500, fontSize: 11.sp),
+        SizedBox(height: 4.h),
         CustomText(
           text: value,
           color: AppColors.blackColor,
-          fontSize: screenSize * 0.045,
+          fontSize: 16.sp,
           fontWeight: FontWeight.bold,
         ),
       ],
     );
   }
 
-  // Helper function exclusively for Rating to include the Star icon
-  Widget _buildRatingColumn(String label, String value, double screenSize) {
+  // Helper function for Rating
+  Widget _buildRatingColumn(String label, String value) {
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.end, // Align to right like the image
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        CustomText(
-          text: label,
-          color: Colors.grey.shade500,
-          fontSize: screenSize * 0.03,
-        ),
-        SizedBox(height: screenSize * 0.01),
+        CustomText(text: label, color: Colors.grey.shade500, fontSize: 11.sp),
+        SizedBox(height: 4.h),
         Row(
           children: [
-            Icon(Icons.star, color: Colors.amber, size: screenSize * 0.045),
-            SizedBox(width: screenSize * 0.01),
+            Icon(Icons.star, color: Colors.amber, size: 16.r),
+            SizedBox(width: 4.w),
             CustomText(
               text: value,
               color: Colors.black,
-              fontSize: screenSize * 0.045,
+              fontSize: 16.sp,
               fontWeight: FontWeight.bold,
             ),
           ],

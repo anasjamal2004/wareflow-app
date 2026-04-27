@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
+import 'package:warehouse_management_system/core/widgets/custom_getx_message.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
-import 'package:warehouse_management_system/features/start_screen/auth_controller/auth_controller.dart';
+import 'package:warehouse_management_system/features/start_screen/auth_screen/auth_controller/auth_controller.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final AuthController getXcontroller = Get.put(AuthController());
+class _SignUpScreenState extends State<SignUpScreen> {
+  // Get.find behtar hai agar AuthController pehle hi Login mein put ho chuka hai
+  final AuthController getXcontroller = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +32,13 @@ class _LoginScreenState extends State<LoginScreen> {
           top: false,
           child: Center(
             child: SingleChildScrollView(
-              // SingleChildScrollView keyboard overflow se bachata hai
               physics: const BouncingScrollPhysics(),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Container(
-                  // Height ko 430 se badal kar responsive kiya
+                  // Fixed height (500) hata di taake content ke mutabiq resize ho
                   padding: EdgeInsets.symmetric(
-                    vertical: 30.h,
+                    vertical: 25.h,
                     horizontal: 15.w,
                   ),
                   decoration: BoxDecoration(
@@ -53,8 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   child: Column(
-                    mainAxisSize: MainAxisSize
-                        .min, // Container content ke mutabiq adjust hoga
+                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomText(
@@ -63,26 +63,32 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontSize: 28.sp,
                         fontWeight: FontWeight.w900,
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: 5.h),
                       CustomText(
-                        text: 'Welcome back',
+                        text: 'Create an account',
                         color: Colors.grey,
                         fontSize: 16.sp,
                       ),
                       SizedBox(height: 15.h),
                       CustomTextField(
-                        controller: getXcontroller.emailController,
+                        controller: getXcontroller.signinNameController,
+                        label: 'Name',
+                        hintText: 'Enter your full name',
+                      ),
+                      CustomTextField(
+                        controller: getXcontroller.signinEmailController,
                         label: 'Email',
                         hintText: 'Enter your email',
                         keyboardType: TextInputType.emailAddress,
-                        suffixIcon: Icons.email_outlined,
                       ),
                       Obx(
                         () => CustomTextField(
-                          controller: getXcontroller.passwordController,
+                          controller: getXcontroller.signinPasswordController,
                           label: 'Password',
-                          hintText: 'Enter your password',
-                          obscureText: getXcontroller.isPasswordHidden.value,
+                          hintText: 'Create a password',
+                          obscureText: getXcontroller
+                              .isPasswordHidden
+                              .value, // Password hide hona chahiye
                           suffixIcon: getXcontroller.isPasswordHidden.value
                               ? Icons.visibility_off
                               : Icons.visibility,
@@ -94,22 +100,29 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 15.h),
                       Obx(
                         () => CustomButton(
-                          width: double
-                              .infinity, // Button ko container ki full width di hai
-                          text: 'Login',
+                          width: double.infinity,
+                          text: 'Register',
                           isLoading: getXcontroller.isLoading.value,
                           onPressed: () async {
-                            await getXcontroller.login();
+                            bool isSuccess = await getXcontroller.signUp();
                             if (!mounted) return;
-                            if (getXcontroller.loginUserToken != null) {
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                AppRoutes.selectWarehouseScreen,
-                                (route) =>
-                                    false, // Ye 'offAll' ka kaam karega (pichli history clear)
-                                arguments: getXcontroller.loginUserToken,
+                            if (isSuccess) {
+                              // Agar signup success hai toh login par bhej do
+                              getXcontroller.clearFields();
+                              Get.offNamed(AppRoutes.loginScreen);
+                              GetXMessage.onSuccess(
+                                message:
+                                    "Account has been created successfully!",
                               );
                             }
+
+                            // else {
+                            //   Get.snackbar(
+                            //     "Error",
+                            //     "SignUp failed.",
+                            //     snackPosition: SnackPosition.BOTTOM,
+                            //   );
+                            // }
                           },
                         ),
                       ),
@@ -118,20 +131,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CustomText(
-                            text: "Don't have an account? ",
+                            text: "Already have an account? ",
                             color: Colors.grey,
                             fontSize: 13.sp,
                           ),
                           GestureDetector(
-                            onTap: () {
-                              getXcontroller.clearFields();
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.signUpScreen,
-                              );
-                            },
+                            onTap: () => Navigator.pop(context),
                             child: CustomText(
-                              text: 'Sign up',
+                              text: 'Sign in',
                               color: AppColors.blackColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 13.sp,

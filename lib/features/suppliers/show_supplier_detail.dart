@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
-import 'package:warehouse_management_system/core/model/supplier_model/supplier_model.dart'; // Apna model path sahi karo
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // Import lazmi hai
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/model/supplier_model/supplier_model.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/info_display_row.dart';
 
@@ -9,7 +10,6 @@ class ShowSupplier extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Receiving data from SupplierTile screen
     final supplier =
         ModalRoute.of(context)!.settings.arguments as SupplierModel;
 
@@ -21,35 +21,36 @@ class ShowSupplier extends StatelessWidget {
         title: CustomText(
           text: 'Supplier Detail',
           color: AppColors.blackColor,
-          fontSize: 27,
+          fontSize: 27.sp, // Responsive Font
           fontWeight: FontWeight.bold,
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.w), // Responsive Padding
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Top Icon Card
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 60),
+              padding: EdgeInsets.symmetric(
+                vertical: 60.h,
+              ), // Responsive Height
               decoration: BoxDecoration(
                 color: AppColors.whiteColor,
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(15.r), // Responsive Radius
               ),
-              child: const Column(
+              child: Column(
                 children: [
                   Icon(
-                    Icons.business_center_outlined, // Supplier relevant icon
-                    size: 60,
+                    Icons.business_center_outlined,
+                    size: 60.r, // Responsive Icon Size
                     color: AppColors.blueColor,
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 15),
-
+            SizedBox(height: 15.h), // Responsive Gap
             // Name and Contact Header
             Center(
               child: Column(
@@ -57,20 +58,20 @@ class ShowSupplier extends StatelessWidget {
                   CustomText(
                     text: supplier.name ?? "No Name",
                     color: AppColors.blackColor,
-                    fontSize: 28,
+                    fontSize: 28.sp,
                     fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: 5.h),
                   CustomText(
                     text: "Contact: ${supplier.contactName ?? 'N/A'}",
                     color: Colors.grey[600]!,
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w500,
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             // Supplier Information Rows
             InfoDisplayRow(label: "Status", value: supplier.status ?? "N/A"),

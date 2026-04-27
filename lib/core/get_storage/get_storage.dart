@@ -23,6 +23,13 @@ class GetAppStorage {
     return box.read('select_warehouse_name') ?? "";
   }
 
+  static void deleteWarehouseData() {
+    box.remove('select_warehouse_id');
+    box.remove('select_warehouse_name');
+    // ID delete ki (apni sahi key use karna yahan)
+    print("Warehouse data cleared from storage!");
+  }
+
   // warehouse id
   static void getWarehouseID_Data(int warehouseID) {
     box.write('select_warehouse_id', warehouseID);
@@ -36,16 +43,37 @@ class GetAppStorage {
 
   static String checkUserLogin() {
     String userToken = readData();
-    int warehouseID = readWarehouseID_Data();
+    var rawWarehouseID = readWarehouseID_Data();
+    int finalWarehouseID = int.tryParse(rawWarehouseID.toString()) ?? 0;
 
-    // ager warehouse yaha per zero ky equal nhi huwa toh bottomnavigation per navigate krdo
-    if (warehouseID != 0) {
-      return AppRoutes.bottomNavigationScreen;
-    } else if (userToken.isNotEmpty) {
-      return AppRoutes.selectWarehouseScreen;
-    } else {
+    // 🚨 LOGS START HERE - Inhein ignore mat karna!
+    print("==========================================");
+    print("🛠️ APP STARTUP LOGIC CHECK");
+    print("1. TOKEN IN STORAGE: '${userToken.isEmpty ? "EMPTY" : "EXISTS"}'");
+    print(
+      "2. RAW WAREHOUSE FROM BOX: '$rawWarehouseID' (Type: ${rawWarehouseID.runtimeType})",
+    );
+    print("3. FINAL PARSED ID: $finalWarehouseID");
+
+    if (userToken.isEmpty) {
+      print("4. RESULT: Token nahi mila -> AppRoutes.loginScreen");
+      print("==========================================");
       return AppRoutes.loginScreen;
     }
+
+    if (finalWarehouseID > 0) {
+      print(
+        "4. RESULT: Warehouse ID '$finalWarehouseID' mili -> AppRoutes.dashboardScreen",
+      );
+      print("==========================================");
+      return AppRoutes.dashboardScreen;
+    }
+
+    print(
+      "4. RESULT: Token hai par ID 0 hai -> AppRoutes.selectWarehouseScreen",
+    );
+    print("==========================================");
+    return AppRoutes.selectWarehouseScreen;
   }
 
   //Logout func

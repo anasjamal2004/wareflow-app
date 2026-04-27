@@ -9,7 +9,8 @@ import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/model/charts_model/dount_chart_model.dart';
 
 class DashboardController extends GetxController {
-  String get warehouseToken => GetAppStorage.readData();
+  String get warehouseToken =>
+      GetAppStorage.readData(); // basically usertoken hai
   String get warehouseID => GetAppStorage.readWarehouseID_Data().toString();
   String get warehouseName =>
       GetAppStorage.readWarehouseName(); // Settings screen may show karonga
@@ -28,16 +29,28 @@ class DashboardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    dashboardData();
+    if (warehouseToken.isNotEmpty) {
+      dashboardData();
+    }
   }
 
+
+  // yeh Future.Wait ek sath apis ko call karega.
   Future<void> dashboardData() async {
-    await completedOrders();
-    await inventoryValue();
-    await totalRevenue();
-    await activeSupplier();
-    await dountChartData();
-    await lineChartData();
+
+    try {
+      // Sab ko ek sath dawayi pilao
+      await Future.wait([
+        completedOrders(),
+        inventoryValue(),
+        totalRevenue(),
+        activeSupplier(),
+        dountChartData(),
+        lineChartData(),
+      ]);
+    } catch (e) {
+      print("Dashboard Error: $e");
+    }
   }
   //
 
@@ -142,16 +155,16 @@ class DashboardController extends GetxController {
     if (data != null) {
       await Future.delayed(const Duration(milliseconds: 300));
       if (data.labels != null) {
-      chartLabels.assignAll(
-        data.labels!.map((e) => e.toString()).toList(),
-      );
-    }
+        chartLabels.assignAll(data.labels!.map((e) => e.toString()).toList());
+      }
 
-    if (data.value != null) {
-      chartValues.assignAll(
-        data.value!.map((item) => double.tryParse(item.toString()) ?? 0.0).toList(),
-      );
-    }
+      if (data.value != null) {
+        chartValues.assignAll(
+          data.value!
+              .map((item) => double.tryParse(item.toString()) ?? 0.0)
+              .toList(),
+        );
+      }
     }
   }
 }

@@ -2,33 +2,55 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
 
 class DashboardDonutChart extends StatelessWidget {
   final DashboardController getXController = Get.put(DashboardController());
+
   DashboardDonutChart({super.key});
+
+  // 1. Extended Professional Palette (20+ Colors)
+static const List<Color> _colorPalette = [
+  Color(0xFF0D47A1), // Marine Blue (Primary)
+  Color(0xFFD32F2F), // Red (Alert/Critical)
+  Color(0xFF388E3C), // Green (Success/Stable)
+  Color(0xFFFBC02D), // Vivid Yellow (Warning/Caution)
+  Color(0xFF7B1FA2), // Purple (Elegant)
+  Color(0xFF0097A7), // Cyan (Fresh)
+  Color(0xFFE64A19), // Deep Orange (Active)
+  Color(0xFFC2185B), // Pink (Distinct)
+  Color(0xFF1976D2), // Sky Blue (Calm)
+  Color(0xFF689F38), // Light Green (Healthy)
+  Color(0xFFFFA000), // Amber (Highlight)
+  Color(0xFF512DA8), // Deep Purple (Alternative)
+  Color(0xFF00796B), // Teal (Professional)
+  Color(0xFFAFB42B), // Lime (Energy)
+  Color(0xFF5D4037), // Brown (Earth)
+  Color(0xFF455A64), // Blue Grey (Neutral)
+  Color(0xFF303F9F), // Indigo (Deep)
+  Color(0xFFE91E63), // Rose (Flashy)
+  Color(0xFF00ACC1), // Bright Cyan (Electric)
+  Color(0xFF827717), // Olive (Muted)
+  Color(0xFF004D40), // Dark Teal (Strong)
+];
+
+  Color getDynamicColor(String categoryName) {
+    // 1. Standardizing name (Lowercasing + Trimming)
+    String normalizedName = categoryName.trim().toLowerCase();
+    
+    // 2. Hashcode calculation
+    int hash = normalizedName.hashCode;
+    
+    // 3. Modulo operator (Ab list bari hai toh collisions boht kam hongi)
+    int colorIndex = hash.abs() % _colorPalette.length;
+    
+    return _colorPalette[colorIndex];
+  }
 
   @override
   Widget build(BuildContext context) {
-    Color categoryColor(String categoryName) {
-      switch (categoryName.trim().toLowerCase()) {
-        case 'technology':
-          return Colors.grey.shade700;
-        case 'storage':
-          return const Color(0xFF1A1C1E);
-        case 'equipment':
-          return Colors.grey.shade500;
-        case 'packaging':
-          return Colors.grey.shade300;
-        case 'safety':
-          return Colors.grey.shade200;
-        default:
-          return Colors.red;
-      }
-    }
-
     return Container(
       clipBehavior: Clip.antiAlias,
       height: 230.h,
@@ -65,7 +87,6 @@ class DashboardDonutChart extends StatelessWidget {
                   height: 140.h,
                   width: 140.w,
                   child: Obx(() {
-                    // FIX: Animation tab trigger hogi jab hum empty state handle karenge
                     final isDataEmpty =
                         getXController.dountChartlist.isEmpty ||
                         getXController.dountChartValue.value == 0;
@@ -80,14 +101,15 @@ class DashboardDonutChart extends StatelessWidget {
                             ),
                           ]
                         : getXController.dountChartlist.map((item) {
-                            // FIX: Added safety for division by zero
                             final total = getXController.dountChartValue.value;
                             final percentage = total > 0
                                 ? (item.value / total) * 100
                                 : 0.0;
                             return PieChartSectionData(
                               value: percentage,
-                              color: categoryColor(item.category),
+                              color: getDynamicColor(
+                                item.category,
+                              ), // Fix: Dynamic color call
                               radius: 18.r,
                               showTitle: false,
                             );
@@ -121,7 +143,9 @@ class DashboardDonutChart extends StatelessWidget {
                           return _buildLegendItem(
                             item.category,
                             percentage.toStringAsFixed(0),
-                            categoryColor(item.category),
+                            getDynamicColor(
+                              item.category,
+                            ), // Fix: Dynamic color call
                           );
                         }).toList(),
                       ),

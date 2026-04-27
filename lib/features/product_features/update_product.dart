@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';

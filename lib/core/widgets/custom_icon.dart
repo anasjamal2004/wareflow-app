@@ -4,7 +4,7 @@ class CustomIcon extends StatelessWidget {
   final IconData? icon;
   final double? size;
   final Color? color;
-  final GestureTapCallback? onPressed;
+  final VoidCallback? onPressed;
 
   const CustomIcon({
     super.key,

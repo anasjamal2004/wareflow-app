@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // Import ScreenUtil
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
@@ -14,7 +15,9 @@ class UpdateSupplier extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Logic Reminder: Agar Suppliers list se aa rahe ho, toh yahan Get.find use karo
     final SupplierController getXcontroller = Get.put(SupplierController());
+
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
@@ -28,7 +31,7 @@ class UpdateSupplier extends StatelessWidget {
           title: CustomText(
             text: 'Update Supplier',
             color: AppColors.blackColor,
-            fontSize: 27,
+            fontSize: 27.sp, // Responsive font
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -57,7 +60,6 @@ class UpdateSupplier extends StatelessWidget {
                 label: 'Email',
                 hintText: '',
               ),
-
               CustomTextField(
                 controller: getXcontroller.addressController,
                 label: 'Address',
@@ -87,7 +89,10 @@ class UpdateSupplier extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          padding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 15.h,
+          ), // Responsive padding
           decoration: BoxDecoration(color: AppColors.backgroundColor),
           child: SafeArea(
             child: Row(
@@ -102,11 +107,11 @@ class UpdateSupplier extends StatelessWidget {
                     },
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w), // Responsive gap
                 Expanded(
                   child: Obx(
                     () => CustomButton(
-                      text: "Add",
+                      text: "Update", // Fixed: "Add" se "Update" kar diya
                       isLoading: getXcontroller.isLoading.value,
                       onPressed: () async {
                         if (getXcontroller.isLoading.value) return;

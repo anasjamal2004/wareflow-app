@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:warehouse_management_system/core/constants/app_colors.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
+import 'package:warehouse_management_system/core/widgets/custom_app_bar.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
 import 'package:warehouse_management_system/features/bottom_navigation/bottom_navi_controller.dart';
-import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
+import 'package:warehouse_management_system/features/start_screen/auth_screen/auth_controller/auth_controller.dart';
 import 'package:warehouse_management_system/features/start_screen/select_warehouse/select_warehouse_controller.dart';
 
 class SelectWarehouse extends StatefulWidget {
-  const SelectWarehouse({super.key});
+  final AuthController getXAuthController = Get.put(AuthController());
+  SelectWarehouse({super.key});
 
   @override
   State<SelectWarehouse> createState() => _SelectWarehouseState();
@@ -27,16 +30,17 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.backgroundColor,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        title: CustomText(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: CustomAppBar(
           text: 'WAREHOUSES',
-          color: AppColors.blackColor,
-          fontSize: 20.sp,
-          fontWeight: FontWeight.w900,
+          buttonText: 'Logout',
+          icon: LucideIcons.logOut,
+          iconColor: AppColors.whiteColor,
+          containerColor: AppColors.redColor,
+          onTap: () {
+            widget.getXAuthController.logOut(context);
+          },
         ),
       ),
       body: SafeArea(
@@ -168,17 +172,17 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
             final warehouse = getXController.warehouses[index];
             return Padding(
               padding: EdgeInsets.only(bottom: 12.h),
+              // Navigate To BottomNavigation.
               child: InkWell(
                 onTap: () async {
-                  GetAppStorage.getWarehouseID_Data(warehouse.id);
-                  GetAppStorage.saveWarehouseName(warehouse.name);
+                  GetAppStorage.getWarehouseID_Data(warehouse.id ?? 0);
+                  GetAppStorage.saveWarehouseName(warehouse.name ?? "");
                   // yeh pagecontroller or controllers ko delete krdeta hai purne wale
                   await Get.delete<BottomNavigationContoller>(force: true);
-                  // Jab user naviagte karega kisi bhi warehouse may toh usko us specific warehouse ka data show hoga.
-                  await Get.delete<DashboardController>(force: true);
+
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    AppRoutes.bottomNavigationScreen,
+                    AppRoutes.dashboardScreen,
                     (route) => false,
                   );
                 },
