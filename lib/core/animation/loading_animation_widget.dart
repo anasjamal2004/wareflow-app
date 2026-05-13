@@ -5,7 +5,7 @@ import 'package:warehouse_management_system/core/constants/colors/app_colors.dar
 
 class LoadingAnimation extends StatelessWidget {
   final Color? loadingColor;
-  const LoadingAnimation({this.loadingColor = Colors.transparent, super.key});
+  const LoadingAnimation({this.loadingColor, super.key});
 
   @override
   Widget build(BuildContext context) {

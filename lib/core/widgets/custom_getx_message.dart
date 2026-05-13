@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 
 class GetXMessage {
   // 1. SUCCESS METHOD (Top Alert)
@@ -44,7 +45,7 @@ class GetXMessage {
     String title = 'Error', // Default title
     required String message,
   }) {
-    if (Get.isSnackbarOpen) Get.closeCurrentSnackbar();
+    // if (Get.isSnackbarOpen) Get.closeCurrentSnackbar();
 
     Get.snackbar(
       title,
@@ -52,7 +53,7 @@ class GetXMessage {
       snackPosition: SnackPosition.TOP, // Bottom positioning
       // Bottom ke liye bottom navigation bar ke hisaab se thori extra space zaroori hai
       margin: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 25.h),
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.whiteColor,
       colorText: Colors.black87,
       leftBarIndicatorColor: Colors.redAccent, // Fixed color
       icon: Padding(

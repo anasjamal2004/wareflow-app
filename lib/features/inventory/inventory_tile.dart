@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart'; // Added for responsiveness
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/route_manager.dart';
 import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/model/inventory_model/inventory_model.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
@@ -15,7 +16,8 @@ class InventoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AddProductController getXController = Get.put(AddProductController());
+    final AddProductController getXController =
+        Get.find<AddProductController>();
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -31,11 +33,7 @@ class InventoryTile extends StatelessWidget {
               onUpdate: () {
                 getXController.initialData(product);
 
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.updateProductScreen,
-                  arguments: product,
-                );
+                Get.toNamed(AppRoutes.updateProductScreen, arguments: product);
               },
               onDelete: () => getXController.deleteProduct(product.id!),
             ),
@@ -49,8 +47,11 @@ class InventoryTile extends StatelessWidget {
           );
         },
         child: Container(
-          margin: EdgeInsets.only(bottom: 10.h), // Spacing between tiles
-          padding: EdgeInsets.all(16.r), // Internal padding for content
+          // margin: EdgeInsets.only(bottom: 6.h), // Spacing between tiles
+          padding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 20.h,
+          ), // Internal padding for content
           decoration: BoxDecoration(
             color: AppColors.whiteColor,
             borderRadius: BorderRadius.circular(15.r), // Smooth corners
@@ -123,9 +124,21 @@ class InventoryTile extends StatelessWidget {
                                 color: AppColors.greyColor,
                                 fontSize: 13.sp,
                               ),
-                              SizedBox(height: 2.h),
+                              // SizedBox(height: 2.h),
+                              CustomText(
+                                text:
+                                    'Category: ${product.category ?? 'Unknown'}',
+                                color: AppColors.greyColor,
+                                fontSize: 13.sp,
+                              ),
                               CustomText(
                                 text: 'Loc: ${product.location ?? 'Unknown'}',
+                                color: AppColors.greyColor,
+                                fontSize: 13.sp,
+                              ),
+
+                              CustomText(
+                                text: 'Price: ${product.price!.toInt()}',
                                 color: AppColors.greyColor,
                                 fontSize: 13.sp,
                               ),

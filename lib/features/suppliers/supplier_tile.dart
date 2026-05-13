@@ -1,206 +1,217 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart'; // ScreenUtil Import
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/model/supplier_model/supplier_model.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
-import 'package:warehouse_management_system/core/widgets/custom_action_sheet.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/supplier_features/supplier_controller.dart';
 
 class SupplierTile extends StatelessWidget {
-  final SupplierModel supplier;
+  final SupplierModel supplier; // Supplier.dart se data milraha hai single supplier ka
   const SupplierTile({super.key, required this.supplier});
 
   @override
   Widget build(BuildContext context) {
-    // Logic Audit: Get.put ko Tile ke andar rakhna memory leakage kar sakta hai
-    // agar list bari ho. Filhal as per your request, code change nahi kar raha.
-    final SupplierController getXcontroller = Get.put(SupplierController());
+    final SupplierController getXcontroller = Get.find<SupplierController>();
 
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 10.w,
-      ), // Responsive horizontal padding
-      child: InkWell(
-        onLongPress: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (context) => ActionSheetContent(
-              isLoading: getXcontroller.isLoading,
-              title: supplier.name!,
-              onUpdate: () {
-                getXcontroller.initialData(supplier);
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.updateSupplierScreen,
-                  arguments: supplier,
-                );
-              },
-              onDelete: () => getXcontroller.deleteSupplier(supplier.id!),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      child: Container(
+        padding: EdgeInsets.all(16.w),
+        decoration: BoxDecoration(
+          color: AppColors.whiteColor,
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 10.r,
+              offset: Offset(0, 4.h),
             ),
-          );
-        },
-        onTap: () {
-          Navigator.pushNamed(
-            context,
-            AppRoutes.showSupplierScreen,
-            arguments: supplier,
-          );
-        },
-        child: Container(
-          margin: EdgeInsets.only(bottom: 15.h), // Responsive margin
-          padding: EdgeInsets.all(16.w), // Responsive padding
-          decoration: BoxDecoration(
-            color: AppColors.whiteColor,
-            borderRadius: BorderRadius.circular(15.r), // Responsive radius
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 10.r,
-                offset: Offset(0, 4.h),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // === 1. Header Row (Name & Status) ===
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: CustomText(
-                      text: supplier.name ?? 'Company Name NA',
-                      color: AppColors.blackColor,
-                      fontSize: 18.sp, // Responsive font
-                      fontWeight: FontWeight.bold,
-                    ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // === 1. Top Header Row ===
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Company Icon Container
+                Container(
+                  width: 45.w,
+                  height: 45.w,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: Colors.grey.shade300),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 8.w,
-                      vertical: 4.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.green.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 6.w,
-                          height: 6.h,
-                          decoration: const BoxDecoration(
-                            color: Colors.green,
-                            shape: BoxShape.circle,
-                          ),
+                  child: Icon(
+                    Icons.business,
+                    color: Colors.black87,
+                    size: 24.r,
+                  ),
+                ),
+                SizedBox(width: 12.w),
+
+                // Name and Status Badge
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: supplier.name ?? 'Company Name NA',
+                        color: AppColors
+                            .blackColor, // Make sure this is a dark blue/black in your AppColors
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      SizedBox(height: 6.h),
+                      // Active Badge
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 2.h,
                         ),
-                        SizedBox(width: 6.w),
-                        CustomText(
-                          text: 'active',
-                          color: Colors.green,
-                          fontSize: 12.sp,
+                        decoration: BoxDecoration(
+                          color: Colors.greenAccent.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(
+                            20.r,
+                          ), // Fully rounded like image
+                        ),
+                        child: CustomText(
+                          text: supplier.status.toString(),
+                          color: Colors.teal.shade700,
+                          fontSize: 10.sp,
                           fontWeight: FontWeight.bold,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
 
-              SizedBox(height: 8.h),
+                // Action Icons (Edit & Delete)
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        getXcontroller.initialData(supplier);
+                        Get.toNamed(
+                          AppRoutes.updateSupplierScreen,
+                          arguments: supplier,
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(4.w),
+                        child: Icon(
+                          LucideIcons.edit2,
+                          color: Colors.grey.shade500,
+                          size: 20.r,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    InkWell(
+                      onTap: () {
+                        // Confirm dialog logic should go in controller, but calling delete here directly as per your logic
+                        getXcontroller.deleteSupplier(supplier.id!);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(4.w),
+                        child: Icon(
+                          Icons.delete_outline,
+                          color: AppColors.redColor,
+                          size: 20.r,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
 
-              // === 2. Contact Name ===
-              CustomText(
-                text: supplier.contactName ?? 'Contact Name NA',
-                color: AppColors.greyColor,
-                fontSize: 14.sp,
-              ),
+            SizedBox(height: 16.h),
 
-              Divider(color: Colors.grey.withValues(alpha: 0.2), height: 24.h),
+            // === 2. Middle Contact Info Column ===
+            _buildInfoRow(
+              Icons.email_outlined,
+              supplier.email ?? 'No Email',
+              false,
+            ),
+            SizedBox(height: 10.h),
+            _buildInfoRow(
+              Icons.phone_outlined,
+              supplier.phone.toString(),
+              true,
+            ), // Phone is bold in image
+            SizedBox(height: 10.h),
+            _buildInfoRow(
+              Icons.location_on_outlined,
+              supplier.address ?? 'Nothing',
+              false,
+            ),
 
-              // === 3. Contact Info (Email, Phone, Address) ===
-              _buildInfoRow(Icons.email_outlined, supplier.email ?? 'No Email'),
-              SizedBox(height: 8.h),
-              _buildInfoRow(Icons.phone_outlined, supplier.phone.toString()),
-              SizedBox(height: 8.h),
-              _buildInfoRow(
-                Icons.location_on_outlined,
-                supplier.address.toString(),
-              ),
+            SizedBox(height: 16.h),
+            Divider(color: AppColors.blackColor, height: 1, thickness: 1),
+            SizedBox(height: 16.h),
 
-              Divider(color: Colors.grey.withValues(alpha: 0.2), height: 24.h),
+            // === 3. Bottom Footer Row (Rating & UID) ===
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Rating Badge
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 6.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.shade50,
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.star, color: Colors.orange, size: 16.r),
+                      SizedBox(width: 4.w),
+                      CustomText(
+                        text: '3.0', // Replace with supplier.rating if dynamic
+                        color: Colors.orange.shade800,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildStatColumn('Products', '15'),
-                  _buildStatColumn('Orders', '48'),
-                  _buildRatingColumn('Rating', '4.8'),
-                ],
-              ),
-            ],
-          ),
+                // UID Text
+                CustomText(
+                  text: 'UID: ${supplier.id ?? 'N/A'}',
+                  color: Colors.grey.shade600,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 
-  // Helper function for info rows
-  Widget _buildInfoRow(IconData icon, String text) {
+  // ✅ HELPER: Boolean flag added for bold text requirement in the image (Phone number)
+  Widget _buildInfoRow(IconData icon, String text, bool isBold) {
     return Row(
       children: [
-        Icon(icon, size: 16.r, color: Colors.grey.shade600),
-        SizedBox(width: 8.w),
+        Icon(icon, size: 18.r, color: Colors.grey.shade400),
+        SizedBox(width: 12.w),
         Expanded(
           child: CustomText(
             text: text,
-            color: Colors.grey.shade600,
+            color: isBold ? Colors.black87 : Colors.grey.shade700,
             fontSize: 13.sp,
+            fontWeight: isBold ? FontWeight.bold : FontWeight.w500,
           ),
-        ),
-      ],
-    );
-  }
-
-  // Helper function for Products & Orders stats
-  Widget _buildStatColumn(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomText(text: label, color: Colors.grey.shade500, fontSize: 11.sp),
-        SizedBox(height: 4.h),
-        CustomText(
-          text: value,
-          color: AppColors.blackColor,
-          fontSize: 16.sp,
-          fontWeight: FontWeight.bold,
-        ),
-      ],
-    );
-  }
-
-  // Helper function for Rating
-  Widget _buildRatingColumn(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        CustomText(text: label, color: Colors.grey.shade500, fontSize: 11.sp),
-        SizedBox(height: 4.h),
-        Row(
-          children: [
-            Icon(Icons.star, color: Colors.amber, size: 16.r),
-            SizedBox(width: 4.w),
-            CustomText(
-              text: value,
-              color: Colors.black,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ],
         ),
       ],
     );

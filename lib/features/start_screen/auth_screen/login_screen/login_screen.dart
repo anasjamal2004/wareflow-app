@@ -9,15 +9,17 @@ import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/start_screen/auth_screen/auth_controller/auth_controller.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final AuthController getXcontroller = Get.put(
+    AuthController(),
+    permanent: true,
+  );
+  LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final AuthController getXcontroller = Get.put(AuthController());
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -71,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 15.h),
                       CustomTextField(
-                        controller: getXcontroller.loginEmailController,
+                        controller: widget.getXcontroller.loginEmailController,
                         label: 'Email',
                         hintText: 'Enter your email',
                         keyboardType: TextInputType.emailAddress,
@@ -79,15 +81,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Obx(
                         () => CustomTextField(
-                          controller: getXcontroller.loginPasswordController,
+                          controller:
+                              widget.getXcontroller.loginPasswordController,
                           label: 'Password',
                           hintText: 'Enter your password',
-                          obscureText: getXcontroller.isPasswordHidden.value,
-                          suffixIcon: getXcontroller.isPasswordHidden.value
+                          obscureText:
+                              widget.getXcontroller.isPasswordHidden.value,
+                          suffixIcon:
+                              widget.getXcontroller.isPasswordHidden.value
                               ? Icons.visibility_off
                               : Icons.visibility,
                           onPressed: () {
-                            getXcontroller.togglePasswordVisibility();
+                            widget.getXcontroller.togglePasswordVisibility();
                           },
                         ),
                       ),
@@ -97,17 +102,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: double
                               .infinity, // Button ko container ki full width di hai
                           text: 'Login',
-                          isLoading: getXcontroller.isLoading.value,
+                          isLoading: widget.getXcontroller.isLoading.value,
                           onPressed: () async {
-                            await getXcontroller.login();
+                            await widget.getXcontroller.login();
                             if (!mounted) return;
-                            if (getXcontroller.loginUserToken != null) {
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
+                            if (widget.getXcontroller.loginUserToken != null) {
+                              Get.offAllNamed(
                                 AppRoutes.selectWarehouseScreen,
-                                (route) =>
-                                    false, // Ye 'offAll' ka kaam karega (pichli history clear)
-                                arguments: getXcontroller.loginUserToken,
+                                arguments: widget.getXcontroller.loginUserToken,
                               );
                             }
                           },
@@ -124,11 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              getXcontroller.clearFields();
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.signUpScreen,
-                              );
+                              widget.getXcontroller.clearFields();
+                              Get.toNamed(AppRoutes.signUpScreen);
                             },
                             child: CustomText(
                               text: 'Sign up',

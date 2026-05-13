@@ -3,17 +3,20 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/model/supplier_model/supplier_model.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
+import 'package:warehouse_management_system/core/widgets/custom_dropdownmenu.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
 import 'package:warehouse_management_system/features/product_features/product_controller.dart';
 
 class UpdateProduct extends StatelessWidget {
-  const UpdateProduct({super.key});
+  
+  final AddProductController getXcontroller = Get.put(AddProductController());
+  UpdateProduct({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final AddProductController getXcontroller = Get.put(AddProductController());
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -37,8 +40,8 @@ class UpdateProduct extends StatelessWidget {
           child: Column(
             children: [
               CustomTextField(
-                controller: getXcontroller.nameController,
-                label: 'Name',
+                controller: getXcontroller.productNameController,
+                label: 'Product Name',
                 hintText: 'write product name',
               ),
               CustomTextField(
@@ -46,60 +49,47 @@ class UpdateProduct extends StatelessWidget {
                 label: 'Category',
                 hintText: '',
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomTextField(
-                      controller: getXcontroller.skuController,
-                      label: 'SKU',
-                      hintText: 'SKU number',
-                    ),
-                  ),
-                  Expanded(
-                    child: CustomTextField(
-                      controller: getXcontroller.quantityController,
-                      keyboardType: TextInputType.number,
-                      label: 'Quantity',
-                      hintText: '',
-                    ),
-                  ),
-                ],
-              ),
               CustomTextField(
                 controller: getXcontroller.locationController,
                 label: 'Location',
                 hintText: '',
               ),
+              Obx(
+                () => CustomDropdown<SupplierModel>(
+                  hint: 'Select Supplier',
+                  items: getXcontroller.suppliers,
+                  selectedValue: getXcontroller.selectedSupplier.value,
+                  isOpen: getXcontroller.isSupplierDropdownOpen.value,
+                  itemLabel: (supplier) => supplier.name ?? "Unknown",
+                  onSelected: (supplier) =>
+                      getXcontroller.selectSupplier(supplier),
+                  onToggle: () => getXcontroller.toggleSupplierDropdown(),
+                ),
+              ),
               Row(
                 children: [
                   Expanded(
                     child: CustomTextField(
-                      controller: getXcontroller.minStockController,
+                      controller: getXcontroller.quantityController,
                       keyboardType: TextInputType.number,
-                      label: 'Minimum Stock',
+                      label: 'Current Quantity',
                       hintText: '',
                     ),
                   ),
                   Expanded(
                     child: CustomTextField(
-                      controller: getXcontroller.priceController,
+                      controller: getXcontroller.minStockController,
                       keyboardType: TextInputType.number,
-                      label: 'Price',
+                      label: 'Mini. Stock Alert',
                       hintText: '',
                     ),
                   ),
                 ],
               ),
               CustomTextField(
-                controller: getXcontroller.supplierIDController,
+                controller: getXcontroller.priceController,
                 keyboardType: TextInputType.number,
-                label: 'Supplier ID',
-                hintText: '',
-              ),
-              CustomTextField(
-                controller: getXcontroller.warehouseIDController,
-                keyboardType: TextInputType.number,
-                label: 'Warehouse ID',
+                label: 'Price',
                 hintText: '',
               ),
             ],

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
-import 'package:warehouse_management_system/core/routes/route_generator.dart';
+import 'package:warehouse_management_system/core/routes/getx_route_generator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,9 @@ class WareHouseManagementSystem extends StatelessWidget {
       builder: (context, child) {
         return GetMaterialApp(
           initialRoute: AppRoutes.splashScreen,
-          onGenerateRoute: RouteGenerator.generateRoute,
+          getPages: AppPages.pages,
+          defaultTransition: Transition.rightToLeft,
+          transitionDuration: const Duration(milliseconds: 300),
           debugShowCheckedModeBanner: false,
           builder: (context, child) {
             return MediaQuery(

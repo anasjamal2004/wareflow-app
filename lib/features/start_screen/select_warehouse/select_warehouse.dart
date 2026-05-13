@@ -9,12 +9,14 @@ import 'package:warehouse_management_system/core/widgets/custom_app_bar.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
-import 'package:warehouse_management_system/features/bottom_navigation/bottom_navi_controller.dart';
 import 'package:warehouse_management_system/features/start_screen/auth_screen/auth_controller/auth_controller.dart';
 import 'package:warehouse_management_system/features/start_screen/select_warehouse/select_warehouse_controller.dart';
 
 class SelectWarehouse extends StatefulWidget {
   final AuthController getXAuthController = Get.put(AuthController());
+  final SelectWarehouseController getXController = Get.put(
+    SelectWarehouseController(),
+  );
   SelectWarehouse({super.key});
 
   @override
@@ -22,10 +24,6 @@ class SelectWarehouse extends StatefulWidget {
 }
 
 class _SelectWarehouseState extends State<SelectWarehouse> {
-  final SelectWarehouseController getXController = Get.put(
-    SelectWarehouseController(),
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,7 +121,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                 ),
                 SizedBox(height: 15.h),
                 CustomTextField(
-                  controller: getXController.warehouseNameController,
+                  controller: widget.getXController.warehouseNameController,
                   label: "Warehouse Name",
                   hintText: "e.g. Karachi Hub",
                 ),
@@ -134,8 +132,8 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                       child: CustomButton(
                         text: "Cancel",
                         color: Colors.grey[200],
-                        textColor: Colors.black,
-                        onPressed: () => Navigator.pop(context),
+                        textColor: AppColors.blackColor,
+                        onPressed: () => Get.back(),
                       ),
                     ),
                     SizedBox(width: 10.w),
@@ -143,8 +141,9 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                       child: Obx(
                         () => CustomButton(
                           text: "Create",
-                          isLoading: getXController.isLoading.value,
-                          onPressed: () => getXController.createWarehouse(),
+                          isLoading: widget.getXController.isLoading.value,
+                          onPressed: () =>
+                              widget.getXController.createWarehouse(),
                         ),
                       ),
                     ),
@@ -161,15 +160,15 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
   Widget warehousesContainer() {
     return RefreshIndicator(
       onRefresh: () async {
-        await getXController.fetchWarehouses();
+        await widget.getXController.fetchWarehouses();
       },
       color: AppColors.blackColor,
       child: Obx(() {
         return ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: getXController.warehouses.length,
+          itemCount: widget.getXController.warehouses.length,
           itemBuilder: (context, index) {
-            final warehouse = getXController.warehouses[index];
+            final warehouse = widget.getXController.warehouses[index];
             return Padding(
               padding: EdgeInsets.only(bottom: 12.h),
               // Navigate To BottomNavigation.
@@ -178,13 +177,9 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                   GetAppStorage.getWarehouseID_Data(warehouse.id ?? 0);
                   GetAppStorage.saveWarehouseName(warehouse.name ?? "");
                   // yeh pagecontroller or controllers ko delete krdeta hai purne wale
-                  await Get.delete<BottomNavigationContoller>(force: true);
+                  // await Get.delete<BottomNavigationContoller>(force: true);
 
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    AppRoutes.dashboardScreen,
-                    (route) => false,
-                  );
+                  Get.offAllNamed(AppRoutes.bottomNavigationScreen);
                 },
                 borderRadius: BorderRadius.circular(20.r),
                 child: Container(

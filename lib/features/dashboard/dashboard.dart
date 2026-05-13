@@ -6,39 +6,35 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
-import 'package:warehouse_management_system/features/custom_popup_menu/custom_popup_menu.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_donut_chart.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_line_chart.dart';
 
 class Dashboard extends StatelessWidget {
-  final DashboardController getXController = Get.put(
-    DashboardController(),
-    permanent: false,
-  );
+  final DashboardController getXController = Get.put(DashboardController());
   Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.backgroundColor,
-        surfaceTintColor: AppColors.transparentColor,
-        title: CustomText(
-          text: 'Dashboard Overview',
-          color: AppColors.blackColor,
-          fontSize: 24.sp,
-          fontWeight: FontWeight.bold,
-        ),
-        actions: [CustomPopupMenu()], // Custom Menu hai.
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   backgroundColor: AppColors.backgroundColor,
+      //   surfaceTintColor: AppColors.transparentColor,
+      //   title: CustomText(
+      //     text: 'Dashboard Overview',
+      //     color: AppColors.blackColor,
+      //     fontSize: 24.sp,
+      //     fontWeight: FontWeight.bold,
+      //   ),
+      //   actions: [CustomPopupMenu()], // Custom Menu hai.
+      // ),
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         bottom: true,
         top: false,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
           child: RefreshIndicator(
             onRefresh: () async {
               await getXController.dashboardData();

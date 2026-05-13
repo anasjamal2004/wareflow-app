@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
 import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
@@ -12,14 +11,23 @@ class CustomNavButton extends StatelessWidget {
   final VoidCallback
   onTap; // GestureTapCallback ki jagah VoidCallback zyada common hai
   final Color? containerColor;
+  final double? height;
+  final double? width;
+  final Color? iconColor;
+  final double? fontSize;
+  final FontWeight? fontWeight;
 
   const CustomNavButton({
     required this.text,
     required this.onTap,
     required this.icon, // Ab ye reusable hai
     super.key,
-    required Color iconColor,
+    this.iconColor,
     this.containerColor,
+    this.height,
+    this.width,
+    this.fontSize,
+    this.fontWeight,
   });
 
   @override
@@ -28,8 +36,8 @@ class CustomNavButton extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(10.r), // Inkwell effect ke liye
       child: Container(
-        height: 40.h, // ScreenUtil use karo responsiveness ke liye
-        width: 120.w,
+        height: height ?? 40.h, // ScreenUtil use karo responsiveness ke liye
+        width: width ?? 120.w,
         decoration: BoxDecoration(
           color: containerColor,
           borderRadius: BorderRadius.circular(10.r),
@@ -38,13 +46,13 @@ class CustomNavButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center, // Vertical center
           children: [
-            Icon(LucideIcons.logOut, color: AppColors.whiteColor, size: 18.sp),
+            Icon(icon, color: iconColor, size: 18.sp),
             SizedBox(width: 7.w), // Icon aur Text ke beech gap
             CustomText(
               text: text,
               color: AppColors.whiteColor,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w700,
+              fontSize: fontSize ?? 16.sp,
+              fontWeight: fontWeight ?? FontWeight.w700,
             ),
           ],
         ),

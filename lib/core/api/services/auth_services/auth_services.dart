@@ -45,19 +45,8 @@ class AuthServices {
         return null;
       }
     } on DioException catch (e) {
-      // yaha per api client ka error catch hoga.
-      String errorMSG;
-
-      if (e.response != null) {
-        // error jo server dega
-        errorMSG = e.response?.data['detail'];
-        print('Login Error: $errorMSG');
-      } else {
-        errorMSG = 'Server is not responding';
-      }
-
-      //if-else may se jo true hoga wooh error agye throw hojaega.
-      throw errorMSG;
+      print("Login Error: ${e.response?.statusCode} - ${e.message}");
+      rethrow;
     }
   }
 
@@ -75,15 +64,8 @@ class AuthServices {
         return true;
       }
     } on DioException catch (e) {
-      String errorMSG;
-      if (e.response != null) {
-        errorMSG = e.response?.data['detail'];
-        print('Sign In Error: $errorMSG');
-      } else {
-        errorMSG = 'Server is not responding';
-      }
-
-      throw errorMSG;
+      print("Sign in Error: ${e.response?.statusCode} - ${e.message}");
+      rethrow;
     }
     return false;
   }

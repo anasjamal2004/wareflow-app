@@ -1,9 +1,9 @@
 class SupplierModel {
   String? name;
-  String? contactName;
   String? email;
-  int? phone;
+  String? phone;
   String? address;
+  String? contactName;
   String? status;
   int? rating;
   int? id;
@@ -23,10 +23,10 @@ class SupplierModel {
 
   SupplierModel.fromJson(Map<String, dynamic> json) {
     name = json['name']?.toString();
-    contactName = json['contact_name']?.toString();
     email = json['email']?.toString();
-    phone = int.tryParse(json['phone'].toString());
+    phone = json['phone'].toString();
     address = json['address']?.toString();
+    contactName = json['contact_name']?.toString();
     status = json['status']?.toString();
     rating = double.tryParse(json['rating'].toString())?.toInt();
     id = int.tryParse(json['id'].toString());
@@ -35,15 +35,15 @@ class SupplierModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['contact_name'] = contactName;
-    data['email'] = email;
-    data['phone'] = phone;
-    data['address'] = address;
-    data['status'] = status;
-    data['rating'] = rating;
-    data['id'] = id;
-    data['warehouse_id'] = warehouseId;
+    if (name != null) data['name'] = name;
+    if (contactName != null) data['contact_name'] = contactName;
+    if (email != null) data['email'] = email;
+    if (address != null) data['address'] = address;
+    if (phone != null) data['phone'] = phone;
+    if (status != null) data['status'] = status;
+    if (rating != null) data['rating'] = rating;
+    if (id != null) data['id'] = id;
+    if (warehouseId != null) data['warehouse_id'] = warehouseId;
     return data;
   }
 }

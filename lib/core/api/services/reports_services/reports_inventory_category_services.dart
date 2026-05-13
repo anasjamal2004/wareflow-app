@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:warehouse_management_system/core/api/api_client/api_client.dart';
+import 'package:warehouse_management_system/core/api/api_client/api_error_handler.dart';
 import 'package:warehouse_management_system/core/model/charts_model/dount_chart_model.dart';
 
 class ReportsInventoryCategoryServices {
@@ -28,8 +29,8 @@ class ReportsInventoryCategoryServices {
         return [];
       }
     } on DioException catch (e) {
-      print("Chart API Error: ${e.response?.statusCode} - ${e.message}");
-      return [];
+      print("Reports Inventory Category Services Error: ${e.response?.statusCode} - ${e.message}");
+      rethrow;
     }
   }
 }

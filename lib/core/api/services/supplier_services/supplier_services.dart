@@ -6,32 +6,83 @@ class SupplierServices {
   final Dio _dio = ApiClient().dio;
 
   Future<List<SupplierModel>?> getSuppliers(
-    String token,
     int warehouseID,
   ) async {
     try {
       Response response = await _dio.get(
         ApiEndpoints.suppliers,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Accept': 'application/json',
-            'x-warehouse-id': warehouseID.toString(),
-          },
-        ),
+        options: Options(headers: {'x-warehouse-id': warehouseID.toString()}),
       );
 
       print("DEBUG: API Status Code: ${response.statusCode}");
       print("DEBUG: Raw Response Data: ${response.data}");
-      if (response.statusCode == 200) {
-        List data = response.data;
-        return data.map((item) => SupplierModel.fromJson(item)).toList();
-      } else {
-        return [];
-      }
-    } on DioException catch (e) {
-      print("GET Supplier Error: ${e.response?.statusCode} - ${e.message}");
-      return [];
+      List data = response.data;
+      return data.map((item) => SupplierModel.fromJson(item)).toList();
+    } catch (e) {
+      // print("GET Supplier Error: ${e.response?.statusCode} - ${e.message}");
+      rethrow;
+    }
+  }
+
+  Future<SupplierModel> postSupplier({
+    required int warehouseID,
+    required SupplierModel supplierData,
+  }) async {
+    try {
+      Response response = await _dio.post(
+        ApiEndpoints.suppliers,
+        data: supplierData.toJson(), // data server may jaega
+        options: Options(headers: {'x-warehouse-id': warehouseID.toString()}),
+      );
+
+      print("DEBUG: API Status Code: ${response.statusCode}");
+      print("DEBUG: Raw Response Data: ${response.data}");
+      print("KACHRA CHECK: ${supplierData.toJson()}");
+      var data = response.data;
+      return SupplierModel.fromJson(data);
+    } catch (e) {
+      // print("GET Supplier Error: ${e.response?.statusCode} - ${e.message}");
+      rethrow;
+    }
+  }
+
+  Future<SupplierModel> putSupplier({
+    required int warehouseID,
+    required SupplierModel supplierData,
+    required int supplierId,
+  }) async {
+    try {
+      Response response = await _dio.put(
+        '${ApiEndpoints.suppliers}$supplierId',
+        data: supplierData.toJson(), // data server may jaega
+        options: Options(headers: {'x-warehouse-id': warehouseID.toString()}),
+      );
+
+      print("DEBUG: API Status Code: ${response.statusCode}");
+      print("DEBUG: Raw Response Data: ${response.data}");
+      var data = response.data;
+      return SupplierModel.fromJson(data);
+    } catch (e) {
+      // print("GET Supplier Error: ${e.response?.statusCode} - ${e.message}");
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteSupplier({
+    required int supplierId,
+    required int warehouseID,
+  }) async {
+    try {
+      Response response = await _dio.delete(
+        '${ApiEndpoints.suppliers}$supplierId',
+        options: Options(headers: {'x-warehouse-id': warehouseID.toString()}),
+      );
+
+      print("DEBUG: API Status Code: ${response.statusCode}");
+      return true;
+    } catch (e) {
+      // print("GET Supplier Error: ${e.response?.statusCode} - ${e.message}");
+      rethrow;
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:get/state_manager.dart';
+import 'package:warehouse_management_system/core/api/api_client/api_error_handler.dart';
 import 'package:warehouse_management_system/core/api/services/inventory_services/inventory_services.dart';
 import 'package:warehouse_management_system/core/api/services/order_services/order_services.dart';
 import 'package:warehouse_management_system/core/api/services/reports_services/reports_inventory_category_services.dart';
@@ -34,10 +35,8 @@ class DashboardController extends GetxController {
     }
   }
 
-
   // yeh Future.Wait ek sath apis ko call karega.
   Future<void> dashboardData() async {
-
     try {
       // Sab ko ek sath dawayi pilao
       await Future.wait([
@@ -50,6 +49,7 @@ class DashboardController extends GetxController {
       ]);
     } catch (e) {
       print("Dashboard Error: $e");
+      ApiError.handler(e);
     }
   }
   //
@@ -57,10 +57,9 @@ class DashboardController extends GetxController {
   Future<void> completedOrders() async {
     // print("DEBUG: Fetching for Warehouse ID: $warehouseID");
     var allOrders = await OrderServices().getOrders(
-      warehouseToken,
-      int.parse(warehouseID),
+      warehouseID: int.parse(warehouseID),
     );
-
+    // isme check hoga ky har Orders ka status == 'completed'
     if (allOrders != null && allOrders.isNotEmpty) {
       completedOrdersData.value = allOrders
           .where((item) => item.status.toString().toLowerCase() == 'completed')
@@ -70,8 +69,7 @@ class DashboardController extends GetxController {
 
   Future<void> inventoryValue() async {
     var allInventoryValue = await InventoryServices().getInventory(
-      warehouseToken,
-      int.parse(warehouseID),
+      warehouseID: int.parse(warehouseID),
     );
 
     double totalTempValue = 0.0;
@@ -90,8 +88,7 @@ class DashboardController extends GetxController {
 
   Future<void> totalRevenue() async {
     var allTotalRevenue = await OrderServices().getOrders(
-      warehouseToken,
-      int.parse(warehouseID),
+      warehouseID: int.parse(warehouseID),
     );
 
     double totalTempRevenue = 0.0;
@@ -111,7 +108,6 @@ class DashboardController extends GetxController {
 
   Future<void> activeSupplier() async {
     var allActiveSuppliers = await SupplierServices().getSuppliers(
-      warehouseToken,
       int.parse(warehouseID),
     );
 

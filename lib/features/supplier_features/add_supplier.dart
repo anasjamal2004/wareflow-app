@@ -15,7 +15,7 @@ class AddSupplier extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get.find use karna behtar tha agar Suppliers screen se aa rahe ho, 
+    // Get.find use karna behtar tha agar Suppliers screen se aa rahe ho,
     // lekin tumne put likha hai toh abhi yehi rehne dete hain.
     final SupplierController getXcontroller = Get.put(SupplierController());
 
@@ -26,71 +26,48 @@ class AddSupplier extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: AppColors.backgroundColor,
           surfaceTintColor: AppColors.transparentColor,
           scrolledUnderElevation: 0,
           title: CustomText(
-            text: 'Add Supplier',
+            text: 'New Supplier',
             color: AppColors.blackColor,
-            fontSize: 27.sp, // Responsive Font
+            fontSize: 24.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
         backgroundColor: AppColors.backgroundColor,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              CustomTextField(
-                controller: getXcontroller.nameController,
-                label: 'Name',
-                hintText: '',
-              ),
-              CustomTextField(
-                controller: getXcontroller.contactNameController,
-                label: 'Contact Name',
-                hintText: '',
-              ),
-              CustomTextField(
-                controller: getXcontroller.phoneController,
-                keyboardType: TextInputType.number,
-                label: 'Phone Number',
-                hintText: '',
-              ),
-              CustomTextField(
-                controller: getXcontroller.emailController,
-                label: 'Email',
-                hintText: '',
-              ),
-              CustomTextField(
-                controller: getXcontroller.addressController,
-                label: 'Address',
-                hintText: '',
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomTextField(
-                      controller: getXcontroller.supplierIDController,
-                      keyboardType: TextInputType.number,
-                      label: 'Supplier ID',
-                      hintText: '',
-                    ),
-                  ),
-                  Expanded(
-                    child: CustomTextField(
-                      controller: getXcontroller.warehouseIDController,
-                      keyboardType: TextInputType.number,
-                      label: 'Warehouse ID',
-                      hintText: '',
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+        body: Column(
+          children: [
+            CustomTextField(
+              controller: getXcontroller.companyNameController,
+              label: 'Company Name',
+              hintText: '',
+            ),
+            CustomTextField(
+              controller: getXcontroller.emailController,
+              label: 'Email',
+              hintText: '',
+            ),
+            CustomTextField(
+              controller: getXcontroller.phoneController,
+              keyboardType: TextInputType.number,
+              label: 'Phone Number',
+              hintText: '',
+            ),
+            CustomTextField(
+              controller: getXcontroller.addressController,
+              label: 'Full Address',
+              hintText: '',
+            ),
+          ],
         ),
         bottomNavigationBar: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h), // Responsive Padding
+          padding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 15.h,
+          ), // Responsive Padding
           decoration: BoxDecoration(color: AppColors.backgroundColor),
           child: SafeArea(
             child: Row(

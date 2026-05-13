@@ -11,13 +11,12 @@ import 'package:warehouse_management_system/core/widgets/custom_text_field.dart'
 import 'package:warehouse_management_system/features/supplier_features/supplier_controller.dart';
 
 class UpdateSupplier extends StatelessWidget {
-  const UpdateSupplier({super.key});
+  // Logic Reminder: Agar Suppliers list se aa rahe ho, toh yahan Get.find use karo
+  final SupplierController getXcontroller = Get.put(SupplierController());
+  UpdateSupplier({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Logic Reminder: Agar Suppliers list se aa rahe ho, toh yahan Get.find use karo
-    final SupplierController getXcontroller = Get.put(SupplierController());
-
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
@@ -25,68 +24,42 @@ class UpdateSupplier extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: AppColors.backgroundColor,
           surfaceTintColor: AppColors.transparentColor,
           scrolledUnderElevation: 0,
           title: CustomText(
             text: 'Update Supplier',
             color: AppColors.blackColor,
-            fontSize: 27.sp, // Responsive font
+            fontSize: 24.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
         backgroundColor: AppColors.backgroundColor,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              CustomTextField(
-                controller: getXcontroller.nameController,
-                label: 'Name',
-                hintText: '',
-              ),
-              CustomTextField(
-                controller: getXcontroller.contactNameController,
-                label: 'Contact Name',
-                hintText: '',
-              ),
-              CustomTextField(
-                controller: getXcontroller.phoneController,
-                keyboardType: TextInputType.number,
-                label: 'Phone Number',
-                hintText: '',
-              ),
-              CustomTextField(
-                controller: getXcontroller.emailController,
-                label: 'Email',
-                hintText: '',
-              ),
-              CustomTextField(
-                controller: getXcontroller.addressController,
-                label: 'Address',
-                hintText: '',
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomTextField(
-                      controller: getXcontroller.supplierIDController,
-                      keyboardType: TextInputType.number,
-                      label: 'Supplier ID',
-                      hintText: '',
-                    ),
-                  ),
-                  Expanded(
-                    child: CustomTextField(
-                      controller: getXcontroller.warehouseIDController,
-                      keyboardType: TextInputType.number,
-                      label: 'Warehouse ID',
-                      hintText: '',
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+        body: Column(
+          children: [
+            CustomTextField(
+              controller: getXcontroller.companyNameController,
+              label: 'Company Name',
+              hintText: '',
+            ),
+            CustomTextField(
+              controller: getXcontroller.emailController,
+              label: 'Email',
+              hintText: '',
+            ),
+            CustomTextField(
+              controller: getXcontroller.phoneController,
+              keyboardType: TextInputType.number,
+              label: 'Phone Number',
+              hintText: '',
+            ),
+            CustomTextField(
+              controller: getXcontroller.addressController,
+              label: 'Full Address',
+              hintText: '',
+            ),
+          ],
         ),
         bottomNavigationBar: Container(
           padding: EdgeInsets.symmetric(

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:warehouse_management_system/core/api/api_client/api_error_handler.dart';
 import 'package:warehouse_management_system/core/api/services/auth_services/auth_services.dart';
 import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
+import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_getx_message.dart';
-import 'package:warehouse_management_system/features/start_screen/auth_screen/login_screen/login_screen.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
@@ -45,13 +45,12 @@ class AuthController extends GetxController {
         loginUserToken = token;
         GetXMessage.onSuccess(message: 'SuccessFully Login');
         GetAppStorage.getData(loginUserToken);
-        clearFields();
         return true;
       }
       return false;
     } catch (e) {
       print('Something Went Wrong: $e');
-      GetXMessage.onError(message: e.toString());
+      ApiError.handler(e);
       return false;
     } finally {
       isLoading.value = false;
@@ -85,13 +84,12 @@ class AuthController extends GetxController {
       if (isSuccess != false) {
         // Token save kiya
         GetXMessage.onSuccess(message: 'Account Created! Welcome to WareFlow.');
-        clearFields();
         return true;
       }
       return false;
     } catch (e) {
       print('Something Went Wrong: $e');
-      GetXMessage.onError(message: e.toString());
+      ApiError.handler(e);
       return false;
     } finally {
       isLoading.value = false;
@@ -111,20 +109,11 @@ class AuthController extends GetxController {
 
       // 2. Controllers pehle delete karo (Background activity khatam)
       // Is se dashboard ya reports ke controllers foran mar jayenge
-      Get.deleteAll(force: true);
-
+      // Get.deleteAll(force: true);
+      clearFields();
       // 3. Navigation sab se aakhir mein
       if (!context.mounted) return false; // Safety check for context
-      Navigator.pushAndRemoveUntil(
-        context,
-        PageTransition(
-          child: const LoginScreen(),
-          type: PageTransitionType.leftToRight,
-          duration: const Duration(milliseconds: 500),
-          alignment: Alignment.center,
-        ),
-        (route) => false, // Stack poora clear!
-      );
+      Get.offAllNamed(AppRoutes.loginScreen);
 
       GetXMessage.onSuccess(message: 'Successfully Logout');
       return true;

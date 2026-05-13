@@ -4,22 +4,19 @@ import 'package:get/get.dart';
 import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
-import 'package:warehouse_management_system/core/widgets/custom_getx_message.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/start_screen/auth_screen/auth_controller/auth_controller.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+  final AuthController getXcontroller = Get.find<AuthController>();
+  SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  // Get.find behtar hai agar AuthController pehle hi Login mein put ho chuka hai
-  final AuthController getXcontroller = Get.find<AuthController>();
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -71,29 +68,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: 15.h),
                       CustomTextField(
-                        controller: getXcontroller.signinNameController,
+                        controller: widget.getXcontroller.signinNameController,
                         label: 'Name',
                         hintText: 'Enter your full name',
                       ),
                       CustomTextField(
-                        controller: getXcontroller.signinEmailController,
+                        controller: widget.getXcontroller.signinEmailController,
                         label: 'Email',
                         hintText: 'Enter your email',
                         keyboardType: TextInputType.emailAddress,
                       ),
                       Obx(
                         () => CustomTextField(
-                          controller: getXcontroller.signinPasswordController,
+                          controller:
+                              widget.getXcontroller.signinPasswordController,
                           label: 'Password',
                           hintText: 'Create a password',
-                          obscureText: getXcontroller
+                          obscureText: widget
+                              .getXcontroller
                               .isPasswordHidden
                               .value, // Password hide hona chahiye
-                          suffixIcon: getXcontroller.isPasswordHidden.value
+                          suffixIcon:
+                              widget.getXcontroller.isPasswordHidden.value
                               ? Icons.visibility_off
                               : Icons.visibility,
                           onPressed: () {
-                            getXcontroller.togglePasswordVisibility();
+                            widget.getXcontroller.togglePasswordVisibility();
                           },
                         ),
                       ),
@@ -102,18 +102,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         () => CustomButton(
                           width: double.infinity,
                           text: 'Register',
-                          isLoading: getXcontroller.isLoading.value,
+                          isLoading: widget.getXcontroller.isLoading.value,
                           onPressed: () async {
-                            bool isSuccess = await getXcontroller.signUp();
+                            bool isSuccess = await widget.getXcontroller
+                                .signUp();
                             if (!mounted) return;
                             if (isSuccess) {
                               // Agar signup success hai toh login par bhej do
-                              getXcontroller.clearFields();
+                              widget.getXcontroller.clearFields();
                               Get.offNamed(AppRoutes.loginScreen);
-                              GetXMessage.onSuccess(
-                                message:
-                                    "Account has been created successfully!",
-                              );
                             }
 
                             // else {
@@ -136,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             fontSize: 13.sp,
                           ),
                           GestureDetector(
-                            onTap: () => Navigator.pop(context),
+                            onTap: () => Get.back(),
                             child: CustomText(
                               text: 'Sign in',
                               color: AppColors.blackColor,

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:warehouse_management_system/core/api/api_client/api_client.dart';
+import 'package:warehouse_management_system/core/api/api_client/api_error_handler.dart';
 import 'package:warehouse_management_system/core/model/charts_model/trend_chart_model.dart';
 
 class ReportsRevenueTrendServices {
@@ -29,8 +30,8 @@ class ReportsRevenueTrendServices {
         return null;
       }
     } on DioException catch (e) {
-      print("Chart API Error: ${e.response?.statusCode} - ${e.message}");
-      return null;
+      print("Reports revenue Trend Error: ${e.response?.statusCode} - ${e.message}");
+      rethrow;
     }
   }
 }

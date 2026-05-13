@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_icon.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -32,7 +34,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 12.h),
       child: TextFormField(
         obscureText: obscureText ?? false,
         controller: controller,
@@ -42,9 +44,9 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           labelText: label,
           hintText: hintText,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0.r)),
           filled: true,
-          fillColor: Colors.grey[100],
+          fillColor: AppColors.lightGrey,
           //
           suffixIcon: CustomIcon(
             icon: suffixIcon,
