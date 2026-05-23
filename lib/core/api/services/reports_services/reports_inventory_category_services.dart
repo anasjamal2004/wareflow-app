@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:warehouse_management_system/core/api/api_client/api_client.dart';
-import 'package:warehouse_management_system/core/api/api_client/api_error_handler.dart';
 import 'package:warehouse_management_system/core/model/charts_model/dount_chart_model.dart';
 
 class ReportsInventoryCategoryServices {
@@ -13,13 +12,7 @@ class ReportsInventoryCategoryServices {
     try {
       Response response = await _dio.get(
         ApiEndpoints.reportInventoryCategory,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Accept': 'application/json',
-            'x-warehouse-id': warehouseID.toString(),
-          },
-        ),
+        options: Options(headers: {'x-warehouse-id': warehouseID.toString()}),
       );
 
       if (response.statusCode == 200) {
@@ -29,7 +22,9 @@ class ReportsInventoryCategoryServices {
         return [];
       }
     } on DioException catch (e) {
-      print("Reports Inventory Category Services Error: ${e.response?.statusCode} - ${e.message}");
+      print(
+        "Reports Inventory Category Services Error: ${e.response?.statusCode} - ${e.message}",
+      );
       rethrow;
     }
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart'; // Added for responsiveness
-import 'package:get/get_core/src/get_main.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
@@ -8,7 +7,7 @@ import 'package:warehouse_management_system/core/model/inventory_model/inventory
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_action_sheet.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
-import 'package:warehouse_management_system/features/product_features/product_controller.dart';
+import 'package:warehouse_management_system/features/product_features/inventory_controller.dart';
 
 class InventoryTile extends StatelessWidget {
   final InventoryModel product;
@@ -137,29 +136,40 @@ class InventoryTile extends StatelessWidget {
                                 fontSize: 13.sp,
                               ),
 
-                              CustomText(
-                                text: 'Price: ${product.price!.toInt()}',
-                                color: AppColors.greyColor,
-                                fontSize: 13.sp,
-                              ),
+                              // CustomText(
+                              //   text: 'Price: ${product.price!.toInt()}',
+                              //   color: AppColors.greyColor,
+                              //   fontSize: 13.sp,
+                              // ),
                             ],
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 14.w,
-                            vertical: 6.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.greenColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: CustomText(
-                            text: 'In Stock',
-                            color: AppColors.greenColor,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 14.w,
+                                vertical: 6.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.greenColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              child: CustomText(
+                                text: 'In Stock',
+                                color: AppColors.greenColor,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 10.h),
+                            CustomText(
+                              text: 'Price: ${product.price!.toInt()}',
+                              color: AppColors.greyColor,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ],
                         ),
                       ],
                     ),

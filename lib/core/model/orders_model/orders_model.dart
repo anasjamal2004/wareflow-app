@@ -11,51 +11,45 @@ class OrderModel {
   List<OrderItem>? items;
 
   OrderModel({
-    this.orderType,
-    this.supplierId,
-    this.totalValue,
+    required this.orderType,
+    this.supplierId,       
+    required this.totalValue,
     this.status,
     this.notes,
     this.id,
     this.orderNumber,
     this.orderDate,
     this.warehouseId,
-    this.items,
+    required this.items,
   });
 
-  OrderModel.fromJson(Map<String, dynamic> json) {
-    orderType = json['order_type'];
-    supplierId = json['supplier_id'];
-    totalValue = json['total_value'];
-    status = json['status'];
-    notes = json['notes'];
-    id = json['id'];
-    orderNumber = json['order_number'];
-    orderDate = json['order_date'];
-    warehouseId = json['warehouse_id'];
-    if (json['items'] != null) {
-      items = <OrderItem>[];
-      json['items'].forEach((v) {
-        items!.add(OrderItem.fromJson(v));
-      });
-    }
+  factory OrderModel.fromJson(Map<String, dynamic> json) {
+    return OrderModel(
+      orderType: json['order_type'],
+      supplierId: json['supplier_id'],
+      totalValue: json['total_value'],
+      status: json['status'],
+      notes: json['notes'],
+      id: json['id'],
+      orderNumber: json['order_number'],
+      orderDate: json['order_date'],
+      warehouseId: json['warehouse_id'],
+      items: json['items'] != null
+          ? (json['items'] as List).map((i) => OrderItem.fromJson(i)).toList()
+          : [],
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['order_type'] = orderType;
-    data['supplier_id'] = supplierId;
-    data['total_value'] = totalValue;
-    data['status'] = status;
-    data['notes'] = notes;
-    data['id'] = id;
-    data['order_number'] = orderNumber;
-    data['order_date'] = orderDate;
-    data['warehouse_id'] = warehouseId;
-    if (items != null) {
-      data['items'] = items!.map((v) => v.toJson()).toList();
-    }
-    return data;
+    return {
+      'order_type': orderType?.toLowerCase(), // API demands lowercase 'inbound'/'outbound'
+      'supplier_id': supplierId,
+      'total_value': totalValue,
+      'status': status,
+      'notes': notes,
+      'warehouse_id': warehouseId != null ? int.tryParse(warehouseId.toString()) : null,
+      'items': items?.map((v) => v.toJson()).toList(),
+    };
   }
 }
 
@@ -64,19 +58,25 @@ class OrderItem {
   num? quantity;
   num? priceAtOrder;
 
-  OrderItem({this.productId, this.quantity, this.priceAtOrder});
+  OrderItem({
+    this.productId, 
+    this.quantity, 
+    this.priceAtOrder,
+  });
 
-  OrderItem.fromJson(Map<String, dynamic> json) {
-    productId = json['product_id'];
-    quantity = json['quantity'];
-    priceAtOrder = json['price_at_order'];
+  factory OrderItem.fromJson(Map<String, dynamic> json) {
+    return OrderItem(
+      productId: json['product_id'],
+      quantity: json['quantity'],
+      priceAtOrder: json['price_at_time'] ?? json['price_at_order'],
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['product_id'] = productId;
-    data['quantity'] = quantity;
-    data['price_at_order'] = priceAtOrder;
-    return data;
+    return {
+      'product_id': productId,
+      'quantity': quantity,
+      'price_at_time': priceAtOrder, // Exact key mapping for backend create endpoint
+    };
   }
 }

@@ -9,7 +9,7 @@ import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_dropdownmenu.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
-import 'package:warehouse_management_system/features/product_features/product_controller.dart';
+import 'package:warehouse_management_system/features/product_features/inventory_controller.dart';
 
 class AddProduct extends StatelessWidget {
   const AddProduct({super.key});
@@ -67,11 +67,11 @@ class AddProduct extends StatelessWidget {
                     hint: 'Select Supplier',
                     items: getXcontroller.suppliers,
                     selectedValue: getXcontroller.selectedSupplier.value,
-                    isOpen: getXcontroller.isSupplierDropdownOpen.value,
+                    // isOpen: getXcontroller.isSupplierDropdownOpen.value,
                     itemLabel: (supplier) => supplier.name ?? "Unknown",
                     onSelected: (supplier) =>
                         getXcontroller.selectSupplier(supplier),
-                    onToggle: () => getXcontroller.toggleSupplierDropdown(),
+                    // onToggle: () => getXcontroller.toggleSupplierDropdown(),
                   ),
                 ),
                 Row(

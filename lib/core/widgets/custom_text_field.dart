@@ -15,6 +15,9 @@ class CustomTextField extends StatelessWidget {
   final double? suffixIconSize;
   final Color? suffixIconColor;
   final GestureTapCallback? onPressed;
+  final bool readOnly;
+  final int? maxLines;
+  final ValueChanged<String>? onChanged;
 
   const CustomTextField({
     super.key,
@@ -29,6 +32,9 @@ class CustomTextField extends StatelessWidget {
     this.suffixIconColor,
     this.suffixIconSize,
     this.onPressed,
+    this.readOnly = false,
+    this.onChanged,
+    this.maxLines,
   });
 
   @override
@@ -36,7 +42,12 @@ class CustomTextField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 12.h),
       child: TextFormField(
+        maxLines: maxLines ?? 1,
+        onChanged: onChanged,
+        readOnly: readOnly,
         obscureText: obscureText ?? false,
+        enableInteractiveSelection: !readOnly,
+        focusNode: readOnly ? FocusNode(canRequestFocus: false) : null,
         controller: controller,
         keyboardType: keyboardType ?? TextInputType.text,
         textInputAction: textInputAction,
@@ -44,7 +55,9 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           labelText: label,
           hintText: hintText,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0.r)),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0.r),
+          ),
           filled: true,
           fillColor: AppColors.lightGrey,
           //

@@ -6,7 +6,7 @@ import 'package:warehouse_management_system/core/constants/colors/app_colors.dar
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_search_bar.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
-import 'package:warehouse_management_system/features/product_features/product_controller.dart';
+import 'package:warehouse_management_system/features/product_features/inventory_controller.dart';
 import 'package:warehouse_management_system/features/inventory/inventory_tile.dart';
 
 class Inventory extends StatefulWidget {

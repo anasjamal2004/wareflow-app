@@ -11,7 +11,7 @@ class CustomOrderCard extends StatelessWidget {
     'pending',
     'processing',
     'completed',
-    'cancel',
+    'cancelled',
   ];
   const CustomOrderCard({
     super.key,
@@ -25,7 +25,7 @@ class CustomOrderCard extends StatelessWidget {
         return AppColors.greenColor;
       case 'processing':
         return AppColors.blueColor;
-      case 'cancel':
+      case 'cancelled':
         return AppColors.redColor;
       default:
         return Colors.orange; // 'pending' ya kisi aur ke liye
@@ -87,7 +87,9 @@ class CustomOrderCard extends StatelessWidget {
                 ],
               ),
               // Status Dropdown
-              _buildStaticDropdown(currentStatus),
+              (currentStatus == 'completed' || currentStatus == 'cancelled')
+                  ? buildStaticBadge(currentStatus)
+                  : _buildStaticDropdown(currentStatus),
             ],
           ),
 
@@ -176,6 +178,28 @@ class CustomOrderCard extends StatelessWidget {
               ),
             );
           }).toList(),
+        ),
+      ),
+    );
+  }
+
+  Widget buildStaticBadge(String status) {
+    return Container(
+      height: 35.h,
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+      decoration: BoxDecoration(
+        color: _getStatusColor(status).withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20.r),
+        border: Border.all(color: _getStatusColor(status).withOpacity(0.5)),
+      ),
+      child: Center(
+        child: Text(
+          status.toUpperCase(),
+          style: TextStyle(
+            fontSize: 11.sp,
+            fontWeight: FontWeight.w700,
+            color: _getStatusColor(status),
+          ),
         ),
       ),
     );

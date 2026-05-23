@@ -47,7 +47,7 @@ class AppPages {
     GetPage(name: AppRoutes.updateProductScreen, page: () => UpdateProduct()),
     GetPage(name: AppRoutes.addSupplierScreen, page: () => const AddSupplier()),
     GetPage(name: AppRoutes.updateSupplierScreen, page: () => UpdateSupplier()),
-    GetPage(name: AppRoutes.createOrderScreen, page: () => const CreateOrder()),
+    GetPage(name: AppRoutes.createOrderScreen, page: () => CreateOrder()),
     GetPage(
       name: AppRoutes.showInventoryScreen,
       page: () => const ShowInventory(),

@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:warehouse_management_system/core/api/api_client/api_client.dart';
-import 'package:warehouse_management_system/core/api/api_client/api_error_handler.dart';
 import 'package:warehouse_management_system/core/model/charts_model/trend_chart_model.dart';
 
 class ReportsRevenueTrendServices {
@@ -13,13 +12,7 @@ class ReportsRevenueTrendServices {
     try {
       Response response = await _dio.get(
         ApiEndpoints.reportRevenueTrend,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Accept': 'application/json',
-            'x-warehouse-id': warehouseID.toString(),
-          },
-        ),
+        options: Options(headers: {'x-warehouse-id': warehouseID.toString()}),
       );
 
       if (response.statusCode == 200) {
@@ -30,7 +23,9 @@ class ReportsRevenueTrendServices {
         return null;
       }
     } on DioException catch (e) {
-      print("Reports revenue Trend Error: ${e.response?.statusCode} - ${e.message}");
+      print(
+        "Reports revenue Trend Error: ${e.response?.statusCode} - ${e.message}",
+      );
       rethrow;
     }
   }

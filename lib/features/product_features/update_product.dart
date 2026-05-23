@@ -8,16 +8,14 @@ import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_dropdownmenu.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
-import 'package:warehouse_management_system/features/product_features/product_controller.dart';
+import 'package:warehouse_management_system/features/product_features/inventory_controller.dart';
 
 class UpdateProduct extends StatelessWidget {
-  
   final AddProductController getXcontroller = Get.put(AddProductController());
   UpdateProduct({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
@@ -59,11 +57,11 @@ class UpdateProduct extends StatelessWidget {
                   hint: 'Select Supplier',
                   items: getXcontroller.suppliers,
                   selectedValue: getXcontroller.selectedSupplier.value,
-                  isOpen: getXcontroller.isSupplierDropdownOpen.value,
+                  // isOpen: getXcontroller.isSupplierDropdownOpen.value,
                   itemLabel: (supplier) => supplier.name ?? "Unknown",
                   onSelected: (supplier) =>
                       getXcontroller.selectSupplier(supplier),
-                  onToggle: () => getXcontroller.toggleSupplierDropdown(),
+                  // onToggle: () => getXcontroller.toggleSupplierDropdown(),
                 ),
               ),
               Row(
