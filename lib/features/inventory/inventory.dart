@@ -3,9 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
 import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
-import 'package:warehouse_management_system/core/routes/app_routes.dart';
+import 'package:warehouse_management_system/core/widgets/custom_action_dialog.dart';
+import 'package:warehouse_management_system/core/widgets/custom_button.dart';
+import 'package:warehouse_management_system/core/widgets/custom_floating_action_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_search_bar.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
+import 'package:warehouse_management_system/features/product_features/add_product.dart';
 import 'package:warehouse_management_system/features/product_features/inventory_controller.dart';
 import 'package:warehouse_management_system/features/inventory/inventory_tile.dart';
 
@@ -43,7 +46,8 @@ class _InventoryState extends State<Inventory> {
               // Search Bar area responsive padding ke sath
               CustomSearchBar(
                 controller: widget.getXcontroller.searchController,
-                onChanged: (value) => null,
+                onChanged: (value) =>
+                    widget.getXcontroller.searchProduct(value),
               ),
 
               SizedBox(height: 5.h),
@@ -63,21 +67,10 @@ class _InventoryState extends State<Inventory> {
                     // 2. Empty State (Agar search result khali ho)
                     if (widget.getXcontroller.inventoryList.isEmpty) {
                       return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.inventory_2_outlined,
-                              size: 50.r,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(height: 10.h),
-                            CustomText(
-                              text: "No products found",
-                              color: Colors.grey,
-                              fontSize: 14.sp,
-                            ),
-                          ],
+                        child: CustomText(
+                          text: "No products found",
+                          color: AppColors.greyColor,
+                          fontSize: 14.sp,
                         ),
                       );
                     }
@@ -88,7 +81,7 @@ class _InventoryState extends State<Inventory> {
                         bottom: 20.h,
                       ), // End par thora gap
                       physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: widget.getXcontroller.inventoryList.length,
+                      itemCount: widget.getXcontroller.foundProducts.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: EdgeInsets.symmetric(
@@ -96,7 +89,7 @@ class _InventoryState extends State<Inventory> {
                             vertical: 5.h,
                           ),
                           child: InventoryTile(
-                            product: widget.getXcontroller.inventoryList[index],
+                            product: widget.getXcontroller.foundProducts[index],
                           ),
                         );
                       },
@@ -107,12 +100,29 @@ class _InventoryState extends State<Inventory> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.inventory),
+        floatingActionButton: CustomFloatingActionButton(
           onPressed: () {
             widget.getXcontroller.clearFields();
-            Get.toNamed(AppRoutes.addProductScreen);
+            //
+            CustomActionDialog.show(
+              context: context,
+              title: 'ADD NEW PRODUCT',
+              content: AddProduct(),
+              // 👉 Yahan Obx inject kar
+              actionButton: Obx(
+                () => CustomButton(
+                  text: "ADD",
+                  isLoading:
+                      widget.getXcontroller.isLoading.value, // Reactive state
+                  onPressed: () async {
+                    if (widget.getXcontroller.isLoading.value) return;
+                    await widget.getXcontroller.saveProduct();
+                  },
+                ),
+              ),
+            );
           },
+          icon: Icons.inventory,
         ),
       ),
     );

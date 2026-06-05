@@ -100,18 +100,31 @@ class OrderController extends GetxController {
 
   // Supplier ke hisab se products ko filter karne ka function (Dropdown mein dikhane ke liye)
   List<InventoryModel> filteredProduct() {
-    // Agar user ne supplier select nahi kiya, toh khali list return kardo (App crash hone se bach jayegi)
-    if (getXInventoryController.selectedSupplier.value == null) {
+    final supplier = getXInventoryController.selectedSupplier.value;
+
+    if (supplier == null) {
+      print("🚨 FILTER LOG: No supplier selected yet.");
       return [];
     }
-    // Warna sirf woh products do jinki supplierId select kiye gaye supplier se match karti ho
-    return inventoryData
-        .where(
-          (product) =>
-              product.supplierId ==
-              getXInventoryController.selectedSupplier.value?.id,
-        )
-        .toList();
+
+    print(
+      "🎯 FILTER LOG: Selected Supplier ID = ${supplier.id} (Type: ${supplier.id.runtimeType})",
+    );
+    print(
+      "📦 FILTER LOG: Total products in inventory = ${inventoryData.length}",
+    );
+
+    List<InventoryModel> result = inventoryData.where((product) {
+      // Har product ka data check karo jo loop mein ghoom raha hai
+      print(
+        "   👉 Product: ${product.name} | Product's SupplierID = ${product.supplierId} (Type: ${product.supplierId.runtimeType})",
+      );
+
+      return product.supplierId.toString() == supplier.id.toString();
+    }).toList();
+
+    print("✅ FILTER LOG: Matching products found = ${result.length}");
+    return result;
   }
 
   // Jab order complete ho jaye aur form saaf karna ho
@@ -253,7 +266,7 @@ class OrderController extends GetxController {
   void onClose() {
     // Sirf global text controller ko dispose kiya hai.
     // Quantity controllers ab widgets khud handle kar rahe hain.
-    descController.dispose();
+    // descController.dispose();
     super.onClose();
   }
 }

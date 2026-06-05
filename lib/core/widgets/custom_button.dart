@@ -11,6 +11,7 @@ class CustomNavButton extends StatelessWidget {
   final VoidCallback
   onTap; // GestureTapCallback ki jagah VoidCallback zyada common hai
   final Color? containerColor;
+  final Color? textColor;
   final double? height;
   final double? width;
   final Color? iconColor;
@@ -28,6 +29,7 @@ class CustomNavButton extends StatelessWidget {
     this.width,
     this.fontSize,
     this.fontWeight,
+    this.textColor,
   });
 
   @override
@@ -46,11 +48,11 @@ class CustomNavButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center, // Vertical center
           children: [
-            Icon(icon, color: iconColor, size: 18.sp),
+            Icon(icon, color: iconColor, size: 20.sp),
             SizedBox(width: 7.w), // Icon aur Text ke beech gap
             CustomText(
               text: text,
-              color: AppColors.whiteColor,
+              color: textColor ?? AppColors.whiteColor,
               fontSize: fontSize ?? 16.sp,
               fontWeight: fontWeight ?? FontWeight.w700,
             ),
@@ -104,7 +106,7 @@ class CustomButton extends StatelessWidget {
                 text: text,
                 color: textColor ?? AppColors.whiteColor,
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontSize: 15.sp,
               ),
       ),
     );

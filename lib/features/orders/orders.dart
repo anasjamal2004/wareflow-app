@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
 import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
-import 'package:warehouse_management_system/core/routes/app_routes.dart';
+import 'package:warehouse_management_system/core/widgets/custom_action_dialog.dart';
+import 'package:warehouse_management_system/core/widgets/custom_button.dart';
+import 'package:warehouse_management_system/core/widgets/custom_floating_action_button.dart';
+import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_toggle_tab.dart';
+import 'package:warehouse_management_system/features/create_order/create_order.dart';
 import 'package:warehouse_management_system/features/orders/custom_order_card.dart';
 import 'package:warehouse_management_system/features/orders/order_controller.dart';
 
@@ -63,7 +67,12 @@ class Orders extends StatelessWidget {
                   }
 
                   if (orders.isEmpty) {
-                    return const Center(child: Text("No Orders Found"));
+                    return const Center(
+                      child: CustomText(
+                        text: "No orders found",
+                        color: AppColors.greyColor,
+                      ),
+                    );
                   }
 
                   return ListView.builder(
@@ -91,14 +100,28 @@ class Orders extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.shopping_cart),
-
+      floatingActionButton: CustomFloatingActionButton(
         onPressed: () {
-          // widget.getXcontroller.clearFields();
-          Get.toNamed(AppRoutes.createOrderScreen);
           getXController.clearFields();
+          CustomActionDialog.show(
+            context: context,
+            title: 'CREATE ORDER',
+            content: CreateOrder(),
+            actionButton: Obx(
+              () => CustomButton(
+                text: "ADD",
+                isLoading: Get.find<OrderController>().isLoading.value,
+                color: AppColors.blackColor,
+                textColor: AppColors.whiteColor,
+                onPressed: () async {
+                  if (Get.find<OrderController>().isLoading.value) return;
+                  await Get.find<OrderController>().submitOrder();
+                },
+              ),
+            ),
+          );
         },
+        icon: LucideIcons.shoppingCart,
       ),
     );
   }

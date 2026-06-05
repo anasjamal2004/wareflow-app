@@ -6,17 +6,9 @@ class WarehouseService {
   final Dio _dio = ApiClient().dio;
 
   // --- 1. GET: All Warehouses ---
-  Future<List<WarehouseListModel>?> getWarehouses(String token) async {
+  Future<List<WarehouseListModel>?> getWarehouses() async {
     try {
-      Response response = await _dio.get(
-        ApiEndpoints.warehouse,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Accept": "application/json",
-          },
-        ),
-      );
+      Response response = await _dio.get(ApiEndpoints.warehouse);
 
       if (response.statusCode == 200) {
         List data = response.data;
@@ -24,9 +16,9 @@ class WarehouseService {
       } else {
         return [];
       }
-    } on DioException catch (e) {
-      print("GET Warehouses Error: ${e.response?.data}");
-      return [];
+    } catch (e) {
+      rethrow;
+      // return [];
     }
   }
 
@@ -37,12 +29,6 @@ class WarehouseService {
       Response response = await _dio.post(
         ApiEndpoints.warehouse,
         data: {"name": warehouseName},
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Content-Type": "application/json",
-          },
-        ),
       );
 
       if (response.statusCode == 201 || response.statusCode == 200) {
@@ -51,9 +37,9 @@ class WarehouseService {
       } else {
         return false;
       }
-    } on DioException catch (e) {
-      print("POST Warehouse Error: ${e.response?.data}");
-      return false;
+    } catch (e) {
+      // print("POST Warehouse Error: ${e.response?.data}");
+      rethrow;
     }
   }
 }

@@ -1,15 +1,16 @@
 class SupplierModel {
-  String? name;
-  String? email;
-  String? phone;
-  String? address;
-  String? contactName;
-  String? status;
-  int? rating;
-  int? id;
-  int? warehouseId;
+  final int? id; // IDs hamesha int hote hain
+  final String? name;
+  final String? contactName;
+  final String? email;
+  final String? phone;
+  final String? address;
+  final String? status;
+  final num? rating; // 👈 FIX: Rating int/double dono ho sakti hai, isliye 'num'
+  final int? warehouseId; // Warehouse ID int hi rahegi
 
   SupplierModel({
+    this.id,
     this.name,
     this.contactName,
     this.email,
@@ -17,33 +18,35 @@ class SupplierModel {
     this.address,
     this.status,
     this.rating,
-    this.id,
     this.warehouseId,
   });
 
-  SupplierModel.fromJson(Map<String, dynamic> json) {
-    name = json['name']?.toString();
-    email = json['email']?.toString();
-    phone = json['phone'].toString();
-    address = json['address']?.toString();
-    contactName = json['contact_name']?.toString();
-    status = json['status']?.toString();
-    rating = double.tryParse(json['rating'].toString())?.toInt();
-    id = int.tryParse(json['id'].toString());
-    warehouseId = int.tryParse(json['warehouse_id'].toString());
+  factory SupplierModel.fromJson(Map<String, dynamic> json) {
+    return SupplierModel(
+      id: json['id'],
+      name: json['name'],
+      contactName: json['contact_name'],
+      email: json['email'],
+      phone: json['phone'],
+      address: json['address'],
+      status: json['status'],
+      // 🎯 FIX: Cast to 'num?' so it doesn't crash on 0.0 or 5
+      rating: json['rating'] as num?, 
+      warehouseId: json['warehouse_id'],
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (name != null) data['name'] = name;
-    if (contactName != null) data['contact_name'] = contactName;
-    if (email != null) data['email'] = email;
-    if (address != null) data['address'] = address;
-    if (phone != null) data['phone'] = phone;
-    if (status != null) data['status'] = status;
-    if (rating != null) data['rating'] = rating;
-    if (id != null) data['id'] = id;
-    if (warehouseId != null) data['warehouse_id'] = warehouseId;
-    return data;
+    return {
+      'id': id,
+      'name': name,
+      'contact_name': contactName,
+      'email': email,
+      'phone': phone,
+      'address': address,
+      'status': status,
+      'rating': rating,
+      'warehouse_id': warehouseId,
+    };
   }
 }

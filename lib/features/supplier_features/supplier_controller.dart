@@ -74,17 +74,19 @@ class SupplierController extends GetxController {
         email: emailController.text.trim(),
         phone: phoneController.text.trim(),
         address: addressController.text.trim(),
+        status: "active",
+        rating: 3.0,
       );
-            await SupplierServices().postSupplier(
+      SupplierModel savedSupplier = await SupplierServices().postSupplier(
         supplierData: newSupplierModel,
         warehouseID: int.parse(warehouseID),
       );
-      supplierList.add(newSupplierModel);
+      supplierList.add(savedSupplier);
       // supplierList.refresh();
       // foundProducts.assignAll(productList); // search func ager future may use krna hoo.
       await Future.delayed(Duration(seconds: 1));
-      clearFields();
       Get.back();
+      clearFields();
       GetXMessage.onSuccess(message: 'Supplier is save successfully');
       return true;
     } catch (e) {
@@ -121,9 +123,11 @@ class SupplierController extends GetxController {
         email: emailController.text.trim(),
         phone: phoneController.text.trim(),
         address: addressController.text.trim(),
+        status: "active",
+        rating: 3.0,
       );
 
-      await SupplierServices().putSupplier(
+      SupplierModel updatedSupplier = await SupplierServices().putSupplier(
         warehouseID: int.parse(warehouseID),
         supplierData: updateSupplierData,
         supplierId: supplierid!,
@@ -133,13 +137,13 @@ class SupplierController extends GetxController {
 
       // index != -1 means if the index is found => (1 != 1) true is not equal to false
       if (index != -1) {
-        supplierList[index] = updateSupplierData;
+        supplierList[index] = updatedSupplier;
         // Yeh List ko Refresh karega
         // supplierList.refresh();
         // foundProducts.assignAll(productList);
         await Future.delayed(Duration(seconds: 1));
-        clearFields();
         Get.back();
+        clearFields();
         GetXMessage.onSuccess(message: 'Supplier updated successfully');
         return true;
       } else {
@@ -197,10 +201,10 @@ class SupplierController extends GetxController {
 
   @override
   void onClose() {
-    companyNameController.dispose();
-    emailController.dispose();
-    addressController.dispose();
-    phoneController.dispose();
+    // companyNameController.dispose();
+    // emailController.dispose();
+    // addressController.dispose();
+    // phoneController.dispose();
     super.onClose();
   }
 }

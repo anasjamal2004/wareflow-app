@@ -5,6 +5,7 @@ import 'package:warehouse_management_system/core/constants/colors/app_colors.dar
 import 'package:warehouse_management_system/core/model/inventory_model/inventory_model.dart';
 import 'package:warehouse_management_system/core/widgets/custom_container.dart';
 import 'package:warehouse_management_system/core/widgets/custom_dropdownmenu.dart';
+import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
 import 'package:warehouse_management_system/features/orders/order_controller.dart';
 
@@ -56,45 +57,48 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
           );
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+      padding: EdgeInsets.all(4),
       child: CustomContainer(
         height: 155.h,
         widget: Column(
           children: [
             // --- DROPDOWN ---
-            CustomDropdown<InventoryModel>(
-              hint: 'Select Product',
-              items: widget.controller
-                  .filteredProduct(), // Jo supplier selected hoga sirf usky products show hongye
-              selectedValue:
-                  selectedInventoryProduct, // Jo user yaha per product select karega
-              itemLabel: (product) => product.name ?? "",
-              onSelected: (selectedProduct) {
-                widget.controller.cartItems[widget.index].productId =
-                    selectedProduct.id;
-                widget.controller.cartItems[widget.index].priceAtOrder =
-                    selectedProduct.price;
-                widget.controller.cartItems.refresh();
-              },
-            ),
+            Obx(() {
+              final availableProducts = widget.controller.filteredProduct();
+
+              // 🎯 SAFETY: Check if the currently selected product is still valid for the new supplier
+              final bool isProductValid = availableProducts.any(
+                (p) => p.id == selectedInventoryProduct?.id,
+              );
+              return CustomDropdown<InventoryModel>(
+                hint: 'Select Product',
+                items:
+                    availableProducts, // Jo supplier selected hoga sirf usky products show hongye
+                selectedValue: isProductValid
+                    ? selectedInventoryProduct
+                    : null, // Jo user yaha per product select karega
+                itemLabel: (product) => product.name ?? "",
+                onSelected: (selectedProduct) {
+                  widget.controller.cartItems[widget.index].productId =
+                      selectedProduct.id;
+                  widget.controller.cartItems[widget.index].priceAtOrder =
+                      selectedProduct.price;
+                  widget.controller.cartItems.refresh();
+                },
+              );
+            }),
 
             Row(
               children: [
                 // --- PRICE FIELD ---
-                Expanded(
-                  child: IgnorePointer(
-                    child: CustomTextField(
-                      readOnly: true,
-                      label: "Price",
-                      hintText: "",
-                      controller: TextEditingController(
-                        text: currentItem.priceAtOrder?.toString() ?? '0',
-                      ),
-                    ),
-                  ),
+                CustomText(
+                  text: 'PRICE: ${currentItem.priceAtOrder?.toString() ?? '0'}',
+                  color: AppColors.blackColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
                 ),
 
-                SizedBox(width: 10.w),
+                SizedBox(width: 5.w),
 
                 // --- QUANTITY FIELD ---
                 Expanded(

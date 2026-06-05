@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/route_manager.dart';
 import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/model/inventory_model/inventory_model.dart';
-import 'package:warehouse_management_system/core/routes/app_routes.dart';
-import 'package:warehouse_management_system/core/widgets/custom_action_sheet.dart';
+import 'package:warehouse_management_system/core/widgets/custom_action_dialog.dart';
+import 'package:warehouse_management_system/core/widgets/custom_bottom_sheet.dart';
+import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/product_features/inventory_controller.dart';
+import 'package:warehouse_management_system/features/product_features/update_product.dart';
 
 class InventoryTile extends StatelessWidget {
   final InventoryModel product;
@@ -31,20 +34,37 @@ class InventoryTile extends StatelessWidget {
               title: product.name!,
               onUpdate: () {
                 getXController.initialData(product);
+                //
 
-                Get.toNamed(AppRoutes.updateProductScreen, arguments: product);
+                CustomActionDialog.show(
+                  context: context,
+                  title: 'UPDATE PRODUCT',
+                  content: UpdateProduct(),
+                  // 👉 Yahan Obx inject kar
+                  actionButton: Obx(
+                    () => CustomButton(
+                      text: "UPDATE",
+                      isLoading:
+                          getXController.isLoading.value, // Reactive state
+                      onPressed: () async {
+                        if (getXController.isLoading.value) return;
+                        await getXController.updateProduct();
+                      },
+                    ),
+                  ),
+                );
               },
               onDelete: () => getXController.deleteProduct(product.id!),
             ),
           );
         },
-        onTap: () {
-          Navigator.pushNamed(
-            context,
-            AppRoutes.showInventoryScreen,
-            arguments: product,
-          );
-        },
+        // onTap: () {
+        //   Navigator.pushNamed(
+        //     context,
+        //     AppRoutes.showInventoryScreen,
+        //     arguments: product,
+        //   );
+        // },
         child: Container(
           // margin: EdgeInsets.only(bottom: 6.h), // Spacing between tiles
           padding: EdgeInsets.symmetric(
@@ -145,6 +165,7 @@ class InventoryTile extends StatelessWidget {
                           ),
                         ),
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Container(
                               padding: EdgeInsets.symmetric(

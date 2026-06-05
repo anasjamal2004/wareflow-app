@@ -11,7 +11,6 @@ import 'package:warehouse_management_system/features/supplier_features/supplier_
 
 class AddProductController extends GetxController {
   //
-  // 1. Existing Controller ko find karna (Single Source of Truth)
   final SupplierController _supplierCtrl = Get.put(SupplierController());
   OrderController get getXOrderController => Get.find<OrderController>();
 
@@ -37,7 +36,7 @@ class AddProductController extends GetxController {
   //
   String get warehouseID => GetAppStorage.readWarehouseID_Data().toString();
   RxList<InventoryModel> inventoryList = <InventoryModel>[].obs;
-  // List<InventoryModel> foundProducts = <InventoryModel>[].obs;
+  RxList<InventoryModel> foundProducts = <InventoryModel>[].obs;
   //
   int? Productid;
   var isLoading = false.obs;
@@ -74,11 +73,12 @@ class AddProductController extends GetxController {
 
       // ✅ LOGIC FIX: Never use '!'. Always check for null.
       if (result != null) {
-        inventoryList.value = result;
+        // .value mat use karo. assignAll se original data copy hoga, reference nahi.
+        inventoryList.assignAll(result);
+        foundProducts.assignAll(result);
       } else {
-        // Agar API ne kuch nahi bheja toh list khali karo taake kachra show na ho
         inventoryList.clear();
-        print("API returned null for suppliers.");
+        foundProducts.clear(); // Isko bhi clear karna zaroori hai
       }
     } catch (e) {
       // ✅ LOGIC FIX: Catch the silent crashes!
@@ -112,7 +112,7 @@ class AddProductController extends GetxController {
         name: productNameController.text.trim(),
         category: categoryController.text.trim(),
         quantity: num.tryParse(quantityController.text.trim())?.toInt() ?? 0,
-        price: num.tryParse(priceController.text.trim())?.toInt() ?? 0,
+        price: num.tryParse(priceController.text.trim())?.toDouble() ?? 0,
         minStock: num.tryParse(minStockController.text.trim())?.toInt() ?? 0,
         location: locationController.text.trim(),
         supplierId: selectedSupplier.value!.id,
@@ -126,9 +126,9 @@ class AddProductController extends GetxController {
       await fetchInventory();
       // inventoryList.add(newInventoryData);
       // inventoryList.refresh();
-      await Future.delayed(Duration(seconds: 1));
-      clearFields();
+      await Future.delayed(Duration(milliseconds: 500));
       Get.back();
+      clearFields();
       GetXMessage.onSuccess(message: 'New Product Add Successfully');
       return true;
     } catch (e) {
@@ -178,7 +178,7 @@ class AddProductController extends GetxController {
         name: productNameController.text.trim(),
         category: categoryController.text.trim(),
         quantity: num.tryParse(quantityController.text.trim())?.toInt() ?? 0,
-        price: num.tryParse(priceController.text.trim())?.toInt() ?? 0,
+        price: num.tryParse(priceController.text.trim())?.toDouble() ?? 0,
         minStock: num.tryParse(minStockController.text.trim())?.toInt() ?? 0,
         location: locationController.text.trim(),
         supplierId: selectedSupplier.value!.id,
@@ -194,13 +194,13 @@ class AddProductController extends GetxController {
       // index != -1 means if the index is found => (1 != 1) true is not equal to false
       if (index != -1) {
         inventoryList[index] = updateInventoryData;
-
-        // productList.assignAll(productList.toList());
-        // foundProducts.assignAll(productList);
-        // inventoryList.refresh();
-        await Future.delayed(Duration(seconds: 1));
-        clearFields();
+        //
+        inventoryList.assignAll(inventoryList.toList());
+        foundProducts.assignAll(inventoryList);
+        inventoryList.refresh();
+        await Future.delayed(Duration(milliseconds: 500));
         Get.back();
+        clearFields();
         GetXMessage.onSuccess(message: 'Product Updated Successfully');
         return true;
       } else {
@@ -222,9 +222,9 @@ class AddProductController extends GetxController {
         warehouseID: int.parse(warehouseID),
       );
       inventoryList.removeWhere((item) => item.id == productid);
-      // foundProducts.assignAll(productList);
+      foundProducts.assignAll(inventoryList);
       await Future.delayed(Duration(seconds: 1));
-      // Get.back();
+      Get.back();
       GetXMessage.onSuccess(message: 'Product Deleted Successfully');
       return true;
     } catch (e) {
@@ -235,19 +235,22 @@ class AddProductController extends GetxController {
     }
   }
 
-  // void searchProduct(String searchItem) {
-  //   String searchKey = searchItem.toLowerCase().trim();
+  void searchProduct(String searchItem) {
+    String searchKey = searchItem.toLowerCase().trim();
 
-  //   if (searchKey.isEmpty) {
-  //     foundProducts.assignAll(productList);
-  //   } else {
-  //     var filteredList = productList.where((item) {
-  //       return item.name!.toLowerCase().contains(searchKey) ||
-  //           item.sku!.toLowerCase().contains(searchKey);
-  //     }).toList();
-  //     foundProducts.assignAll(filteredList);
-  //   }
-  // }
+    if (searchKey.isEmpty) {
+      foundProducts.assignAll(inventoryList);
+    } else {
+      var filteredList = inventoryList.where((item) {
+        // Safe check: Agar name null hai toh "" use karo, phir usko searchKey se match karo
+        final name = item.name?.toLowerCase() ?? "";
+        final sku = item.sku?.toLowerCase() ?? "";
+
+        return name.contains(searchKey) || sku.contains(searchKey);
+      }).toList();
+      foundProducts.assignAll(filteredList);
+    }
+  }
 
   void clearFields() {
     productNameController.clear();
@@ -263,12 +266,12 @@ class AddProductController extends GetxController {
 
   @override
   void onClose() {
-    searchController.dispose();
-    locationController.dispose();
-    quantityController.dispose();
-    locationController.dispose();
-    minStockController.dispose();
-    priceController.dispose();
+    // searchController.dispose();
+    // locationController.dispose();
+    // quantityController.dispose();
+    // locationController.dispose();
+    // minStockController.dispose();
+    // priceController.dispose();
     super.onClose();
   }
 }

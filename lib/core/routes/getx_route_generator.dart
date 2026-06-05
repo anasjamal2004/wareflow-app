@@ -42,6 +42,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.bottomNavigationScreen,
       page: () => const BottomNavigation(),
+      
     ),
     GetPage(name: AppRoutes.addProductScreen, page: () => const AddProduct()),
     GetPage(name: AppRoutes.updateProductScreen, page: () => UpdateProduct()),

@@ -25,7 +25,7 @@ class CustomDropdown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
       child: DropdownButtonHideUnderline(
         child: DropdownButton2<T>(
           isExpanded: true,

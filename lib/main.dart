@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/smart_management.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:get_storage/get_storage.dart';
@@ -23,6 +24,7 @@ class WareHouseManagementSystem extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
+          smartManagement: SmartManagement.full,
           initialRoute: AppRoutes.splashScreen,
           getPages: AppPages.pages,
           defaultTransition: Transition.rightToLeft,

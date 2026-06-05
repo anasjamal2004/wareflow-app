@@ -87,7 +87,7 @@ class Settings extends StatelessWidget {
                 textColor: AppColors.blackColor,
                 tralingIcon: LucideIcons.arrowLeftCircle,
                 onTap: () async {
-                  await Get.delete<BottomNavigationContoller>(force: true);
+                  await Get.delete<BottomNavigationController>(force: true);
                   Navigator.pushReplacement(
                     context,
                     PageTransition(

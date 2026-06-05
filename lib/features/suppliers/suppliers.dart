@@ -2,76 +2,89 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
 import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
-import 'package:warehouse_management_system/core/routes/app_routes.dart';
+import 'package:warehouse_management_system/core/widgets/custom_action_dialog.dart';
+import 'package:warehouse_management_system/core/widgets/custom_button.dart';
+import 'package:warehouse_management_system/core/widgets/custom_floating_action_button.dart';
+import 'package:warehouse_management_system/core/widgets/custom_text.dart';
+import 'package:warehouse_management_system/features/supplier_features/add_supplier.dart';
 import 'package:warehouse_management_system/features/supplier_features/supplier_controller.dart';
 import 'package:warehouse_management_system/features/suppliers/supplier_tile.dart';
 
 class Suppliers extends StatelessWidget {
-  final SupplierController getXcontroller = Get.put(SupplierController());
+  final SupplierController getXController = Get.put(SupplierController());
   Suppliers({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: PreferredSize(
-      //   preferredSize: const Size.fromHeight(kToolbarHeight),
-      //   child: CustomAppBar(
-      //     text: 'Suppliers',
-      //     buttonText: 'Add Supplier',
-      //     icon: Icons.people,
-      //     onTap: () {
-      //       // Get.toNamed(AppRoutes.addSupplierScreen);
-      //     },
-      //   ),
-      // ),
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         bottom: true,
         top: false,
         child: RefreshIndicator(
-          onRefresh: () async => await getXcontroller.fetchSupplier(),
+          onRefresh: () async => await getXController.fetchSupplier(),
           color: AppColors.blackColor,
           child: Obx(() {
             // 1. Loading State
-            if (getXcontroller.isLoading.value) {
+            if (getXController.isLoading.value) {
               return const Center(child: LoadingAnimation());
             }
 
             // 2. Empty State
-            if (getXcontroller.supplierList.isEmpty) {
-              return ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: const [
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 100),
-                      child: Text("No Suppliers Found"),
+            if (getXController.supplierList.isEmpty) {
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  return SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: SizedBox(
+                      height: constraints.maxHeight,
+                      child: const Center(
+                        child: CustomText(
+                          text: "No Suppliers Found",
+                          color: AppColors.blackColor,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  );
+                },
               );
             }
 
             // 3. Success State (Data List)
-            // ✅ Fix: SingleChildScrollView hata diya, ListView akela kafi hai.
             return ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: getXcontroller.supplierList.length,
+              itemCount: getXController.supplierList.length,
               itemBuilder: (context, index) {
                 return SupplierTile(
-                  supplier: getXcontroller.supplierList[index],
+                  supplier: getXController.supplierList[index],
                 );
               },
             );
           }),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.people),
+      floatingActionButton: CustomFloatingActionButton(
         onPressed: () {
-          getXcontroller.clearFields();
-          Get.toNamed(AppRoutes.addSupplierScreen);
+          getXController.clearFields();
+          //
+          CustomActionDialog.show(
+            context: context,
+            title: 'ADD NEW SUPPLIER',
+            content: AddSupplier(),
+            // 👉 Yahan Obx inject kar
+            actionButton: Obx(
+              () => CustomButton(
+                text: "ADD",
+                isLoading: getXController.isLoading.value, // Reactive state
+                onPressed: () async {
+                  if (getXController.isLoading.value) return;
+                  await getXController.saveSupplier();
+                },
+              ),
+            ),
+          );
         },
+        icon: Icons.person,
       ),
     );
   }

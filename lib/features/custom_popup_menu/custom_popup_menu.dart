@@ -85,6 +85,7 @@ class CustomPopupMenu extends StatelessWidget {
               text: "Active Warehouse",
               fontSize: 11.sp,
               color: Colors.grey,
+              fontWeight: FontWeight.w600,
             ),
             subtitle: CustomText(
               text: getXController.warehouseName,
@@ -113,6 +114,7 @@ class CustomPopupMenu extends StatelessWidget {
               text: "Logout",
               color: Colors.red,
               fontWeight: FontWeight.bold,
+              fontSize: 17,
             ),
           ),
         ),

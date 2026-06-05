@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 
-class BottomNavigationContoller extends GetxController {
+class BottomNavigationController extends GetxController {
   var currentIndex = 0.obs;
   final PageController pageController = PageController(initialPage: 0);
   //

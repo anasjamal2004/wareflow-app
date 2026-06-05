@@ -31,11 +31,12 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: CustomAppBar(
-          text: 'WAREHOUSES',
-          buttonText: 'Logout',
+          text: 'WareFlow',
+          buttonText: 'SIGN OUT',
           icon: LucideIcons.logOut,
-          iconColor: AppColors.whiteColor,
-          containerColor: AppColors.redColor,
+          iconColor: AppColors.redColor,
+          textColor: AppColors.redColor,
+          containerColor: AppColors.redColor.withValues(alpha: 0.2),
           onTap: () {
             widget.getXAuthController.logOut(context);
           },
@@ -47,7 +48,9 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 5.h),
               // Create New Section
               Container(
                 height: 140.h,

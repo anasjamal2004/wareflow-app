@@ -51,7 +51,7 @@ class InventoryServices {
   }) async {
     try {
       Response response = await _dio.put(
-        '${ApiEndpoints.suppliers}$inventoryId',
+        '${ApiEndpoints.inventory}$inventoryId',
         data: inventoryData.toJson(), // data server may jaega
         options: Options(headers: {'x-warehouse-id': warehouseID.toString()}),
       );

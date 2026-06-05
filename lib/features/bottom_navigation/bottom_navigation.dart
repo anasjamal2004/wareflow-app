@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
@@ -13,90 +11,70 @@ import 'package:warehouse_management_system/features/inventory/inventory.dart';
 import 'package:warehouse_management_system/features/orders/orders.dart';
 import 'package:warehouse_management_system/features/suppliers/suppliers.dart';
 
-class BottomNavigation extends StatefulWidget {
+class BottomNavigation extends StatelessWidget {
   const BottomNavigation({super.key});
 
   @override
-  State<BottomNavigation> createState() => _BottomNavigationState();
-}
+  Widget build(BuildContext context) {
+    // Binding se controller mil jayega, put karne ki zaroorat nahi
+    final BottomNavigationController controller = Get.put(
+      BottomNavigationController(),
+    );
 
-class _BottomNavigationState extends State<BottomNavigation> {
-  late BottomNavigationContoller getXController;
-  late List<Widget> _screens;
-
-  final List<String> _screenTitles = [
-    'Dashboard Overview',
-    'Inventory',
-    'Orders',
-    'Suppliers',
-    // 'Settings',
-  ];
-  @override
-  void initState() {
-    super.initState();
-    getXController = Get.put(BottomNavigationContoller());
-    _screens = [
+    final List<String> screenTitles = [
+      'Dashboard Overview',
+      'Inventory',
+      'Orders',
+      'Suppliers',
+    ];
+    final List<Widget> screens = [
       Dashboard(),
       Inventory(),
-      Orders(), // Will make it one by one
+      Orders(),
       Suppliers(),
-      // Settings(),
     ];
-  }
 
-  List<BottomNavigationBarItem> items = [
-    BottomNavigationBarItem(
-      icon: Icon(LucideIcons.layoutDashboard),
-      label: "Dashboard",
-    ),
-    BottomNavigationBarItem(icon: Icon(Icons.inventory), label: "Inventory"),
-    BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Orders"),
-    BottomNavigationBarItem(icon: Icon(Icons.people), label: "Suppliers"),
-    // BottomNavigationBarItem(
-    //   icon: Icon(LucideIcons.settings),
-    //   label: "Settings",
-    // ),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: AppColors.backgroundColor,
-        surfaceTintColor: AppColors.transparentColor,
         title: Obx(
           () => CustomText(
-            text:
-                _screenTitles[getXController
-                    .currentIndex
-                    .value], // Text change hoga swipe per
+            text: screenTitles[controller.currentIndex.value],
             color: AppColors.blackColor,
             fontSize: 24.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [CustomPopupMenu()], // Avatar har screen per available hoga
+        actions: [CustomPopupMenu()],
       ),
-      body: PageView(
-        controller: getXController.pageController,
-        children: _screens,
-      ),
+      body: PageView(controller: controller.pageController, children: screens),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
-          currentIndex: getXController.currentIndex.value,
-          onTap: (index) {
-            getXController.onChangedPage(index);
-          },
+          currentIndex: controller.currentIndex.value,
+          onTap: (index) => controller.onChangedPage(index),
           type: BottomNavigationBarType.fixed,
-          // .r icons ke liye scale handle karta hai
           iconSize: 22.r,
           selectedItemColor: AppColors.blackColor,
-          // .sp text scaling ke liye
-          selectedFontSize: 11.sp,
           unselectedItemColor: AppColors.greyColor,
-          unselectedFontSize: 11.sp,
-          items: items,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(LucideIcons.layoutDashboard),
+              label: "Dashboard",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.inventory),
+              label: "Inventory",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart),
+              label: "Orders",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people),
+              label: "Suppliers",
+            ),
+          ],
         ),
       ),
     );

@@ -11,23 +11,23 @@ class OrderModel {
   List<OrderItem>? items;
 
   OrderModel({
-    required this.orderType,
-    this.supplierId,       
-    required this.totalValue,
+    this.orderType,
+    this.supplierId,
+    this.totalValue,
     this.status,
     this.notes,
     this.id,
     this.orderNumber,
     this.orderDate,
     this.warehouseId,
-    required this.items,
+    this.items,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
       orderType: json['order_type'],
       supplierId: json['supplier_id'],
-      totalValue: json['total_value'],
+      totalValue: json['total_value'] as num?, // 🎯 Fixed casting
       status: json['status'],
       notes: json['notes'],
       id: json['id'],
@@ -42,12 +42,12 @@ class OrderModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'order_type': orderType?.toLowerCase(), // API demands lowercase 'inbound'/'outbound'
+      'order_type': orderType?.toLowerCase(),
       'supplier_id': supplierId,
       'total_value': totalValue,
       'status': status,
       'notes': notes,
-      'warehouse_id': warehouseId != null ? int.tryParse(warehouseId.toString()) : null,
+      'warehouse_id': warehouseId,
       'items': items?.map((v) => v.toJson()).toList(),
     };
   }
@@ -58,17 +58,14 @@ class OrderItem {
   num? quantity;
   num? priceAtOrder;
 
-  OrderItem({
-    this.productId, 
-    this.quantity, 
-    this.priceAtOrder,
-  });
+  OrderItem({this.productId, this.quantity, this.priceAtOrder});
 
   factory OrderItem.fromJson(Map<String, dynamic> json) {
     return OrderItem(
-      productId: json['product_id'],
-      quantity: json['quantity'],
-      priceAtOrder: json['price_at_time'] ?? json['price_at_order'],
+      productId: json['product_id'] as num?,
+      quantity: json['quantity'] as num?,
+      priceAtOrder:
+          (json['price_at_time'] as num?) ?? (json['price_at_order'] as num?),
     );
   }
 
@@ -76,7 +73,7 @@ class OrderItem {
     return {
       'product_id': productId,
       'quantity': quantity,
-      'price_at_time': priceAtOrder, // Exact key mapping for backend create endpoint
+      'price_at_time': priceAtOrder,
     };
   }
 }

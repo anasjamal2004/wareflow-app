@@ -2,9 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
+import 'package:warehouse_management_system/core/api/api_client/api_error_handler.dart';
 import 'package:warehouse_management_system/core/api/services/warehouse_services/warehouse_services.dart';
 import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/model/warehouse_model/warehouse_list_model.dart';
+import 'package:warehouse_management_system/core/widgets/custom_getx_message.dart';
 
 class SelectWarehouseController extends GetxController {
   RxList<WarehouseListModel> warehouses = <WarehouseListModel>[].obs;
@@ -38,14 +40,14 @@ class SelectWarehouseController extends GetxController {
         await fetchWarehouses();
         clearFields();
         Get.back();
-        Get.snackbar('Success', 'Warehouse Created Successfully');
+        GetXMessage.onSuccess(message: 'Warehouse Created Successfully');
         return true;
       } else {
-        Get.snackbar('Error', 'Warehouse Not created');
         return false;
       }
     } catch (e) {
       print('Something Went Wrong: $e');
+      ApiError.handler(e);
       return false;
     } finally {
       isLoading.value = false;
@@ -61,12 +63,13 @@ class SelectWarehouseController extends GetxController {
     isLoading.value = true;
 
     try {
-      var data = await WarehouseService().getWarehouses(warehouseToken);
+      var data = await WarehouseService().getWarehouses();
       if (data != null) {
         warehouses.assignAll(data);
       }
     } catch (e) {
       print('Fetch List Error: $e');
+      ApiError.handler(e);
     } finally {
       isLoading.value = false;
     }
@@ -78,7 +81,7 @@ class SelectWarehouseController extends GetxController {
 
   @override
   void onClose() {
-    warehouseNameController;
+    // warehouseNameController;
     super.onClose();
   }
 }
