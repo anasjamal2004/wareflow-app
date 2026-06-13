@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_app_bar.dart';
@@ -27,16 +27,15 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: CustomAppBar(
           text: 'WareFlow',
           buttonText: 'SIGN OUT',
           icon: LucideIcons.logOut,
-          iconColor: AppColors.redColor,
-          textColor: AppColors.redColor,
-          containerColor: AppColors.redColor.withValues(alpha: 0.2),
+          iconColor: AppTheme.redColor,
+          textColor: AppTheme.redColor,
+          containerColor: AppTheme.redColor.withValues(alpha: 0.2),
           onTap: () {
             widget.getXAuthController.logOut(context);
           },
@@ -56,7 +55,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                 height: 140.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
+                  color: AppTheme.current.card,
                   borderRadius: BorderRadius.circular(20.r),
                   boxShadow: [
                     BoxShadow(
@@ -88,12 +87,12 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
           CircleAvatar(
             radius: 28.r,
             backgroundColor: Colors.grey.shade100,
-            child: Icon(Icons.add, color: AppColors.greyColor, size: 28.r),
+            child: Icon(Icons.add, color: AppTheme.greyColor, size: 28.r),
           ),
           SizedBox(height: 8.h),
           CustomText(
             text: 'CREATE NEW',
-            color: AppColors.greyColor,
+            color: AppTheme.greyColor,
             fontSize: 14.sp,
             fontWeight: FontWeight.w700,
           ),
@@ -118,7 +117,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
               children: [
                 CustomText(
                   text: "New Warehouse",
-                  color: AppColors.blackColor,
+                  color: AppTheme.current.textPrimary,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
@@ -135,7 +134,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                       child: CustomButton(
                         text: "Cancel",
                         color: Colors.grey[200],
-                        textColor: AppColors.blackColor,
+                        textColor: AppTheme.current.textPrimary,
                         onPressed: () => Get.back(),
                       ),
                     ),
@@ -165,7 +164,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
       onRefresh: () async {
         await widget.getXController.fetchWarehouses();
       },
-      color: AppColors.blackColor,
+      color: AppTheme.current.loadingColor,
       child: Obx(() {
         return ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -189,7 +188,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                   height: 90.h,
                   padding: EdgeInsets.all(15.r),
                   decoration: BoxDecoration(
-                    color: AppColors.whiteColor,
+                    color: AppTheme.current.card,
                     borderRadius: BorderRadius.circular(20.r),
                     boxShadow: [
                       BoxShadow(
@@ -204,7 +203,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                     children: [
                       CustomText(
                         text: warehouse.name ?? "N/A",
-                        color: AppColors.blackColor,
+                        color: AppTheme.current.textPrimary,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),

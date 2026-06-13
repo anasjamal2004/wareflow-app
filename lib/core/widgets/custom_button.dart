@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 
 // AppBar may text ky sath wala button
@@ -52,7 +52,7 @@ class CustomNavButton extends StatelessWidget {
             SizedBox(width: 7.w), // Icon aur Text ke beech gap
             CustomText(
               text: text,
-              color: textColor ?? AppColors.whiteColor,
+              color: textColor ?? AppTheme.current.textPrimary,
               fontSize: fontSize ?? 16.sp,
               fontWeight: fontWeight ?? FontWeight.w700,
             ),
@@ -93,7 +93,7 @@ class CustomButton extends StatelessWidget {
       width: width ?? double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: color ?? AppColors.blackColor,
+          backgroundColor: color ?? AppTheme.current.button,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -104,7 +104,7 @@ class CustomButton extends StatelessWidget {
             ? LoadingAnimation(loadingColor: loadingColor)
             : CustomText(
                 text: text,
-                color: textColor ?? AppColors.whiteColor,
+                color: textColor ?? AppTheme.current.textPrimary,
                 fontWeight: FontWeight.bold,
                 fontSize: 15.sp,
               ),

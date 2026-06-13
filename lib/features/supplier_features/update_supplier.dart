@@ -4,7 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
@@ -25,17 +25,16 @@ class UpdateSupplier extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: AppColors.backgroundColor,
-          surfaceTintColor: AppColors.transparentColor,
+          backgroundColor: AppTheme.current.appBar,
+          surfaceTintColor: AppTheme.transparentColor,
           scrolledUnderElevation: 0,
           title: CustomText(
             text: 'Update Supplier',
-            color: AppColors.blackColor,
+            color: AppTheme.current.textPrimary,
             fontSize: 24.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: AppColors.backgroundColor,
         body: Column(
           children: [
             CustomTextField(
@@ -66,15 +65,15 @@ class UpdateSupplier extends StatelessWidget {
             horizontal: 20.w,
             vertical: 15.h,
           ), // Responsive padding
-          decoration: BoxDecoration(color: AppColors.backgroundColor),
+          decoration: BoxDecoration(color: AppTheme.current.card),
           child: SafeArea(
             child: Row(
               children: [
                 Expanded(
                   child: CustomButton(
                     text: "Cancel",
-                    color: AppColors.greyColor.withValues(alpha: 0.2),
-                    textColor: AppColors.blackColor,
+                    color: AppTheme.greyColor,
+                    textColor: AppTheme.current.textPrimary,
                     onPressed: () {
                       Get.back();
                     },

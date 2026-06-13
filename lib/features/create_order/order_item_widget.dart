@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/model/inventory_model/inventory_model.dart';
 import 'package:warehouse_management_system/core/widgets/custom_container.dart';
 import 'package:warehouse_management_system/core/widgets/custom_dropdownmenu.dart';
@@ -93,7 +93,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                 // --- PRICE FIELD ---
                 CustomText(
                   text: 'PRICE: ${currentItem.priceAtOrder?.toString() ?? '0'}',
-                  color: AppColors.blackColor,
+                  color: AppTheme.current.textPrimary,
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
@@ -124,7 +124,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                 IconButton(
                   onPressed: () => widget.controller.removeRow(widget.index),
                   icon: const Icon(Icons.delete),
-                  color: AppColors.redColor,
+                  color: AppTheme.redColor,
                 ),
               ],
             ),

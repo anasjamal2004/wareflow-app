@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart'; // 👈 ScreenUtil Import
 
 class CustomToggleTab extends StatelessWidget {
@@ -29,7 +29,7 @@ class CustomToggleTab extends StatelessWidget {
         height: 55.h, // 👈 Height responsive
         padding: EdgeInsets.all(4.r), // 👈 Padding responsive radius ke sath
         decoration: BoxDecoration(
-          color: AppColors.whiteColor,
+          color: AppTheme.current.card,
           borderRadius: BorderRadius.circular(16.r), // 👈 Radius responsive
           border: Border.all(
             color: Colors.grey.shade300,
@@ -59,8 +59,8 @@ class CustomToggleTab extends StatelessWidget {
           curve: Curves.easeInOut,
           decoration: BoxDecoration(
             color: isSelected
-                ? AppColors.blackColor
-                : AppColors.transparentColor,
+                ? AppTheme.blackColor
+                : AppTheme.transparentColor,
             borderRadius: BorderRadius.circular(12.r), // 👈 Inner pill radius
           ),
           child: Center(
@@ -70,13 +70,13 @@ class CustomToggleTab extends StatelessWidget {
                 Icon(
                   icon,
                   size: 18.sp, // 👈 Icon size scaling with font size
-                  color: isSelected ? AppColors.whiteColor : Colors.black87,
+                  color: isSelected ? AppTheme.whiteColor : Colors.black87,
                 ),
                 SizedBox(width: 8.w), // 👈 Gap between icon and text
                 CustomText(
                   text: title,
                   fontSize: 14.sp,
-                  color: isSelected ? AppColors.whiteColor : Colors.black87,
+                  color: isSelected ? AppTheme.whiteColor : Colors.black87,
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                 ),
               ],

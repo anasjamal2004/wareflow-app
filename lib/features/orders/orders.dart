@@ -5,7 +5,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_action_dialog.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_floating_action_button.dart';
@@ -32,7 +32,6 @@ class Orders extends StatelessWidget {
       //     },
       //   ),
       // ),
-      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         bottom: true,
         top: false,
@@ -67,10 +66,10 @@ class Orders extends StatelessWidget {
                   }
 
                   if (orders.isEmpty) {
-                    return const Center(
+                    return Center(
                       child: CustomText(
                         text: "No orders found",
-                        color: AppColors.greyColor,
+                        color: AppTheme.greyColor,
                       ),
                     );
                   }
@@ -111,8 +110,8 @@ class Orders extends StatelessWidget {
               () => CustomButton(
                 text: "ADD",
                 isLoading: Get.find<OrderController>().isLoading.value,
-                color: AppColors.blackColor,
-                textColor: AppColors.whiteColor,
+                color: AppTheme.current.button,
+                textColor: AppTheme.current.textPrimary,
                 onPressed: () async {
                   if (Get.find<OrderController>().isLoading.value) return;
                   await Get.find<OrderController>().submitOrder();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 
 class LoadingAnimation extends StatelessWidget {
   final Color? loadingColor;
@@ -10,7 +10,7 @@ class LoadingAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LoadingAnimationWidget.waveDots(
-      color: loadingColor ?? AppColors.blackColor,
+      color: loadingColor ?? AppTheme.current.loadingColor,
       size: 30.r,
     );
   }

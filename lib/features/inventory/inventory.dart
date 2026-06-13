@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_action_dialog.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_floating_action_button.dart';
@@ -28,7 +28,6 @@ class _InventoryState extends State<Inventory> {
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: AppColors.backgroundColor,
         // appBar: PreferredSize(
         //   preferredSize: Size.fromHeight(60.h),
         //   child: CustomAppBar(
@@ -57,7 +56,7 @@ class _InventoryState extends State<Inventory> {
                 child: RefreshIndicator(
                   onRefresh: () async =>
                       await widget.getXcontroller.fetchInventory(),
-                  color: AppColors.blackColor,
+                  color: AppTheme.current.loadingColor,
                   child: Obx(() {
                     // 1. Loading State (Agar backend se data aa raha hai)
                     if (widget.getXcontroller.isLoading.value) {
@@ -69,7 +68,7 @@ class _InventoryState extends State<Inventory> {
                       return Center(
                         child: CustomText(
                           text: "No products found",
-                          color: AppColors.greyColor,
+                          color: AppTheme.greyColor,
                           fontSize: 14.sp,
                         ),
                       );

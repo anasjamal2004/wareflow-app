@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/bottom_navigation/bottom_navi_controller.dart';
 import 'package:warehouse_management_system/features/custom_popup_menu/custom_popup_menu.dart';
@@ -37,11 +37,11 @@ class BottomNavigation extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppTheme.current.appBar,
         title: Obx(
           () => CustomText(
             text: screenTitles[controller.currentIndex.value],
-            color: AppColors.blackColor,
+            color: AppTheme.current.textPrimary,
             fontSize: 24.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -55,8 +55,8 @@ class BottomNavigation extends StatelessWidget {
           onTap: (index) => controller.onChangedPage(index),
           type: BottomNavigationBarType.fixed,
           iconSize: 22.r,
-          selectedItemColor: AppColors.blackColor,
-          unselectedItemColor: AppColors.greyColor,
+          selectedItemColor: AppTheme.current.navSelected,
+          unselectedItemColor: AppTheme.current.navUnselected,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(LucideIcons.layoutDashboard),

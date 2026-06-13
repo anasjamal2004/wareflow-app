@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_icon.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -59,7 +59,7 @@ class CustomTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0.r),
           ),
           filled: true,
-          fillColor: AppColors.lightGrey,
+          fillColor: AppTheme.greyColor,
           //
           suffixIcon: CustomIcon(
             icon: suffixIcon,

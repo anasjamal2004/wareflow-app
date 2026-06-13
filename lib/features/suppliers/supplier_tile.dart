@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lucide_icons/lucide_icons.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/model/supplier_model/supplier_model.dart';
-import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_action_dialog.dart';
 import 'package:warehouse_management_system/core/widgets/custom_bottom_sheet.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
@@ -59,7 +57,7 @@ class SupplierTile extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
-            color: AppColors.whiteColor,
+            color: AppTheme.current.card,
             borderRadius: BorderRadius.circular(16.r),
             boxShadow: [
               BoxShadow(
@@ -87,7 +85,7 @@ class SupplierTile extends StatelessWidget {
                     ),
                     child: Icon(
                       Icons.business,
-                      color: Colors.black87,
+                      color: AppTheme.current.icon,
                       size: 24.r,
                     ),
                   ),
@@ -100,8 +98,7 @@ class SupplierTile extends StatelessWidget {
                       children: [
                         CustomText(
                           text: supplier.name ?? 'Company Name NA',
-                          color: AppColors
-                              .blackColor, // Make sure this is a dark blue/black in your AppColors
+                          color: AppTheme.current.textPrimary, // Make sure this is a dark blue/black in your AppColors
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                         ),
@@ -153,7 +150,7 @@ class SupplierTile extends StatelessWidget {
               ),
 
               SizedBox(height: 16.h),
-              Divider(color: AppColors.blackColor, height: 1, thickness: 1),
+              Divider(color: AppTheme.blackColor, height: 1, thickness: 1),
               SizedBox(height: 16.h),
 
               // === 3. Bottom Footer Row (Rating & UID) ===

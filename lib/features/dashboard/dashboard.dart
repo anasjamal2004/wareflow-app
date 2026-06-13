@@ -4,7 +4,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
+import 'package:warehouse_management_system/core/widgets/custom_shimmer.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_donut_chart.dart';
@@ -29,7 +30,6 @@ class Dashboard extends StatelessWidget {
       //   ),
       //   actions: [CustomPopupMenu()], // Custom Menu hai.
       // ),
-      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         bottom: true,
         top: false,
@@ -39,66 +39,66 @@ class Dashboard extends StatelessWidget {
             onRefresh: () async {
               await getXController.dashboardData();
             },
-            color: AppColors.blackColor,
+            color: AppTheme.current.loadingColor,
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Obx(
-                          () => customContainer(
+              child: Obx(() {
+                if (getXController.isLoading.value == true) {
+                  return CustomShimmer.dashboardSkeleton();
+                }
+
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: customContainer(
                             headingText: 'Total Revenue',
                             data: '\$${getXController.totalRevenueData}',
                             icon: LucideIcons.trendingUp,
                           ),
                         ),
-                      ),
-                      SizedBox(width: 12.w), // Beech ka gap responsive kiya
-                      Expanded(
-                        child: Obx(
-                          () => customContainer(
+
+                        SizedBox(width: 12.w), // Beech ka gap responsive kiya
+                        Expanded(
+                          child: customContainer(
                             headingText: 'Inventory Value',
                             data: '\$${getXController.inventoryValueData}',
                             icon: LucideIcons.package,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 12.h),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Obx(
-                          () => customContainer(
+                      ],
+                    ),
+                    SizedBox(height: 12.h),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: customContainer(
                             headingText: 'Completed Orders',
                             data: getXController.completedOrdersData.toString(),
                             icon: Icons.done_all_rounded,
                           ),
                         ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: Obx(
-                          () => customContainer(
+
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: customContainer(
                             headingText: 'Active Suppliers',
                             data: getXController.activeSupplierData.toString(),
                             icon: LucideIcons.users,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 15.h),
-                  DashboardLineChart(),
-                  SizedBox(height: 15.h),
-                  DashboardDonutChart(),
-                  //
-                  SizedBox(height: 5.h),
-                ],
-              ),
+                      ],
+                    ),
+                    SizedBox(height: 15.h),
+                    DashboardLineChart(),
+                    SizedBox(height: 15.h),
+                    DashboardDonutChart(),
+                    //
+                    SizedBox(height: 5.h),
+                  ],
+                );
+              }),
             ),
           ),
         ),
@@ -115,7 +115,7 @@ class Dashboard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       height: 110.h, // Height thori optimize ki taake text overflow na kare
       decoration: BoxDecoration(
-        color: AppColors.whiteColor,
+        color: AppTheme.current.card,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
@@ -138,7 +138,7 @@ class Dashboard extends StatelessWidget {
                   // Taake text icon ke upar na charhay
                   child: CustomText(
                     text: headingText,
-                    color: AppColors.greyColor,
+                    color: AppTheme.current.textPrimary,
                     fontWeight: FontWeight.bold,
                     fontSize: 11.sp,
                   ),
@@ -147,10 +147,10 @@ class Dashboard extends StatelessWidget {
                   height: 27.h,
                   width: 30.w,
                   decoration: BoxDecoration(
-                    color: AppColors.lightGrey,
+                    color: AppTheme.current.card,
                     borderRadius: BorderRadius.circular(8.r),
                   ),
-                  child: Icon(icon, color: AppColors.blackColor, size: 20.r),
+                  child: Icon(icon, color: AppTheme.current.icon, size: 20.r),
                 ),
               ],
             ),
@@ -163,7 +163,7 @@ class Dashboard extends StatelessWidget {
               fit: BoxFit.scaleDown,
               child: CustomText(
                 text: data,
-                color: AppColors.blackColor,
+                color: AppTheme.current.textPrimary,
                 fontSize: 30.sp, // Thora sa base size kam kiya
                 fontWeight: FontWeight.bold,
               ),

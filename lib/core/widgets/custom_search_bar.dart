@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 
 class CustomSearchBar extends StatelessWidget {
   final TextEditingController controller;
@@ -17,7 +17,7 @@ class CustomSearchBar extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
-          color: AppColors.whiteColor,
+          color: AppTheme.current.card,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -32,10 +32,10 @@ class CustomSearchBar extends StatelessWidget {
           controller: controller,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search, color: AppColors.blackColor),
+            prefixIcon: Icon(Icons.search, color: AppTheme.blackColor),
             hintText: 'Search by name or SKU...',
-            hintStyle: const TextStyle(
-              color: AppColors.greyColor,
+            hintStyle: TextStyle(
+              color: AppTheme.greyColor,
               fontSize: 14,
             ),
             border: InputBorder.none,

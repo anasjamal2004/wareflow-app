@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_icon.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
@@ -21,10 +21,10 @@ class CustomFloatingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: onPressed,
-      backgroundColor: backgroundColor ?? AppColors.blackColor,
+      backgroundColor: backgroundColor ?? AppTheme.current.button,
       child: CustomIcon(
         icon: icon,
-        color: iconColor ?? AppColors.whiteColor,
+        color: iconColor ?? AppTheme.current.icon,
         size: iconSize,
       ),
     );

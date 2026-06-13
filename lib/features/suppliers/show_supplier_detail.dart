@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart'; // Import lazmi hai
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/model/supplier_model/supplier_model.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/info_display_row.dart';
@@ -14,13 +14,12 @@ class ShowSupplier extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as SupplierModel;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.backgroundColor,
-        surfaceTintColor: AppColors.transparentColor,
+        backgroundColor: AppTheme.current.appBar,
+        surfaceTintColor: AppTheme.transparentColor,
         title: CustomText(
           text: 'Supplier Detail',
-          color: AppColors.blackColor,
+          color: AppTheme.current.textPrimary,
           fontSize: 27.sp, // Responsive Font
           fontWeight: FontWeight.bold,
         ),
@@ -37,7 +36,7 @@ class ShowSupplier extends StatelessWidget {
                 vertical: 60.h,
               ), // Responsive Height
               decoration: BoxDecoration(
-                color: AppColors.whiteColor,
+                color: AppTheme.current.card,
                 borderRadius: BorderRadius.circular(15.r), // Responsive Radius
               ),
               child: Column(
@@ -45,7 +44,7 @@ class ShowSupplier extends StatelessWidget {
                   Icon(
                     Icons.business_center_outlined,
                     size: 60.r, // Responsive Icon Size
-                    color: AppColors.blueColor,
+                    color: AppTheme.blueColor,
                   ),
                 ],
               ),
@@ -57,7 +56,7 @@ class ShowSupplier extends StatelessWidget {
                 children: [
                   CustomText(
                     text: supplier.name ?? "No Name",
-                    color: AppColors.blackColor,
+                    color: AppTheme.current.textPrimary,
                     fontSize: 28.sp,
                     fontWeight: FontWeight.bold,
                   ),

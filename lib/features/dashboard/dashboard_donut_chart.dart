@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
 
@@ -73,7 +73,7 @@ static const List<Color> _colorPalette = [
         children: [
           CustomText(
             text: "Inventory by Category",
-            color: AppColors.blackColor,
+            color: AppTheme.current.textPrimary,
             fontSize: 16.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -187,7 +187,7 @@ static const List<Color> _colorPalette = [
             text: '$value%',
             fontSize: 14.sp,
             fontWeight: FontWeight.bold,
-            color: AppColors.blackColor,
+            color: AppTheme.current.textPrimary,
           ),
         ],
       ),

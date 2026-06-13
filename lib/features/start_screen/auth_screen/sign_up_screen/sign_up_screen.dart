@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text_field.dart';
@@ -23,7 +23,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: AppColors.backgroundColor,
         body: SafeArea(
           bottom: true,
           top: false,
@@ -39,7 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     horizontal: 15.w,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.whiteColor,
+                    color: AppTheme.current.card,
                     borderRadius: BorderRadius.circular(30.r),
                     boxShadow: [
                       BoxShadow(
@@ -56,7 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: [
                       CustomText(
                         text: 'WAREFLOW',
-                        color: AppColors.blackColor,
+                        color: AppTheme.current.textPrimary,
                         fontSize: 28.sp,
                         fontWeight: FontWeight.w900,
                       ),
@@ -136,7 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             onTap: () => Get.back(),
                             child: CustomText(
                               text: 'Sign in',
-                              color: AppColors.blackColor,
+                              color: AppTheme.current.textPrimary,
                               fontWeight: FontWeight.bold,
                               fontSize: 13.sp,
                             ),

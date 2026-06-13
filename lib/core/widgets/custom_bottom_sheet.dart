@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_icon.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
@@ -22,7 +22,7 @@ class CustomActionSheet {
         onDelete: onDelete,
         isLoading: isLoading,
       ),
-      backgroundColor: AppColors.whiteColor,
+      backgroundColor: AppTheme.current.background,
       isScrollControlled: true,
       ignoreSafeArea: false,
       shape: RoundedRectangleBorder(
@@ -70,7 +70,7 @@ class ActionSheetContent extends StatelessWidget {
             SizedBox(height: 20.h),
             CustomText(
               text: title,
-              color: AppColors.blackColor,
+              color: AppTheme.current.textPrimary,
               fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -81,18 +81,18 @@ class ActionSheetContent extends StatelessWidget {
                 height: 40.h,
                 width: 45.w,
                 decoration: BoxDecoration(
-                  color: AppColors.greenColor.withValues(alpha: 0.3),
+                  color: AppTheme.greenColor.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: const CustomIcon(
                   icon: LucideIcons.edit,
-                  color: AppColors.greenColor,
+                  color: AppTheme.greenColor,
                   size: 25,
                 ),
               ),
-              title: const CustomText(
+              title: CustomText(
                 text: "Update",
-                color: AppColors.blackColor,
+                color: AppTheme.current.textPrimary,
                 fontWeight: FontWeight.w700,
               ),
               onTap: () {
@@ -106,18 +106,18 @@ class ActionSheetContent extends StatelessWidget {
                 height: 40.h,
                 width: 45.w,
                 decoration: BoxDecoration(
-                  color: AppColors.redColor.withValues(alpha: 0.3),
+                  color: AppTheme.redColor.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: const CustomIcon(
                   icon: Icons.delete_forever,
-                  color: AppColors.redColor,
+                  color: AppTheme.redColor,
                   size: 30,
                 ),
               ),
               title: const CustomText(
                 text: "Delete",
-                color: AppColors.redColor,
+                color: AppTheme.redColor,
                 fontWeight: FontWeight.w700,
               ),
               onTap: () {
@@ -140,12 +140,12 @@ class ActionSheetContent extends StatelessWidget {
         ),
         title: CustomText(
           text: "Confirm Delete",
-          color: AppColors.blackColor,
+          color: AppTheme.current.textPrimary,
           fontWeight: FontWeight.bold,
         ),
         content: CustomText(
           text: "Are you sure you want to delete $title?",
-          color: AppColors.greyColor,
+          color: AppTheme.current.textSecondary,
           fontWeight: FontWeight.w600,
         ),
         actions: [
@@ -156,7 +156,7 @@ class ActionSheetContent extends StatelessWidget {
                   child: CustomButton(
                     text: "Cancel",
                     color: Colors.grey[200],
-                    textColor: AppColors.blackColor,
+                    textColor: AppTheme.current.textPrimary,
                     onPressed: isLoading.value ? () {} : () => Get.back(),
                   ),
                 ),
@@ -164,7 +164,7 @@ class ActionSheetContent extends StatelessWidget {
                 Expanded(
                   child: CustomButton(
                     text: "Delete",
-                    color: AppColors.redColor,
+                    color: AppTheme.redColor,
                     isLoading: isLoading.value,
                     onPressed: isLoading.value ? () {} : onDelete,
                   ),

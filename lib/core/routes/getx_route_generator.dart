@@ -3,7 +3,6 @@ import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/features/bottom_navigation/bottom_navigation.dart';
 import 'package:warehouse_management_system/features/create_order/create_order.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard.dart';
-import 'package:warehouse_management_system/features/inventory/show_inventory.dart';
 import 'package:warehouse_management_system/features/product_features/add_product.dart';
 import 'package:warehouse_management_system/features/product_features/update_product.dart';
 import 'package:warehouse_management_system/features/start_screen/auth_screen/login_screen/login_screen.dart';
@@ -49,10 +48,10 @@ class AppPages {
     GetPage(name: AppRoutes.addSupplierScreen, page: () => const AddSupplier()),
     GetPage(name: AppRoutes.updateSupplierScreen, page: () => UpdateSupplier()),
     GetPage(name: AppRoutes.createOrderScreen, page: () => CreateOrder()),
-    GetPage(
-      name: AppRoutes.showInventoryScreen,
-      page: () => const ShowInventory(),
-    ),
+    // GetPage(
+    //   name: AppRoutes.showInventoryScreen,
+    //   page: () => const ShowInventory(),
+    // ),
     GetPage(
       name: AppRoutes.showSupplierScreen,
       page: () => const ShowSupplier(),

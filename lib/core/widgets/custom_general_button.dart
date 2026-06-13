@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_container.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 
@@ -34,7 +34,7 @@ class CustomGeneralButton extends StatelessWidget {
         onTap: isLoading ? null : onTap,
         child: CustomContainer(
           buttonBorderRadius: 12.r,
-          color: containerColor ?? AppColors.whiteColor,
+          color: containerColor ?? AppTheme.current.card,
           widget: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: isLoading

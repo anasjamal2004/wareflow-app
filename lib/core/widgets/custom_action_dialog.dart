@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 
@@ -74,7 +74,7 @@ class CustomActionDialog extends StatelessWidget {
                   text: title.toUpperCase(),
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w900,
-                  color: AppColors.blackColor,
+                  color: AppTheme.current.textPrimary,
                 ),
                 InkWell(
                   onTap: () => Get.back(),
@@ -97,8 +97,8 @@ class CustomActionDialog extends StatelessWidget {
                 Expanded(
                   child: CustomButton(
                     text: "CANCEL",
-                    color: AppColors.greyColor.withValues(alpha: 0.2),
-                    textColor: AppColors.blackColor,
+                    color: AppTheme.greyColor,
+                    textColor: AppTheme.current.textPrimary,
                     onPressed: () => Get.back(),
                   ),
                 ),

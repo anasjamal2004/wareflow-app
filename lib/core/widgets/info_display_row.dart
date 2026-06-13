@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart'; // Import ScreenUtil
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 
 class InfoDisplayRow extends StatelessWidget {
@@ -23,13 +23,13 @@ class InfoDisplayRow extends StatelessWidget {
               CustomText(
                 text: label,
                 // Logic Flaw: Yahan 'alpha: 2' likha hai, neeche explain kiya hai.
-                color: AppColors.greyColor.withValues(alpha: 0.5),
+                color: AppTheme.greyColor.withValues(alpha: 0.5),
                 fontSize: 16.sp, // Responsive font
                 fontWeight: FontWeight.w500,
               ),
               CustomText(
                 text: value,
-                color: AppColors.blackColor,
+                color: AppTheme.current.textPrimary,
                 fontSize: 16.sp, // Responsive font
                 fontWeight: FontWeight.bold,
               ),
@@ -37,7 +37,7 @@ class InfoDisplayRow extends StatelessWidget {
           ),
         ),
         Divider(
-          color: AppColors.greyColor.withValues(alpha: 0.2),
+          color: AppTheme.greyColor.withValues(alpha: 0.2),
           thickness: 1.h, // Responsive thickness
         ),
       ],

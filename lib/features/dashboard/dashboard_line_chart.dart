@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
 
@@ -81,7 +81,7 @@ class _DashboardLineChartState extends State<DashboardLineChart>
             padding: EdgeInsets.only(left: 15.w, top: 5.h),
             child: CustomText(
               text: "Revenue Trend",
-              color: AppColors.blackColor,
+              color: AppTheme.current.textPrimary,
               fontWeight: FontWeight.bold,
               fontSize: 16.sp,
             ),
@@ -91,11 +91,11 @@ class _DashboardLineChartState extends State<DashboardLineChart>
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: Obx(() {
-                if (getXController.chartValues.isEmpty) {
-                  return const Center(
-                    child: LoadingAnimation(loadingColor: AppColors.blackColor),
-                  );
-                }
+                // if (getXController.chartValues.isEmpty) {
+                //   return const Center(
+                //     child: LoadingAnimation(loadingColor: AppColors.blackColor),
+                //   );
+                // }
 
                 double maxVal = getXController.chartValues
                     .reduce((a, b) => a > b ? a : b)

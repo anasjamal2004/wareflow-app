@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/constants/images/app_images.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
@@ -34,8 +34,8 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      backgroundColor: AppColors.backgroundColor,
-      surfaceTintColor: Colors.transparent,
+      backgroundColor: AppTheme.current.appBar,
+      surfaceTintColor: AppTheme.transparentColor,
       scrolledUnderElevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,13 +44,13 @@ class CustomAppBar extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 18.r,
-                backgroundColor: AppColors.transparentColor,
+                backgroundColor: AppTheme.current.avatarBg,
                 child: AppImages.appIcon,
               ),
               // SizedBox(width: 3.w),
               CustomText(
                 text: text,
-                color: AppColors.blackColor,
+                color: AppTheme.current.textPrimary,
                 fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -64,8 +64,8 @@ class CustomAppBar extends StatelessWidget {
             onTap: onTap,
             icon: icon,
             textColor: textColor,
-            iconColor: iconColor ?? AppColors.whiteColor,
-            containerColor: containerColor ?? AppColors.blackColor,
+            iconColor: iconColor ?? AppTheme.current.icon,
+            containerColor: containerColor ?? AppTheme.current.card,
           ),
         ],
       ),

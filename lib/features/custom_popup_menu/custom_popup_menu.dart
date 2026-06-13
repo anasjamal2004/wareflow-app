@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/constants/images/app_images.dart';
 import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
@@ -18,7 +18,7 @@ class CustomPopupMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopupMenuButton<int>(
       // 1. Menu ki styling (Corners round karne ke liye)
-      color: AppColors.whiteColor,
+      color: AppTheme.whiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
       offset: Offset(0, 60.h), // Menu thora neeche show hoga
       elevation: 8,
@@ -26,7 +26,7 @@ class CustomPopupMenu extends StatelessWidget {
       // 2. Wo Avatar jis par click hoga
       icon: CircleAvatar(
         radius: 25.r,
-        backgroundColor: AppColors.whiteColor,
+        backgroundColor: AppTheme.current.avatarBg,
         child: AppImages.appIcon,
       ),
 
@@ -90,7 +90,7 @@ class CustomPopupMenu extends StatelessWidget {
             subtitle: CustomText(
               text: getXController.warehouseName,
               fontWeight: FontWeight.bold,
-              color: AppColors.blackColor,
+              color: AppTheme.current.textPrimary,
               fontSize: 18.sp,
             ),
           ),

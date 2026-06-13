@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 
 class CustomContainer extends StatelessWidget {
   final Widget widget;
@@ -22,7 +22,7 @@ class CustomContainer extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(8.r),
       decoration: BoxDecoration(
-        color: color ?? AppColors.whiteColor,
+        color: color ?? AppTheme.current.card,
         borderRadius: BorderRadius.circular(buttonBorderRadius ?? 20.r),
         boxShadow: [
           BoxShadow(

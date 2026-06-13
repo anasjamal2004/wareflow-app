@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/model/orders_model/orders_model.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 
@@ -22,11 +22,11 @@ class CustomOrderCard extends StatelessWidget {
   Color _getStatusColor(String status) {
     switch (status.toLowerCase()) {
       case 'completed':
-        return AppColors.greenColor;
+        return AppTheme.greenColor;
       case 'processing':
-        return AppColors.blueColor;
+        return AppTheme.blueColor;
       case 'cancelled':
-        return AppColors.redColor;
+        return AppTheme.redColor;
       default:
         return Colors.orange; // 'pending' ya kisi aur ke liye
     }
@@ -40,7 +40,7 @@ class CustomOrderCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 5.h),
       padding: EdgeInsets.all(18.r),
       decoration: BoxDecoration(
-        color: AppColors.whiteColor,
+        color: AppTheme.current.card,
         borderRadius: BorderRadius.circular(14.r),
         border: Border.all(color: const Color(0xFFE5E5E5), width: 0.5.w),
         boxShadow: [
@@ -72,7 +72,7 @@ class CustomOrderCard extends StatelessWidget {
                       Icon(
                         Icons.calendar_today,
                         size: 12.sp,
-                        color: AppColors.greyColor,
+                        color: AppTheme.greyColor,
                       ),
                       SizedBox(width: 4.w),
                       CustomText(
@@ -80,7 +80,7 @@ class CustomOrderCard extends StatelessWidget {
                           'T',
                         )[0], // Static Date
                         fontSize: 11.sp,
-                        color: AppColors.greyColor,
+                        color: AppTheme.greyColor,
                       ),
                     ],
                   ),
@@ -106,7 +106,7 @@ class CustomOrderCard extends StatelessWidget {
                   CustomText(
                     text: "Order value",
                     fontSize: 11.sp,
-                    color: AppColors.greyColor,
+                    color: AppTheme.greyColor,
                   ),
                   CustomText(
                     text: order.totalValue.toString(), // Static Price

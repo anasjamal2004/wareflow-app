@@ -1,7 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 
 class CustomDropdown<T> extends StatelessWidget {
@@ -34,9 +34,9 @@ class CustomDropdown<T> extends StatelessWidget {
           buttonStyleData: ButtonStyleData(
             // padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
             decoration: BoxDecoration(
-              color: AppColors.whiteColor,
+              color: AppTheme.current.card,
               borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(color: AppColors.lightGrey, width: 1.5),
+              border: Border.all(color: AppTheme.greyColor, width: 1.5),
             ),
           ),
 
@@ -44,7 +44,7 @@ class CustomDropdown<T> extends StatelessWidget {
           dropdownStyleData: DropdownStyleData(
             maxHeight: 250.h,
             decoration: BoxDecoration(
-              color: AppColors.whiteColor,
+              color: AppTheme.current.card,
               borderRadius: BorderRadius.circular(12.r),
               boxShadow: [
                 BoxShadow(
@@ -69,12 +69,12 @@ class CustomDropdown<T> extends StatelessWidget {
           // 4. HINT PLACEHOLDER
           hint: Row(
             children: [
-              Icon(leadingIcon, size: 20.r, color: AppColors.greyColor),
+              Icon(leadingIcon, size: 20.r, color: AppTheme.greyColor),
               SizedBox(width: 12.w),
               Expanded(
                 child: CustomText(
                   text: hint,
-                  color: AppColors.greyColor,
+                  color: AppTheme.greyColor,
                   fontSize: 16.sp,
                 ),
               ),
@@ -91,7 +91,7 @@ class CustomDropdown<T> extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: CustomText(
                   text: itemLabel(item),
-                  color: AppColors.blackColor,
+                  color: AppTheme.current.textPrimary,
                 ),
               ),
             );
@@ -109,12 +109,12 @@ class CustomDropdown<T> extends StatelessWidget {
           iconStyleData: IconStyleData(
             icon: Icon(
               Icons.keyboard_arrow_down,
-              color: AppColors.greyColor,
+              color: AppTheme.greyColor,
               size: 24.r,
             ),
             openMenuIcon: Icon(
               Icons.keyboard_arrow_up,
-              color: AppColors.greyColor,
+              color: AppTheme.greyColor,
               size: 24.r,
             ),
           ),

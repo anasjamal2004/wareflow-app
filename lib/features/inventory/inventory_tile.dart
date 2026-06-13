@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/route_manager.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/model/inventory_model/inventory_model.dart';
 import 'package:warehouse_management_system/core/widgets/custom_action_dialog.dart';
 import 'package:warehouse_management_system/core/widgets/custom_bottom_sheet.dart';
@@ -72,7 +72,7 @@ class InventoryTile extends StatelessWidget {
             vertical: 20.h,
           ), // Internal padding for content
           decoration: BoxDecoration(
-            color: AppColors.whiteColor,
+            color: AppTheme.current.card,
             borderRadius: BorderRadius.circular(15.r), // Smooth corners
             boxShadow: [
               BoxShadow(
@@ -114,7 +114,7 @@ class InventoryTile extends StatelessWidget {
                         Expanded(
                           child: CustomText(
                             text: product.name ?? 'NA',
-                            color: AppColors.blackColor,
+                            color: AppTheme.current.textPrimary,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -122,7 +122,7 @@ class InventoryTile extends StatelessWidget {
                         SizedBox(width: 10.w),
                         CustomText(
                           text: 'Qty: ${product.quantity}',
-                          color: AppColors.blackColor,
+                          color: AppTheme.current.textPrimary,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.bold,
                         ),
@@ -140,19 +140,19 @@ class InventoryTile extends StatelessWidget {
                             children: [
                               CustomText(
                                 text: 'SKU: ${product.sku ?? 'NA'}',
-                                color: AppColors.greyColor,
+                                color: AppTheme.greyColor,
                                 fontSize: 13.sp,
                               ),
                               // SizedBox(height: 2.h),
                               CustomText(
                                 text:
                                     'Category: ${product.category ?? 'Unknown'}',
-                                color: AppColors.greyColor,
+                                color: AppTheme.greyColor,
                                 fontSize: 13.sp,
                               ),
                               CustomText(
                                 text: 'Loc: ${product.location ?? 'Unknown'}',
-                                color: AppColors.greyColor,
+                                color: AppTheme.greyColor,
                                 fontSize: 13.sp,
                               ),
 
@@ -173,12 +173,12 @@ class InventoryTile extends StatelessWidget {
                                 vertical: 6.h,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.greenColor.withOpacity(0.1),
+                                color: AppTheme.greenColor.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(8.r),
                               ),
                               child: CustomText(
                                 text: 'In Stock',
-                                color: AppColors.greenColor,
+                                color: AppTheme.greenColor,
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -186,7 +186,7 @@ class InventoryTile extends StatelessWidget {
                             SizedBox(height: 10.h),
                             CustomText(
                               text: 'Price: ${product.price!.toInt()}',
-                              color: AppColors.greyColor,
+                              color: AppTheme.greyColor,
                               fontSize: 15.sp,
                               fontWeight: FontWeight.w700,
                             ),

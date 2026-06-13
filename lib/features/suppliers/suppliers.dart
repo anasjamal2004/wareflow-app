@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_action_dialog.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_floating_action_button.dart';
@@ -17,13 +17,12 @@ class Suppliers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         bottom: true,
         top: false,
         child: RefreshIndicator(
           onRefresh: () async => await getXController.fetchSupplier(),
-          color: AppColors.blackColor,
+          color: AppTheme.current.loadingColor,
           child: Obx(() {
             // 1. Loading State
             if (getXController.isLoading.value) {
@@ -38,10 +37,10 @@ class Suppliers extends StatelessWidget {
                     physics: const AlwaysScrollableScrollPhysics(),
                     child: SizedBox(
                       height: constraints.maxHeight,
-                      child: const Center(
+                      child: Center(
                         child: CustomText(
                           text: "No Suppliers Found",
-                          color: AppColors.blackColor,
+                          color: AppTheme.greyColor,
                         ),
                       ),
                     ),

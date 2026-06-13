@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart'; // 👉 Clean Import
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/model/supplier_model/supplier_model.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_container.dart';
@@ -50,7 +50,7 @@ class CreateOrder extends StatelessWidget {
             children: [
               CustomText(
                 text: 'LINE ITEMS*',
-                color: AppColors.blackColor,
+                color: AppTheme.current.textPrimary,
                 fontWeight: FontWeight.bold,
               ),
               CustomButton(
@@ -92,7 +92,7 @@ class CreateOrder extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
               child: CustomText(
                 text: 'TOTAL PRICE: ${totalPrice.toString()}',
-                color: AppColors.blackColor,
+                color: AppTheme.current.textPrimary,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

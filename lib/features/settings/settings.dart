@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:warehouse_management_system/core/constants/colors/app_colors.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_container.dart';
 import 'package:warehouse_management_system/core/widgets/custom_general_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
@@ -22,16 +22,15 @@ class Settings extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: AppColors.backgroundColor,
-        surfaceTintColor: AppColors.transparentColor,
+        backgroundColor: AppTheme.current.appBar,
+        surfaceTintColor: AppTheme.transparentColor,
         title: CustomText(
           text: 'Settings',
-          color: AppColors.blackColor,
+          color: AppTheme.current.textPrimary,
           fontSize: 24.sp,
           fontWeight: FontWeight.bold,
         ),
       ),
-      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         bottom: true,
         top: false,
@@ -52,19 +51,19 @@ class Settings extends StatelessWidget {
                         children: [
                           CustomText(
                             text: 'WORKSPACE',
-                            color: AppColors.greyColor,
+                            color: AppTheme.greyColor,
                             fontSize: 20.r,
                             fontWeight: FontWeight.w600,
                           ),
                           CustomText(
                             text: getXController.warehouseName,
-                            color: AppColors.blackColor,
+                            color: AppTheme.current.textPrimary,
                             fontSize: 18.r,
                             fontWeight: FontWeight.bold,
                           ),
                         ],
                       ),
-                      Icon(LucideIcons.warehouse, color: AppColors.greyColor),
+                      Icon(LucideIcons.warehouse, color: AppTheme.greyColor),
                     ],
                   ),
                 ),
@@ -77,14 +76,14 @@ class Settings extends StatelessWidget {
                   text: 'General',
                   fontSize: 18.r,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.greyColor,
+                  color: AppTheme.greyColor,
                 ),
               ),
               SizedBox(height: 5.h),
               //
               CustomGeneralButton(
                 text: 'Switch Warehouse',
-                textColor: AppColors.blackColor,
+                textColor: AppTheme.current.textPrimary,
                 tralingIcon: LucideIcons.arrowLeftCircle,
                 onTap: () async {
                   await Get.delete<BottomNavigationController>(force: true);
@@ -98,17 +97,17 @@ class Settings extends StatelessWidget {
                     ),
                   );
                 },
-                tralingIconColor: AppColors.blackColor,
+                tralingIconColor: AppTheme.blackColor,
               ),
               Obx(
                 () => CustomGeneralButton(
                   text: 'Logout',
-                  textColor: AppColors.whiteColor,
-                  containerColor: AppColors.blackColor,
+                  textColor: AppTheme.current.textPrimary,
+                  containerColor: AppTheme.current.card,
                   tralingIcon: LucideIcons.logOut,
-                  tralingIconColor: AppColors.whiteColor,
+                  tralingIconColor: AppTheme.whiteColor,
                   isLoading: getXauthController.isLoading.value,
-                  loadingColor: AppColors.whiteColor,
+                  loadingColor: AppTheme.current.loadingColor,
                   onTap: () => getXauthController.logOut(context),
                 ),
               ),
@@ -124,10 +123,10 @@ Widget customWorkSpace(Widget widget) {
   return Container(
     padding: EdgeInsets.all(15.r),
     decoration: BoxDecoration(
-      color: AppColors.transparentColor,
+      color: AppTheme.transparentColor,
       borderRadius: BorderRadius.circular(20.r),
       border: Border.all(
-        color: AppColors.borderGrey, // Stroke ka color
+        color: AppTheme.greyColor, // Stroke ka color
         width: 1.w, // Stroke ki thickness
       ),
     ),

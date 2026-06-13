@@ -17,6 +17,8 @@ class DashboardController extends GetxController {
       GetAppStorage.readWarehouseName(); // Settings screen may show karonga
   RxList dountChartlist = <DountChartModel>[].obs;
   //
+  var isLoading = false.obs;
+  //
   var completedOrdersData = 0.obs;
   var inventoryValueData = 0.obs;
   var totalRevenueData = 0.obs;
@@ -38,6 +40,7 @@ class DashboardController extends GetxController {
   // yeh Future.Wait ek sath apis ko call karega.
   Future<void> dashboardData() async {
     try {
+      isLoading.value = true;
       // Sab ko ek sath dawayi pilao
       await Future.wait([
         completedOrders(),
@@ -50,6 +53,8 @@ class DashboardController extends GetxController {
     } catch (e) {
       print("Dashboard Error: $e");
       ApiError.handler(e);
+    } finally {
+      isLoading.value = false;
     }
   }
   //
