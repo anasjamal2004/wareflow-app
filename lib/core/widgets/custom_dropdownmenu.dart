@@ -36,7 +36,7 @@ class CustomDropdown<T> extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppTheme.current.card,
               borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(color: AppTheme.greyColor, width: 1.5),
+              border: Border.all(color: AppTheme.current.border, width: 1.5),
             ),
           ),
 
@@ -69,12 +69,16 @@ class CustomDropdown<T> extends StatelessWidget {
           // 4. HINT PLACEHOLDER
           hint: Row(
             children: [
-              Icon(leadingIcon, size: 20.r, color: AppTheme.greyColor),
+              Icon(
+                leadingIcon,
+                size: 20.r,
+                color: AppTheme.current.textSecondary,
+              ),
               SizedBox(width: 12.w),
               Expanded(
                 child: CustomText(
                   text: hint,
-                  color: AppTheme.greyColor,
+                  color: AppTheme.current.textSecondary,
                   fontSize: 16.sp,
                 ),
               ),
@@ -109,12 +113,12 @@ class CustomDropdown<T> extends StatelessWidget {
           iconStyleData: IconStyleData(
             icon: Icon(
               Icons.keyboard_arrow_down,
-              color: AppTheme.greyColor,
+              color: AppTheme.current.icon,
               size: 24.r,
             ),
             openMenuIcon: Icon(
               Icons.keyboard_arrow_up,
-              color: AppTheme.greyColor,
+              color: AppTheme.current.icon,
               size: 24.r,
             ),
           ),

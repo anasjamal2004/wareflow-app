@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 
 class CustomShimmer {
   // Yeh generic box hai jo shimmer effect deta hai
@@ -10,13 +11,13 @@ class CustomShimmer {
     double borderRadius = 16.0,
   }) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
+      baseColor: AppTheme.current.card,
+      highlightColor: AppTheme.current.border,
       child: Container(
         height: height,
         width: width,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppTheme.current.card,
           borderRadius: BorderRadius.circular(borderRadius.r),
         ),
       ),

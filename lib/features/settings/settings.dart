@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_container.dart';
@@ -51,7 +51,7 @@ class Settings extends StatelessWidget {
                         children: [
                           CustomText(
                             text: 'WORKSPACE',
-                            color: AppTheme.greyColor,
+                            color: AppTheme.current.textSecondary,
                             fontSize: 20.r,
                             fontWeight: FontWeight.w600,
                           ),
@@ -63,7 +63,7 @@ class Settings extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Icon(LucideIcons.warehouse, color: AppTheme.greyColor),
+                      Icon(LucideIcons.warehouse, color: AppTheme.current.icon),
                     ],
                   ),
                 ),
@@ -76,7 +76,7 @@ class Settings extends StatelessWidget {
                   text: 'General',
                   fontSize: 18.r,
                   fontWeight: FontWeight.w600,
-                  color: AppTheme.greyColor,
+                  color: AppTheme.current.textSecondary,
                 ),
               ),
               SizedBox(height: 5.h),
@@ -97,7 +97,7 @@ class Settings extends StatelessWidget {
                     ),
                   );
                 },
-                tralingIconColor: AppTheme.blackColor,
+                tralingIconColor: AppTheme.current.icon,
               ),
               Obx(
                 () => CustomGeneralButton(
@@ -105,7 +105,7 @@ class Settings extends StatelessWidget {
                   textColor: AppTheme.current.textPrimary,
                   containerColor: AppTheme.current.card,
                   tralingIcon: LucideIcons.logOut,
-                  tralingIconColor: AppTheme.whiteColor,
+                  tralingIconColor: AppTheme.current.icon,
                   isLoading: getXauthController.isLoading.value,
                   loadingColor: AppTheme.current.loadingColor,
                   onTap: () => getXauthController.logOut(context),
@@ -126,7 +126,7 @@ Widget customWorkSpace(Widget widget) {
       color: AppTheme.transparentColor,
       borderRadius: BorderRadius.circular(20.r),
       border: Border.all(
-        color: AppTheme.greyColor, // Stroke ka color
+        color: AppTheme.current.border, // Stroke ka color
         width: 1.w, // Stroke ki thickness
       ),
     ),

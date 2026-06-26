@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_core/src/smart_management.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:get_storage/get_storage.dart';
@@ -17,8 +18,33 @@ void main() async {
   runApp(const WareHouseManagementSystem());
 }
 
-class WareHouseManagementSystem extends StatelessWidget {
+class WareHouseManagementSystem extends StatefulWidget {
   const WareHouseManagementSystem({super.key});
+
+  @override
+  State<WareHouseManagementSystem> createState() =>
+      _WareHouseManagementSystemState();
+}
+
+class _WareHouseManagementSystemState extends State<WareHouseManagementSystem>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    super.didChangePlatformBrightness();
+    Get.forceAppUpdate();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +67,7 @@ class WareHouseManagementSystem extends StatelessWidget {
           darkTheme: ThemeData.dark().copyWith(
             scaffoldBackgroundColor: AppTheme.dark.background,
           ),
-          themeMode: themeController.themeMode,
+          themeMode: themeController.systemThemeMode,
           builder: (context, child) {
             return MediaQuery(
               // Ager user ne apne phone per font ka size change kiya huwa hai toh wooh app may change nhi hoga.

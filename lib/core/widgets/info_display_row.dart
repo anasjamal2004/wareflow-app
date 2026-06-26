@@ -23,7 +23,7 @@ class InfoDisplayRow extends StatelessWidget {
               CustomText(
                 text: label,
                 // Logic Flaw: Yahan 'alpha: 2' likha hai, neeche explain kiya hai.
-                color: AppTheme.greyColor.withValues(alpha: 0.5),
+                color: AppTheme.current.textSecondary,
                 fontSize: 16.sp, // Responsive font
                 fontWeight: FontWeight.w500,
               ),
@@ -37,7 +37,7 @@ class InfoDisplayRow extends StatelessWidget {
           ),
         ),
         Divider(
-          color: AppTheme.greyColor.withValues(alpha: 0.2),
+          color: AppTheme.current.border.withValues(alpha: 0.2),
           thickness: 1.h, // Responsive thickness
         ),
       ],

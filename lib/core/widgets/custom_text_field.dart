@@ -59,7 +59,7 @@ class CustomTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0.r),
           ),
           filled: true,
-          fillColor: AppTheme.greyColor,
+          fillColor: AppTheme.current.textFieldBg,
           //
           suffixIcon: CustomIcon(
             icon: suffixIcon,

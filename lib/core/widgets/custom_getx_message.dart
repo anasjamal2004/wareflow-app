@@ -16,8 +16,8 @@ class GetXMessage {
       message,
       snackPosition: SnackPosition.TOP, // Top positioning
       margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
-      backgroundColor: Colors.white,
-      colorText: Colors.black87,
+      backgroundColor: AppTheme.current.card,
+      colorText: AppTheme.current.textPrimary,
       leftBarIndicatorColor: Colors.green, // Fixed color
       icon: Padding(
         padding: EdgeInsets.only(left: 10.w),
@@ -53,8 +53,8 @@ class GetXMessage {
       snackPosition: SnackPosition.TOP, // Bottom positioning
       // Bottom ke liye bottom navigation bar ke hisaab se thori extra space zaroori hai
       margin: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 25.h),
-      backgroundColor: AppTheme.whiteColor,
-      colorText: Colors.black87,
+      backgroundColor: AppTheme.current.card,
+      colorText: AppTheme.current.textPrimary,
       leftBarIndicatorColor: Colors.redAccent, // Fixed color
       icon: Padding(
         padding: EdgeInsets.only(left: 10.w),

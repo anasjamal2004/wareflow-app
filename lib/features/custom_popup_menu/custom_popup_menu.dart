@@ -18,7 +18,7 @@ class CustomPopupMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopupMenuButton<int>(
       // 1. Menu ki styling (Corners round karne ke liye)
-      color: AppTheme.whiteColor,
+      color: AppTheme.current.card,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
       offset: Offset(0, 60.h), // Menu thora neeche show hoga
       elevation: 8,
@@ -84,7 +84,7 @@ class CustomPopupMenu extends StatelessWidget {
             title: CustomText(
               text: "Active Warehouse",
               fontSize: 11.sp,
-              color: Colors.grey,
+              color: AppTheme.current.textSecondary,
               fontWeight: FontWeight.w600,
             ),
             subtitle: CustomText(

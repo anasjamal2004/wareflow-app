@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 8.h),
                       CustomText(
                         text: 'Welcome back',
-                        color: Colors.grey,
+                        color: AppTheme.current.textSecondary,
                         fontSize: 16.sp,
                       ),
                       SizedBox(height: 15.h),
@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           CustomText(
                             text: "Don't have an account? ",
-                            color: Colors.grey,
+                            color: AppTheme.current.textSecondary,
                             fontSize: 13.sp,
                           ),
                           GestureDetector(

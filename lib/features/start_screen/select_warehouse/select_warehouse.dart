@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/get_storage/get_storage.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
@@ -86,13 +86,17 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
         children: [
           CircleAvatar(
             radius: 28.r,
-            backgroundColor: Colors.grey.shade100,
-            child: Icon(Icons.add, color: AppTheme.greyColor, size: 28.r),
+            backgroundColor: AppTheme.current.avatarBg,
+            child: Icon(
+              Icons.add,
+              color: AppTheme.current.textSecondary,
+              size: 28.r,
+            ),
           ),
           SizedBox(height: 8.h),
           CustomText(
             text: 'CREATE NEW',
-            color: AppTheme.greyColor,
+            color: AppTheme.current.textSecondary,
             fontSize: 14.sp,
             fontWeight: FontWeight.w700,
           ),
@@ -133,7 +137,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                     Expanded(
                       child: CustomButton(
                         text: "Cancel",
-                        color: Colors.grey[200],
+                        color: AppTheme.current.background,
                         textColor: AppTheme.current.textPrimary,
                         onPressed: () => Get.back(),
                       ),
@@ -210,7 +214,7 @@ class _SelectWarehouseState extends State<SelectWarehouse> {
                       SizedBox(height: 4.h),
                       CustomText(
                         text: 'JOINED: ${warehouse.formattedDate}',
-                        color: Colors.grey.shade500,
+                        color: AppTheme.current.textSecondary,
                         fontSize: 12.sp,
                       ),
                     ],

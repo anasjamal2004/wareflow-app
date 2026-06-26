@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_button.dart';
 import 'package:warehouse_management_system/core/widgets/custom_icon.dart';
@@ -63,7 +63,7 @@ class ActionSheetContent extends StatelessWidget {
               height: 4.h,
               width: 40.w,
               decoration: BoxDecoration(
-                color: Colors.grey[300],
+                color: AppTheme.current.border,
                 borderRadius: BorderRadius.circular(10.r),
               ),
             ),
@@ -155,7 +155,7 @@ class ActionSheetContent extends StatelessWidget {
                 Expanded(
                   child: CustomButton(
                     text: "Cancel",
-                    color: Colors.grey[200],
+                    color: AppTheme.current.background,
                     textColor: AppTheme.current.textPrimary,
                     onPressed: isLoading.value ? () {} : () => Get.back(),
                   ),

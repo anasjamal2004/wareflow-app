@@ -32,10 +32,10 @@ class CustomSearchBar extends StatelessWidget {
           controller: controller,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search, color: AppTheme.blackColor),
+            prefixIcon: Icon(Icons.search, color: AppTheme.current.icon),
             hintText: 'Search by name or SKU...',
             hintStyle: TextStyle(
-              color: AppTheme.greyColor,
+              color: AppTheme.current.textSecondary,
               fontSize: 14,
             ),
             border: InputBorder.none,

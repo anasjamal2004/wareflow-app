@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:warehouse_management_system/core/animation/loading_animation_widget.dart';
 import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard_controller.dart';
@@ -64,7 +63,7 @@ class _DashboardLineChartState extends State<DashboardLineChart>
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 10.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.current.card,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
@@ -157,7 +156,7 @@ class _DashboardLineChartState extends State<DashboardLineChart>
                         drawVerticalLine: false,
                         horizontalInterval: dynamicInterval,
                         getDrawingHorizontalLine: (value) => FlLine(
-                          color: Colors.grey.withOpacity(0.1),
+                          color: AppTheme.current.textSecondary,
                           strokeWidth: 1.r,
                           dashArray: [5, 5],
                         ),
@@ -227,7 +226,7 @@ class _DashboardLineChartState extends State<DashboardLineChart>
                           ).toList(),
                           isCurved: true,
                           curveSmoothness: 0.35,
-                          color: const Color(0xFF1A1C1E),
+                          color: AppTheme.current.button,
                           barWidth: 3.r,
                           dotData: const FlDotData(show: true),
                           belowBarData: BarAreaData(show: false),

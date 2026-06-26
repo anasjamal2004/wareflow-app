@@ -50,7 +50,7 @@ class AppTheme {
         .black, // AppTheme.blackColor ki jagah direct Colors.black use kiya const ke liye
     icon: Color(0xFF1A1A1A), // Text ke sath match karega
     button: Color(0xFF5865F2), // Discord Blue
-    appBar: Colors.white,
+    appBar: Color(0xFFF1F2F6),
     navSelected: Color(0xFF1A1A1A),
     navUnselected: Color(0xFF85848A),
     avatarBg: Color(0xFFE3E5E8), // Light grey background
@@ -69,7 +69,7 @@ class AppTheme {
     loadingColor: Colors.white,
     icon: Color(0xFFF2F3F5), // Text ke sath match karega
     button: Color(0xFF5865F2), // Button blue hi rahega dono modes mein
-    appBar: Color(0xFF2B2D31), // Background se thoda alag
+    appBar: Color(0xFF1C1D22), // Background se thoda alag
     navSelected: Colors.white,
     navUnselected: Color(0xFF949BA4),
     avatarBg: Color(0xFF3F4147), // Dark grey

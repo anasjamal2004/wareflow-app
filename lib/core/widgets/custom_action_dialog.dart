@@ -56,7 +56,7 @@ class CustomActionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: AppTheme.current.card,
       insetPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
       child: Container(
@@ -79,12 +79,12 @@ class CustomActionDialog extends StatelessWidget {
                 InkWell(
                   onTap: () => Get.back(),
                   borderRadius: BorderRadius.circular(20.r),
-                  child: Icon(Icons.close, color: Colors.grey.shade500),
+                  child: Icon(Icons.close, color: AppTheme.current.icon),
                 ),
               ],
             ),
 
-            Divider(color: Colors.grey.shade400, height: 15.h),
+            Divider(color: AppTheme.current.border, height: 15.h),
 
             // --- 2. DYNAMIC CONTENT ---
             Flexible(child: SingleChildScrollView(child: content)),
@@ -97,7 +97,7 @@ class CustomActionDialog extends StatelessWidget {
                 Expanded(
                   child: CustomButton(
                     text: "CANCEL",
-                    color: AppTheme.greyColor,
+                    color: AppTheme.current.border,
                     textColor: AppTheme.current.textPrimary,
                     onPressed: () => Get.back(),
                   ),

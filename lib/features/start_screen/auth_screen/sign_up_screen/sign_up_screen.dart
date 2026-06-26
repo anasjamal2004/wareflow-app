@@ -62,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(height: 5.h),
                       CustomText(
                         text: 'Create an account',
-                        color: Colors.grey,
+                        color: AppTheme.current.textSecondary,
                         fontSize: 16.sp,
                       ),
                       SizedBox(height: 15.h),
@@ -128,7 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         children: [
                           CustomText(
                             text: "Already have an account? ",
-                            color: Colors.grey,
+                            color: AppTheme.current.textSecondary,
                             fontSize: 13.sp,
                           ),
                           GestureDetector(

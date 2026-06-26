@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:warehouse_management_system/core/constants/theme/app_theme.dart';
 import 'package:warehouse_management_system/core/widgets/custom_text.dart';
 import 'package:warehouse_management_system/features/bottom_navigation/bottom_navi_controller.dart';
 import 'package:warehouse_management_system/features/custom_popup_menu/custom_popup_menu.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard.dart';
-import 'package:warehouse_management_system/features/inventory/inventory.dart';
-import 'package:warehouse_management_system/features/orders/orders.dart';
-import 'package:warehouse_management_system/features/suppliers/suppliers.dart';
+import 'package:warehouse_management_system/features/inventory/screens/inventory.dart';
+import 'package:warehouse_management_system/features/orders/screens/orders.dart';
+import 'package:warehouse_management_system/features/suppliers/screens/suppliers.dart';
 
 class BottomNavigation extends StatelessWidget {
   const BottomNavigation({super.key});

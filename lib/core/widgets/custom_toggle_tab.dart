@@ -32,7 +32,7 @@ class CustomToggleTab extends StatelessWidget {
           color: AppTheme.current.card,
           borderRadius: BorderRadius.circular(16.r), // 👈 Radius responsive
           border: Border.all(
-            color: Colors.grey.shade300,
+            color: AppTheme.current.border,
             width: 1.w,
           ), // 👈 Border thickness responsive
         ),
@@ -59,7 +59,7 @@ class CustomToggleTab extends StatelessWidget {
           curve: Curves.easeInOut,
           decoration: BoxDecoration(
             color: isSelected
-                ? AppTheme.blackColor
+                ? AppTheme.current.button
                 : AppTheme.transparentColor,
             borderRadius: BorderRadius.circular(12.r), // 👈 Inner pill radius
           ),
@@ -70,13 +70,17 @@ class CustomToggleTab extends StatelessWidget {
                 Icon(
                   icon,
                   size: 18.sp, // 👈 Icon size scaling with font size
-                  color: isSelected ? AppTheme.whiteColor : Colors.black87,
+                  color: isSelected
+                      ? AppTheme.whiteColor
+                      : AppTheme.current.icon,
                 ),
                 SizedBox(width: 8.w), // 👈 Gap between icon and text
                 CustomText(
                   text: title,
                   fontSize: 14.sp,
-                  color: isSelected ? AppTheme.whiteColor : Colors.black87,
+                  color: isSelected
+                      ? AppTheme.whiteColor
+                      : AppTheme.current.textPrimary,
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                 ),
               ],

@@ -1,18 +1,18 @@
 import 'package:get/get.dart';
 import 'package:warehouse_management_system/core/routes/app_routes.dart';
 import 'package:warehouse_management_system/features/bottom_navigation/bottom_navigation.dart';
-import 'package:warehouse_management_system/features/create_order/create_order.dart';
+import 'package:warehouse_management_system/features/inventory/features/add_product.dart';
+import 'package:warehouse_management_system/features/orders/features/create_order.dart';
 import 'package:warehouse_management_system/features/dashboard/dashboard.dart';
-import 'package:warehouse_management_system/features/product_features/add_product.dart';
-import 'package:warehouse_management_system/features/product_features/update_product.dart';
+import 'package:warehouse_management_system/features/inventory/features/update_product.dart';
 import 'package:warehouse_management_system/features/start_screen/auth_screen/login_screen/login_screen.dart';
 import 'package:warehouse_management_system/features/start_screen/auth_screen/sign_up_screen/sign_up_screen.dart';
 import 'package:warehouse_management_system/features/start_screen/select_warehouse/select_warehouse.dart';
 import 'package:warehouse_management_system/features/start_screen/splash_screen/splash_screen.dart';
 import 'package:warehouse_management_system/features/start_screen/splash_screen/splash_screen_controller.dart';
-import 'package:warehouse_management_system/features/supplier_features/add_supplier.dart';
-import 'package:warehouse_management_system/features/supplier_features/update_supplier.dart';
-import 'package:warehouse_management_system/features/suppliers/show_supplier_detail.dart';
+import 'package:warehouse_management_system/features/suppliers/features/add_supplier.dart';
+import 'package:warehouse_management_system/features/suppliers/features/update_supplier.dart';
+import 'package:warehouse_management_system/features/suppliers/screens/show_supplier_detail.dart';
 // Apne saare imports yahan dalo (Login, Dashboard, Splash, etc.)
 
 class AppPages {
@@ -41,7 +41,6 @@ class AppPages {
     GetPage(
       name: AppRoutes.bottomNavigationScreen,
       page: () => const BottomNavigation(),
-      
     ),
     GetPage(name: AppRoutes.addProductScreen, page: () => const AddProduct()),
     GetPage(name: AppRoutes.updateProductScreen, page: () => UpdateProduct()),
